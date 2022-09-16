@@ -3,15 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 4000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.5",
+    "axios": "^0.27.2",
+    "mini-state": "^1.12.0",
+    "mongoose": "^6.6.1",
     "next": "12.3.0",
+    "p-map": "^5.5.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-infinite-scroll-component": "^6.1.0",
+    "react-query": "^3.39.2",
+    "react-redux": "^8.0.2",
+    "react-toastify": "^9.0.8",
+    "sass": "^1.54.9"
   },
   "devDependencies": {
     "@types/node": "18.7.18",
