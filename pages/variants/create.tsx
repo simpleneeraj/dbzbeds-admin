@@ -1,51 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "styles/order.module.scss";
 
 import { productSideTab } from "constants/sidetab";
 import DashboardHeader from "layout/header";
 import AccessoriesTabs from "components/product/upload/render";
+import { useFetchIconsByType } from "network-requests/queries";
 // const [dropWDownload, dropWDownloadActive] = useState(false);
 
 function CreateVariant() {
-  const [activeTab, setActiveTab] = React.useState("Basic");
+    const [activeTab, setActiveTab] = React.useState("Basic");
 
-  const onActiveTab = (value: string) => {
-    setActiveTab(value);
-  };
+    const onActiveTab = (value: string) => {
+        setActiveTab(value);
+    };
 
-  return (
-    <>
-      <div className={styles.rightsidebar}>
-        <DashboardHeader />
-        <main className={styles.main}>
-          <div className={styles.containerbox}>
-            <div className={styles.mainheading}>Create Product</div>
-            <div
-              className={` ${styles.tablebox} ${styles.mt2} ${styles.productuploadtabbox}`}
-            >
-              <ul className={styles.productuploadtab}>
-                {productSideTab.map(({ text }, index) => {
-                  return (
-                    <li
-                      key={index}
-                      onClick={() => onActiveTab(text)}
-                      className={text === activeTab ? styles.active : ""}
-                    >
-                      {text}
-                    </li>
-                  );
-                })}
-              </ul>
-              <div className={styles.tabbox}>
-                {/* {activeTab} */}
-                <AccessoriesTabs tabName={activeTab} />
-              </div>
+    return (
+        <>
+            <div className={styles.rightsidebar}>
+                <DashboardHeader />
+                <main className={styles.main}>
+                    <div className={styles.containerbox}>
+                        <div className={styles.mainheading}>Create Product</div>
+                        <div
+                            className={` ${styles.tablebox} ${styles.mt2} ${styles.productuploadtabbox}`}
+                        >
+                            <ul className={styles.productuploadtab}>
+                                {productSideTab.map(({ text }, index) => {
+                                    return (
+                                        <li
+                                            key={index}
+                                            onClick={() => onActiveTab(text)}
+                                            className={
+                                                text === activeTab
+                                                    ? styles.active
+                                                    : ""
+                                            }
+                                        >
+                                            {text}
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                            <div className={styles.tabbox}>
+                                {/* {activeTab} */}
+                                <AccessoriesTabs
+                                    tabName={activeTab}
+                                    onChange={(value: any) =>
+                                        console.log(value)
+                                    }
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </main>
             </div>
-          </div>
-        </main>
-      </div>
-    </>
-  );
+        </>
+    );
 }
 
 export default CreateVariant;

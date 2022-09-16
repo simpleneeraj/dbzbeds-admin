@@ -26,6 +26,8 @@ interface VariantsTypes {
     };
     size?: string | number;
     accessories?: AccessoriesTypes;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 type Bed = {

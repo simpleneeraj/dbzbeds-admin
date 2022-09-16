@@ -1,29 +1,25 @@
-import React from 'react';
-
+import React from "react";
 
 interface Common {
     label: string;
     error?: string;
     onDelete?: () => void;
-    deletable?: boolean
+    deletable?: boolean;
 }
 
 interface I extends Common, React.ComponentPropsWithoutRef<"input"> {
-
     imageUrl?: string;
 }
 
-interface T extends Common, React.ComponentPropsWithoutRef<"textarea"> { }
+interface T extends Common, React.ComponentPropsWithoutRef<"textarea"> {}
 
 interface S extends Common, React.ComponentPropsWithoutRef<"select"> {
     options: {
-        text: any;
+        label: any;
         value: any;
     }[];
 }
 
-interface FP extends Common, React.ComponentPropsWithoutRef<"input"> { }
+interface FP extends Common, React.ComponentPropsWithoutRef<"input"> {}
 
-
-
-interface Button extends React.ComponentPropsWithRef<'button'> { }
+interface Button extends React.ComponentPropsWithRef<"button"> {}

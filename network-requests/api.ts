@@ -95,6 +95,14 @@ export const getIconById = (id: string): Promise<Accessories> =>
             throw error;
         });
 
+export const getAllIcons = (): Promise<Accessories[]> =>
+    axios
+        .get<Accessories[]>(`/icons/accessories`)
+        .then((response) => response.data)
+        .catch((error) => {
+            throw error;
+        });
+
 //POST REQUESTS
 export const createBed = (
     payload: BedRequestPayload

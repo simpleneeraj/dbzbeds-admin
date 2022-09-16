@@ -1,26 +1,32 @@
 import AddMoreButton from "components/element/addmore";
-import Colors from "components/element/colors";
+
 import DynamicInputWithImagePicker from "components/element/dynamicpicker";
+import { useFetchIconsByType } from "network-requests/queries";
 import React from "react";
 
 const Color = () => {
-  return (
-    <React.Fragment>
-      <DynamicInputWithImagePicker
-        title={"Color"}
-        // label="Color"
-        options={[]}
-        getState={(value) => console.log(value)}
-      />
-      <AddMoreButton title="Next" />
-      {/* <Colors /> */}
-    </React.Fragment>
-  );
+    const { data = [] } = useFetchIconsByType("COLOR");
+
+    return (
+        <React.Fragment>
+            <DynamicInputWithImagePicker
+                title={"Color"}
+                // label="Color"
+                options={[
+                    { label: "Select a Color", value: "" },
+                    ...(data as any),
+                ]}
+                getState={(value) => console.log(value)}
+            />
+            <AddMoreButton title="Next" />
+            {/* <Colors /> */}
+        </React.Fragment>
+    );
 };
 
 export default Color;
 {
-  /* <ReactChipInput
+    /* <ReactChipInput
               chips={["hello"]}
               classes={""}
               onSubmit={onAddChip}

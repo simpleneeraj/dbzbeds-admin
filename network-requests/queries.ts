@@ -3,6 +3,7 @@ import {
     getAllBeds,
     getAllBedsWithImage,
     getAllBedsWithImageAdmin,
+    getAllIcons,
     getBedById,
     getBedVariantById,
     getIconById,
@@ -89,5 +90,10 @@ export const useFetchIconsByType = (type: string) =>
 
 export const useFetchIconById = (id: string) =>
     useQuery(["icon", id], (): Promise<Accessories> => getIconById(id), {
+        refetchOnMount: true,
+    });
+
+export const useFetchAllIcons = () =>
+    useQuery("icons", (): Promise<Accessories[]> => getAllIcons(), {
         refetchOnMount: true,
     });
