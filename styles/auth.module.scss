@@ -1,0 +1,28 @@
+.container {
+  flex: 1;
+  display: grid;
+  place-content: center;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem;
+  h2 {
+    font-weight: 500;
+  }
+}
+.login {
+  padding: 1rem;
+  height: auto;
+  width: 400px;
+  border: 1px solid #d1d1d1;
+  border-radius: 8px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

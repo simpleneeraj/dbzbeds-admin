@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+}
+
+.skeleton {
+  display: inline-block;
+  height: 2em;
+  position: relative;
+  overflow: hidden;
+  background: #ccc;
+  width: 100%;
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+      90deg,
+      rgba(#fff, 0),
+      rgba(#fff, 0.2) 40%,
+      rgba(#fff, 0)
+    );
+    animation: shimmer 1s infinite;
+    content: "";
+  }
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+}

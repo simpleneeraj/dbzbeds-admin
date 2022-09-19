@@ -1,9 +1,9 @@
 import React from "react";
 import AddIcon from "icons/add";
 import css from "styles/admin.module.scss";
-import { Button } from "../types";
+import { ButtonProps } from "typings/ui";
 
-const AddMoreButton = (props: Button) => {
+const AddMoreButton = (props: ButtonProps) => {
   return (
     <div className={css.addMore}>
       <button type="button" {...props}>

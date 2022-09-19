@@ -118,7 +118,7 @@ export default function UpdateProduct({ id }: Props) {
         <main className={styles.main}>
           <div className={styles.containerbox}>
             <div className={styles.mainheading}>
-              Update {data?.type.toLowerCase()} Icon
+              Update {data?.type.toLowerCase()}
             </div>
 
             <div

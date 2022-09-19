@@ -96,6 +96,7 @@ const AddMattress = () => {
               type="file"
               label={"Image"}
               onChange={onChangeInputs}
+              accept="image/png, image/jpg, image/jpeg"
               imageUrl={imageToUrl(inputValue.image)}
             />
           </li>

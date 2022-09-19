@@ -5,6 +5,7 @@ import {
     createColorIcon,
     deleteBedById,
     deleteBedVariantById,
+    deleteIconById,
     updateAccessoriesIcon,
     updateBedById,
     updateBedVariantById,
@@ -77,4 +78,10 @@ export const useDeleteBedVariantById = () =>
     useMutation(
         (id: string): Promise<CreateBedVariantResponse> =>
             deleteBedVariantById(id)
+    );
+
+export const useDeleteIconById = () =>
+    useMutation(
+        (id: string): Promise<CreateBedVariantResponse> =>
+            deleteIconById(id)
     );

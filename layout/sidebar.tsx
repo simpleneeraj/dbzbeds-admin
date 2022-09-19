@@ -4,9 +4,11 @@ import AddIcon from "icons/add";
 import Styles from "styles/order.module.scss";
 import { SVGICONPROPS } from "typings/icon";
 
-interface CommerceSidebarProps {}
+interface CommerceSidebarProps {
+  active?: boolean;
+}
 
-const Sidebar = (props: CommerceSidebarProps) => {
+const Sidebar = ({ active }: CommerceSidebarProps) => {
   return (
     <div className={Styles.sidebar}>
       <div className={Styles.brandlogo}>
@@ -16,7 +18,7 @@ const Sidebar = (props: CommerceSidebarProps) => {
         <ul className={Styles.nav}>
           {navigationArray.map(({ href, icon: SVG, title }, index) => {
             return (
-              <li key={index}>
+              <li key={index} className={active ? Styles.Active : ""}>
                 <Link href={href}>
                   <a>
                     <div className={Styles.ianimg}>

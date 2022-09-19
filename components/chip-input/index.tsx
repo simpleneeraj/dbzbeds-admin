@@ -1,83 +1,82 @@
+import React from "react";
 import CancleIcon from "icons/CancleIcon";
-import { useFetchIconsByType } from "network-requests/queries";
-import React, { useEffect, useState } from "react";
 import styles from "./chip.module.scss";
+import css from "styled-jsx/css";
 
-interface Industry {
-    onChange: (e: any) => void;
-    value?: string[];
+interface ChipInputProps extends React.ComponentPropsWithRef<"input"> {
+  value?: string[];
+  label?: string;
+  onChange: (e: any) => void;
 }
 
-function ChipInput({ onChange, value }: Industry) {
-    const [chips, setChips] = useState<string[]>([]);
+const ChipInput = React.forwardRef(
+  (
+    { onChange, value, label, ...rest }: ChipInputProps,
+    ref: React.Ref<HTMLInputElement>
+  ) => {
+    const [chips, setChips] = React.useState<string[]>([]);
 
     const onAddIndusrtryChip = (chip: any) => {
-        const newChips = [...chips];
-
-        if (chip.code === "Enter") {
-            chip.target.value = chip.target.value;
-            newChips.push(chip.target.value);
-            setChips(newChips);
-            chip.target.value = "";
-        }
-        if (chip.code === "Backspace") {
-            const lastRemoved = [...chips];
-            lastRemoved.pop();
-            setChips(lastRemoved);
-        }
+      const newChips = [...chips];
+      if (chip.code === "Enter") {
+        chip.target.value = chip.target.value;
+        newChips.push(chip.target.value);
+        setChips(newChips);
+        chip.target.value = "";
+      }
     };
 
     const handleRemoveIndustryChip = (index: any) => {
-        const newChips = [...chips];
-        newChips.splice(index, 1);
-        setChips(newChips);
+      const newChips = [...chips];
+      newChips.splice(index, 1);
+      setChips(newChips);
     };
 
-    useEffect(() => {
-        if (value) {
-            setChips(value);
-        }
+    React.useEffect(() => {
+      if (value) {
+        setChips(value);
+      }
     }, [value]);
 
-    useEffect(() => {
-        onChange(chips);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    React.useEffect(() => {
+      onChange(chips);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chips]);
 
     return (
+      <>
+        <label className={styles.label}>{label}</label>
         <div className={styles.chips}>
-            <div className={styles.chipList}>
-                <ul>
-                    {chips.map((item: any, index: any) => (
-                        <li className={styles.chip} key={index}>
-                            {item}{" "}
-                            <span
-                                onClick={() => handleRemoveIndustryChip(index)}
-                            >
-                                <CancleIcon
-                                    height={16}
-                                    width={16}
-                                    fill="#fff"
-                                />
-                            </span>
-                        </li>
-                    ))}
-                    <li className="">
-                        <input
-                            type="text"
-                            name="name"
-                            className="chipinput"
-                            placeholder={true ? "Type here..." : ""}
-                            //   disabled={!checkingChips || industryItem?.selected}
-                            onKeyUp={(e) => onAddIndusrtryChip(e)}
-                        />
-                    </li>
-                </ul>
-            </div>
+          <div className={styles.chipList}>
+            <ul>
+              {chips.map((item: any, index: any) => (
+                <li className={styles.chip} key={index}>
+                  {item}
+                  <i onClick={() => handleRemoveIndustryChip(index)}>
+                    <CancleIcon height={16} width={16} fill="#fff" />
+                  </i>
+                </li>
+              ))}
+              <div className={styles.field}>
+                <input
+                  ref={ref}
+                  type="text"
+                  name="name"
+                  className="chipinput"
+                  //   placeholder={true ? "Type here..." : ""}
+                  onKeyUp={(e) => onAddIndusrtryChip(e)}
+                  {...rest}
+                />
+              </div>
+            </ul>
+          </div>
         </div>
+      </>
     );
-}
+  }
+);
 
+ChipInput.displayName = "ChipInput";
 export default ChipInput;
 
 /**

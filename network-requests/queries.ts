@@ -6,6 +6,7 @@ import {
     getAllIcons,
     getBedById,
     getBedVariantById,
+    getIconAllByType,
     getIconById,
     getIconsByType,
 } from "./api";
@@ -79,10 +80,10 @@ export const useFetchBedVariantsByIdAndSize = (id: string, size: string) =>
         }
     );
 
-export const useFetchIconsByType = (type: string) =>
+export const useFetchIconsByType = (type: string, id: string) =>
     useQuery(
-        ["icons", type],
-        (): Promise<Accessories[]> => getIconsByType(type),
+        ["icons", type, id],
+        (): Promise<Accessories[]> => getIconsByType(type, id),
         {
             refetchOnMount: true,
         }
@@ -90,6 +91,11 @@ export const useFetchIconsByType = (type: string) =>
 
 export const useFetchIconById = (id: string) =>
     useQuery(["icon", id], (): Promise<Accessories> => getIconById(id), {
+        refetchOnMount: true,
+    });
+
+export const useFetchAllIconByType = (type: string) =>
+    useQuery(["icon-all", type], (): Promise<Accessories[]> => getIconAllByType(type), {
         refetchOnMount: true,
     });
 

@@ -1,153 +1,139 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect } from "react";
-import Styles from "styles/order.module.scss";
-import TableHeader from "components/table/header";
-import TableList from "components/table/BedList";
-import FilterHeader from "components/table/filter";
-import DashboardHeader from "layout/header";
+import React from "react";
 import { useRouter } from "next/router";
-import { useFetchAllBeds } from "network-requests/queries";
+import Skeleton from "components/skeleton";
+import DashboardHeader from "layout/header";
+import styles from "styles/order.module.scss";
+import Button from "components/element/button";
+import TableHeader from "components/table/header";
+import FilterHeader from "components/table/filter";
+import ProductList from "components/table/product-list";
+import { deleteBedById } from "network-requests/api";
 import { useInView } from "react-intersection-observer";
+import { useFetchAllBedsWithImageAdmin } from "network-requests/queries";
 
 function ProductPage() {
-    const router = useRouter();
-    const { ref, inView } = useInView({
-        threshold: 0.5,
-    });
+  const { push } = useRouter();
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+  });
 
-    const {
-        data,
-        isLoading,
-        isError,
-        fetchNextPage,
-        hasNextPage,
-        isFetchingNextPage,
-        status,
-        error,
-    } = useFetchAllBeds();
+  const {
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+    error,
+  } = useFetchAllBedsWithImageAdmin();
 
-    useEffect(() => {
-        if (inView && hasNextPage) {
-            fetchNextPage();
-        }
-    }, [inView, hasNextPage, fetchNextPage]);
+  React.useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
-    console.log(data);
+  const onDeleteProduct = React.useCallback(async (id: string) => {
+    if (window.confirm("Are you sure to delete this Product")) {
+      const res = await deleteBedById(id);
+      console.log(id);
+      console.log(res);
+    }
+  }, []);
 
-    return (
-        <>
-            <div className={Styles.rightsidebar}>
-                <DashboardHeader />
-                <main className={Styles.main}>
-                    <div className={Styles.containerbox}>
-                        <div className={Styles.mainheading}>Products list</div>
-                        <div className={` ${Styles.tablebox} ${Styles.mt2}`}>
-                            <FilterHeader
-                                onCreate={() => router.push("/product/create")}
-                                createText="Create New Product"
-                            />
-                            <div
-                                className={`${Styles.table} ${Styles.allproducttable} `}
-                            >
-                                <table>
-                                    <thead>
-                                        <TableHeader listArray={headerArray} />
-                                    </thead>
-                                    <tbody>
-                                        {status === "loading" ? (
-                                            <p>Loading...</p>
-                                        ) : status === "error" ? (
-                                            <span>
-                                                Error: Something Went Wrong
-                                            </span>
-                                        ) : (
-                                            <>
-                                                {data?.pages?.map(
-                                                    (page, index: number) => (
-                                                        <React.Fragment
-                                                            key={index}
-                                                        >
-                                                            {page.data.map(
-                                                                (product) => (
-                                                                    <TableList
-                                                                        key={
-                                                                            product._id
-                                                                        }
-                                                                        data={
-                                                                            product
-                                                                        }
-                                                                        onClickList={() =>
-                                                                            router.push(
-                                                                                `/variants/${product._id}`
-                                                                            )
-                                                                        }
-                                                                        onDelete={() =>
-                                                                            console.log(
-                                                                                "delete"
-                                                                            )
-                                                                        }
-                                                                        onEdit={(
-                                                                            e: any
-                                                                        ) => {
-                                                                            e.stopPropagation();
-                                                                            router.push(
-                                                                                "/product/update"
-                                                                            );
-                                                                        }}
-                                                                    />
-                                                                )
-                                                            )}
-                                                        </React.Fragment>
-                                                    )
-                                                )}
-                                            </>
-                                        )}
-                                    </tbody>
-                                    <div>
-                                        <button
-                                            ref={ref}
-                                            onClick={() => fetchNextPage()}
-                                            disabled={
-                                                !hasNextPage ||
-                                                isFetchingNextPage
-                                            }
-                                        >
-                                            {isFetchingNextPage
-                                                ? "Loading more..."
-                                                : hasNextPage
-                                                ? "Load Newer"
-                                                : "Nothing more to load"}
-                                        </button>
-                                    </div>
-                                </table>
-                            </div>
-                        </div>
+  return (
+    <>
+      <div className={styles.rightsidebar}>
+        <DashboardHeader />
+        <main className={styles.main}>
+          <div className={styles.containerbox}>
+            <div className={styles.mainheading}>Products list</div>
+            <div className={` ${styles.tablebox} ${styles.mt2}`}>
+              <FilterHeader
+                onCreate={() => push("/product/create")}
+                createText="Create New Product"
+              />
+              <div className={`${styles.table} ${styles.allproducttable} `}>
+                <table>
+                  {isLoading ? (
+                    <div className={styles.loading}>
+                      {Array.from(Array(5).keys()).map((_, i) => (
+                        <Skeleton key={i} className={styles.skeleton} />
+                      ))}
                     </div>
-                </main>
+                  ) : isError ? (
+                    <span>{`Error: Something Went Wrong`}</span>
+                  ) : (
+                    <React.Fragment>
+                      <thead>
+                        <TableHeader listArray={headerArray} />
+                      </thead>
+                      <tbody>
+                        {data?.pages?.map((page, index: number) => (
+                          <React.Fragment key={index}>
+                            {page.data.map((product) => (
+                              <ProductList
+                                key={product._id}
+                                name={product?.name}
+                                image={product?.image}
+                                date={product?.createdAt}
+                                categories={product?.categories}
+                                onEdit={() =>
+                                  push(`/product/update?id=${product._id}`)
+                                }
+                                onDelete={() => onDeleteProduct(product._id)}
+                                onView={() => push(`/variants/${product._id}`)}
+                              />
+                            ))}
+                          </React.Fragment>
+                        ))}
+                      </tbody>
+                    </React.Fragment>
+                  )}
+                </table>
+              </div>
+              <div className={styles.mainheading}>
+                <Button
+                  ref={ref}
+                  onClick={() => fetchNextPage()}
+                  disabled={!hasNextPage || isFetchingNextPage}
+                >
+                  {isFetchingNextPage
+                    ? "Loading more..."
+                    : hasNextPage
+                    ? "Load Newer"
+                    : "Nothing more to load"}
+                </Button>
+              </div>
             </div>
-        </>
-    );
+          </div>
+        </main>
+      </div>
+    </>
+  );
 }
 
 export default ProductPage;
 
 const headerArray = [
-    {
-        name: "Image",
-    },
-    {
-        name: "Name",
-    },
-    {
-        name: "Category",
-    },
-    {
-        name: "Status",
-    },
-    {
-        name: "Date",
-    },
-    {
-        name: "Action",
-    },
+  {
+    name: "Image",
+  },
+  {
+    name: "Name",
+  },
+  {
+    name: "Category",
+  },
+  {
+    name: "Status",
+  },
+  {
+    name: "Date",
+  },
+  {
+    name: "Action",
+  },
 ];

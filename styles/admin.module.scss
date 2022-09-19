@@ -132,7 +132,9 @@
 }
 .button {
   @include common-input();
+  margin-top: 12px;
   button {
+    padding: 0.6rem;
     min-width: 150px;
   }
 }
@@ -193,6 +195,7 @@
 .addMore {
   display: flex;
   align-items: center;
+  margin-top: 12px;
   button {
     padding: 0.8rem;
     outline: none;
@@ -212,7 +215,7 @@
   align-items: center;
   img {
     border-radius: 5px;
-    height: 50px;
+    height: 44px;
     width: 100%;
     max-width: 150px;
     object-fit: cover;

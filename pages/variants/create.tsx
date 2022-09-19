@@ -1,151 +1,184 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "styles/order.module.scss";
-
 import { productSideTab } from "constants/sidetab";
 import DashboardHeader from "layout/header";
-import AccessoriesTabs from "components/product/upload/render";
-import { useFetchIconsByType } from "network-requests/queries";
-// const [dropWDownload, dropWDownloadActive] = useState(false);
+import {
+  VariantsActions,
+  VariantsContext,
+  VariantsProvider,
+} from "context/variant/create";
+import General from "components/product/variants/general";
+import Color from "components/product/variants/color";
+import Storages from "components/product/variants/storage";
+import Feet from "components/product/variants/feet";
+import Mattress from "components/product/variants/mattress";
+import HeadBoard from "components/product/variants/headboard";
+import { useCreateNewBedVariant } from "network-requests/mutations";
+import { useRouter } from "next/router";
+import pMap from "p-map";
+import { uploadBedImage } from "network-requests/api";
+import Button from "components/element/button";
 
+interface AccessoriesTabsProps {
+  tabName: string;
+  id: string;
+}
 function CreateVariant() {
-    const [activeTab, setActiveTab] = React.useState("Basic");
-
-    const onActiveTab = (value: string) => {
-        setActiveTab(value);
-    };
-
-    return (
-        <>
-            <div className={styles.rightsidebar}>
-                <DashboardHeader />
-                <main className={styles.main}>
-                    <div className={styles.containerbox}>
-                        <div className={styles.mainheading}>Create Product</div>
-                        <div
-                            className={` ${styles.tablebox} ${styles.mt2} ${styles.productuploadtabbox}`}
-                        >
-                            <ul className={styles.productuploadtab}>
-                                {productSideTab.map(({ text }, index) => {
-                                    return (
-                                        <li
-                                            key={index}
-                                            onClick={() => onActiveTab(text)}
-                                            className={
-                                                text === activeTab
-                                                    ? styles.active
-                                                    : ""
-                                            }
-                                        >
-                                            {text}
-                                        </li>
-                                    );
-                                })}
-                            </ul>
-                            <div className={styles.tabbox}>
-                                {/* {activeTab} */}
-                                <AccessoriesTabs
-                                    tabName={activeTab}
-                                    onChange={(value: any) =>
-                                        console.log(value)
-                                    }
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </main>
-            </div>
-        </>
-    );
+  return (
+    <VariantsProvider>
+      <Create />
+    </VariantsProvider>
+  );
 }
 
 export default CreateVariant;
 
-// const TabsRender = ({ tabName }: any) => {
-//   switch (tabName) {
-//     case "General":
-//       return (
-//         <div className="tabcontantinner">
-//           <h1>General</h1>
-//           <div className="box">
-//             <ul>
-//               <li>
-//                 <Input type="text" label={"Product Name"} />
-//               </li>
-//               <li>
-//                 <Textarea label="Product Description" />
-//               </li>
-//               <li>
-//                 <Input type="file" label={"Featured Image"} />
-//               </li>
-//               <li>
-//                 <Select
-//                   // multiple
-//                   options={[
-//                     { text: "Select", value: "" },
-//                     { text: "Hello", value: "Bye" },
-//                     { text: "Hello", value: "Bye" },
-//                     { text: "Hello", value: "Bye" },
-//                     { text: "Hello", value: "Bye" },
-//                     { text: "Hello", value: "Bye" },
-//                   ]}
-//                   label={"Select Category"}
-//                 />
-//               </li>
-//               <li>
-//                 <div className="row">
-//                   <div className="col-md-6">
-//                     <Input type="text" label={"Base Price"} />
-//                   </div>
-//                   <div className="col-md-6">
-//                     <Input type="text" label={"Price"} />
-//                   </div>
-//                 </div>
-//               </li>
-//             </ul>
-//             <div className={styles.buttonsection}>
-//               <AddMoreButton title="Next" />
-//             </div>
-//           </div>
-//         </div>
-//       );
-//     case "Size":
-//       return (
-//         <div className="tabcontantinner">
-//           <h1>Size</h1>
-//         </div>
-//       );
-//     case "Color":
-//       return (
-//         <div className="tabcontantinner">
-//           <h1>Color</h1>
-//         </div>
-//       );
-//     case "HeadBoard":
-//       return (
-//         <div className="tabcontantinner">
-//           <h1>HeadBoard</h1>
-//         </div>
-//       );
-//     case "Storage":
-//       return (
-//         <div className="tabcontantinner">
-//           <h1>Storage</h1>
-//         </div>
-//       );
-//     case "Feet":
-//       return (
-//         <div className="tabcontantinner">
-//           <h1>Feet</h1>
-//         </div>
-//       );
-//     case "Mattress":
-//       return (
-//         <div className="tabcontantinner">
-//           <h1>Mattress</h1>
-//         </div>
-//       );
+const Create = () => {
+  const { state } = React.useContext(VariantsContext);
+  const [activeTab, setActiveTab] = React.useState("Basic");
 
-//     default:
-//       return null;
-//   }
-// };
+  const onActiveTab = (value: string) => {
+    setActiveTab(value);
+  };
+
+  const router = useRouter();
+  const id = router.query?.id as string;
+
+  const { mutate } = useCreateNewBedVariant(id);
+
+  const handleProductUpload = async () => {
+    const baseImage = !state.general.image
+      ? null
+      : (await uploadBedImage(state.general.image as unknown as Blob)).url;
+
+    const getImageUrlAndName = async (color: any) => {
+      if (color.image) {
+        console.log({ first: color.image });
+        const imageUrl = (await uploadBedImage(color.image as Blob)).url;
+        return {
+          name: color?.name,
+          image: imageUrl,
+        };
+      }
+      return {
+        name: color?.name,
+        image: null,
+      };
+    };
+    const colorWithUrlAndName = await pMap(state.color, getImageUrlAndName);
+
+    console.log(state);
+    mutate({
+      price: {
+        basePrice: state.general.basePrice,
+        salePrice: state.general.basePrice,
+      },
+      size: state.general.size,
+      image: baseImage,
+      accessories: {
+        color: colorWithUrlAndName as any,
+        storage: state.storage,
+        feet: state.feet,
+        headboard: state.headboard,
+        mattress: state.mattress,
+      },
+    });
+    // console.log({ colorWithUrlAndName });
+  };
+
+  console.log({ state });
+
+  return (
+    <div className={styles.rightsidebar}>
+      <DashboardHeader />
+      <main className={styles.main}>
+        <div className={styles.containerbox}>
+          <div className={styles.mainheading}>Create Variant</div>
+          <div
+            className={` ${styles.tablebox} ${styles.mt2} ${styles.productuploadtabbox}`}
+          >
+            <ul className={styles.productuploadtab}>
+              {productSideTab.map(({ text }, index) => {
+                return (
+                  <li
+                    key={index}
+                    onClick={() => onActiveTab(text)}
+                    className={text === activeTab ? styles.active : ""}
+                  >
+                    {text}
+                  </li>
+                );
+              })}
+            </ul>
+            <div className={styles.tabbox}>
+              {/* {activeTab} */}
+              <AccessoriesTabs id={id} tabName={activeTab} />
+            </div>
+          </div>
+          <div className="grid">
+            <Button onClick={handleProductUpload}>Submit Data</Button>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+const AccessoriesTabs = ({ tabName, id }: AccessoriesTabsProps) => {
+  const { state, dispatch } = React.useContext(VariantsContext);
+  const { color, feet, headboard, mattress, general, storage } = state;
+
+  // console.log(state);
+  switch (tabName) {
+    case "Basic":
+      return (
+        <General
+          id={id}
+          getValue={(v) => dispatch(VariantsActions.GENERAL(v))}
+          value={general}
+        />
+      );
+    case "Color":
+      return (
+        <Color
+          id={id}
+          getValue={(v) => dispatch(VariantsActions.COLOR(v))}
+          value={color}
+        />
+      );
+    case "HeadBoard":
+      return (
+        <HeadBoard
+          id={id}
+          getValue={(v) => dispatch(VariantsActions.HEADBOARD(v))}
+          value={headboard}
+        />
+      );
+    case "Storage":
+      return (
+        <Storages
+          id={id}
+          getValue={(v) => dispatch(VariantsActions.STORAGE(v))}
+          value={storage}
+        />
+      );
+    case "Feet":
+      return (
+        <Feet
+          id={id}
+          getValue={(v) => dispatch(VariantsActions.FEET(v))}
+          value={feet}
+        />
+      );
+    case "Mattress":
+      return (
+        <Mattress
+          id={id}
+          getValue={(v) => dispatch(VariantsActions.MATTRESS(v))}
+          value={mattress}
+        />
+      );
+    default:
+      return null;
+  }
+};

@@ -1,8 +1,14 @@
-import { T } from "../types";
+import { TextAreaProps } from "typings/ui";
 import css from "styles/admin.module.scss";
 import DeleteIcon from "icons/delete";
 
-const Textarea = ({ label, onDelete, deletable, error, ...rest }: T) => {
+const Textarea = ({
+  label,
+  onDelete,
+  deletable,
+  error,
+  ...rest
+}: TextAreaProps) => {
   return (
     <div className={css.input}>
       <label>{label}</label>

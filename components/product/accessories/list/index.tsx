@@ -1,52 +1,87 @@
-import { useFetchIconsByType } from "network-requests/queries";
-import Image from "next/image";
-import Router from "next/router";
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
+import { useRouter } from "next/router";
+import Skeleton from "components/skeleton";
+import css from "styles/accessories.module.scss";
+import { useFetchAllIconByType } from "network-requests/queries";
+import EditIcon from "icons/edit";
+import DeleteIcon from "icons/delete";
+import { useDeleteIconById } from "network-requests/mutations";
 
+// @ts-ignore
+const arr = [...Array(5).keys()];
 interface Props {
-    type: string;
+  type: string;
 }
 
-function IconList({ type }: Props) {
-    const { data, isLoading } = useFetchIconsByType(type);
-    return (
-        <div>
-            {isLoading ? (
-                <div>Loading...</div>
-            ) : (
-                <ul>
-                    {data?.map((item) => (
-                        <li
-                            key={item._id}
-                            style={{
-                                display: "flex",
-                                gap: 10,
-                                alignItems: "center",
-                            }}
-                            onClick={() =>
-                                Router.push(
-                                    "/admin/product/accessories/update?id=" +
-                                        item._id
-                                )
-                            }
-                        >
-                            <Image
-                                src={item.image}
-                                alt={item.label}
-                                width="50"
-                                height="50"
-                                layout="fixed"
-                                objectFit="contain"
-                            />
-                            <p>{item.label}</p>
+function AccessoriesList({ type }: Props) {
+  const { data, isLoading, refetch } = useFetchAllIconByType(type);
+  const { mutate } = useDeleteIconById();
+  const router = useRouter();
+  const onUpdateAccessories = React.useCallback(
+    (id: string) => {
+      const path = `/accessories/update?id=${id}`;
+      router.push(path);
+    },
+    [router]
+  );
 
-                            <p>{item.value}</p>
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
-    );
+  const onDeleteAccessories = React.useCallback(
+    (id: string) => {
+      if (window.confirm("Are you sure to delete this Accessories")) {
+        console.log(id);
+        mutate(id, {
+          onSuccess: () => {
+            refetch();
+          },
+        });
+      }
+    },
+    [mutate, refetch]
+  );
+
+  return (
+    <div className={css.container}>
+      {isLoading ? (
+        arr.map((_, i) => <Loading key={i} />)
+      ) : (
+        <ul>
+          {data?.map((item) => (
+            <li key={item._id}>
+              <div className={css.image}>
+                <img
+                  // src={"/image.png"}
+                  src={item.image || "/image.png"}
+                  alt={item.label}
+                />
+              </div>
+              <div className={css.text}>
+                <p>{item.label}</p>
+                <p>{item.value}</p>
+              </div>
+              <div className={css.controls}>
+                <i onClick={() => onUpdateAccessories(item._id)}>
+                  <EditIcon width="16" height="16" />
+                </i>
+                <i onClick={() => onDeleteAccessories(item._id)}>
+                  <DeleteIcon width="16" height="16" />
+                </i>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 }
 
-export default IconList;
+export default AccessoriesList;
+
+const Loading = () => {
+  return (
+    <div className={css.loading}>
+      <Skeleton className={css.skeleton} />
+      <Skeleton className={css.skeleton} />
+    </div>
+  );
+};

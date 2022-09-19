@@ -1,9 +1,8 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from "react";
-
 import css from "styles/admin.module.scss";
 import AddMoreButton from "./addmore";
-import FilePicker from "./picker";
+import Input from "./input";
 import Select from "./select";
 
 type E = React.ChangeEvent<HTMLSelectElement | HTMLInputElement>;
@@ -18,6 +17,7 @@ interface StateType {
 interface OptionsTypes {
   text: any;
   value: any;
+  label: string;
 }
 interface DynamicInputProps {
   title: string;
@@ -54,7 +54,7 @@ const SelectInput = ({
               />
 
               <div className="d-flex" style={{ alignItems: "center" }}>
-                <FilePicker
+                <Input
                   name="image"
                   type="file"
                   label={`${title} Image`}

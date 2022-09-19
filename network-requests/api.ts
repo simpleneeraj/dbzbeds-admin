@@ -79,9 +79,9 @@ export const getBedVariantById = (
             });
 };
 
-export const getIconsByType = (type: string): Promise<Accessories[]> =>
+export const getIconsByType = (type: string, id: string): Promise<Accessories[]> =>
     axios
-        .get<Accessories[]>(`/icons/accessories/${type}`)
+        .get<Accessories[]>(`/icons/accessories/${type}/${id}`)
         .then((response) => response.data)
         .catch((error) => {
             throw error;
@@ -90,6 +90,14 @@ export const getIconsByType = (type: string): Promise<Accessories[]> =>
 export const getIconById = (id: string): Promise<Accessories> =>
     axios
         .get<Accessories>(`/icons/${id}`)
+        .then((response) => response.data)
+        .catch((error) => {
+            throw error;
+        });
+
+export const getIconAllByType = (type: string): Promise<Accessories[]> =>
+    axios
+        .get<Accessories[]>(`/icons/accessories/all/${type}`)
         .then((response) => response.data)
         .catch((error) => {
             throw error;
@@ -229,3 +237,15 @@ export const deleteBedVariantById = (
         .catch((error) => {
             throw error;
         });
+
+export const deleteIconById = (
+    id: string
+): Promise<CreateBedVariantResponse> =>
+    axios
+        .delete(`/icons/accessories/${id}`)
+        .then((response) => response.data)
+        .catch((error) => {
+            throw error;
+        });
+
+

@@ -1,13 +1,16 @@
 import React from "react";
 import styles from "styles/order.module.scss";
-
-import Select from "components/element/select";
 import Input from "components/element/input";
 import Textarea from "components/element/textarea";
 import AddMoreButton from "components/element/addmore";
 import { productSideTab } from "constants/sidetab";
 import DashboardHeader from "layout/header";
-// const [dropWDownload, dropWDownloadActive] = useState(false);
+import ChipInput from "components/chip-input";
+import { useUpdateBed } from "network-requests/mutations";
+import { toast } from "react-toastify";
+import Toast from "components/toast";
+import { useRouter } from "next/router";
+import { useFetchBedById } from "network-requests/queries";
 
 function CreateProduct() {
   const [activeTab, setActiveTab] = React.useState("Basic");
@@ -17,7 +20,8 @@ function CreateProduct() {
   };
 
   return (
-    <>
+    <React.Fragment>
+      <Toast />
       <div className={styles.rightsidebar}>
         <DashboardHeader />
         <main className={styles.main}>
@@ -41,13 +45,16 @@ function CreateProduct() {
               </ul>
               <div className={styles.tabbox}>
                 {/* {activeTab} */}
-                <TabsRender tabName={activeTab} />
+                <TabsRender
+                  tabName={activeTab}
+                  // onChange={(value: any) => console.log(value)}
+                />
               </div>
             </div>
           </div>
         </main>
       </div>
-    </>
+    </React.Fragment>
   );
 }
 
@@ -56,87 +63,170 @@ export default CreateProduct;
 const TabsRender = ({ tabName }: any) => {
   switch (tabName) {
     case "Basic":
-      return (
-        <div className="tabcontantinner">
-          <h1>Basic Info</h1>
-          <div className="box">
-            <ul>
-              <li>
-                <Input type="text" label={"Product Name"} />
-              </li>
-              <li>
-                <Textarea label="Product Description" />
-              </li>
-              {/* <li>
-                <Input
-                  type="file"
-                  label={"Featured Image"}
-                  imageUrl="/image.png"
-                />
-              </li> */}
-              {/* <li>
-                <Select
-                  // multiple
-                  options={[
-                    { text: "Select", value: "" },
-                    { text: "Hello", value: "Bye" },
-                    { text: "Hello", value: "Bye" },
-                    { text: "Hello", value: "Bye" },
-                    { text: "Hello", value: "Bye" },
-                    { text: "Hello", value: "Bye" },
-                  ]}
-                  label={"Select Category"}
-                />
-              </li> */}
-              {/* <li className="grid-2">
-                <Input type="text" label={"Base Price"} />
-                <Input type="text" label={"Price"} />
-              </li> */}
-            </ul>
-            <div className={styles.buttonsection}>
-              <AddMoreButton title="Next" />
-            </div>
-          </div>
-        </div>
-      );
-    // case "size":
-    //   return (
-    //     <div className="tabcontantinner">
-    //       <h1>Size</h1>
-    //     </div>
-    //   );
-    // case "color":
-    //   return (
-    //     <div className="tabcontantinner">
-    //       <h1>Color</h1>
-    //     </div>
-    //   );
-    // case "headBoard":
-    //   return (
-    //     <div className="tabcontantinner">
-    //       <h1>HeadBoard</h1>
-    //     </div>
-    //   );
-    // case "storage":
-    //   return (
-    //     <div className="tabcontantinner">
-    //       <h1>Storage</h1>
-    //     </div>
-    //   );
-    // case "feet":
-    //   return (
-    //     <div className="tabcontantinner">
-    //       <h1>Feet</h1>
-    //     </div>
-    //   );
-    // case "mattress":
-    //   return (
-    //     <div className="tabcontantinner">
-    //       <h1>Mattress</h1>
-    //     </div>
-    //   );
-
+      return <Basic />;
     default:
       return null;
   }
 };
+
+const Basic = () => {
+  const router = useRouter();
+  const [bed, setBed] = React.useState({
+    name: "" as string,
+    description: "" as string,
+    categories: [] as string[],
+  });
+  const { data } = useFetchBedById(router.query.id as string);
+  // INITILIZE OLD DATA IN STATE
+  React.useEffect(() => {
+    setBed({
+      name: data?.name as string,
+      description: data?.description as string,
+      categories: data?.categories as string[],
+    });
+  }, [data]);
+
+  //API POST
+  const { mutate, isLoading } = useUpdateBed(router.query?.id as string);
+
+  const handleAddChip = React.useCallback(
+    (value: string[]) => {
+      setBed({ ...bed, categories: value });
+    },
+    [bed]
+  );
+
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setBed({ ...bed, [event.target.name]: event.target.value });
+  };
+
+  const handleBedCreate = React.useCallback(() => {
+    mutate(
+      {
+        name: bed.name,
+        description: bed.description,
+        categories: bed.categories,
+      },
+      {
+        onSuccess: (data) => {
+          toast.success(data?.message || "Product Updated Successfully");
+          // if (window.confirm(`Do you want go to products page`)) {
+          //   router.back();
+          // }
+        },
+        onError: () => {
+          toast.error("Something went wrong");
+        },
+      }
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bed]);
+
+  return (
+    <div className="tabcontantinner">
+      <h1>Basic Info</h1>
+      <div className="box">
+        <ul>
+          <li>
+            <Input
+              name="name"
+              type="text"
+              label={"Product Name"}
+              placeholder="Enter product name"
+              onChange={handleInputChange}
+              value={bed.name}
+            />
+          </li>
+          <li>
+            <Textarea
+              name="description"
+              placeholder="Enter product description"
+              label="Product Description"
+              onChange={handleInputChange}
+              value={bed.description}
+            />
+          </li>
+
+          <li className="grid">
+            <ChipInput
+              label={`Category`}
+              onChange={handleAddChip}
+              placeholder="Add Category..."
+              value={bed.categories}
+            />
+          </li>
+        </ul>
+        <div className={styles.buttonsection}>
+          <AddMoreButton title="Update" onClick={handleBedCreate} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+{
+  /* <li>
+          <Input type="file" label={"Featured Image"} />
+        </li> */
+}
+{
+  /* <li>
+          <Select
+            // multiple
+            options={[
+              { text: "Select", value: "" },
+              { text: "Hello", value: "Bye" },
+              { text: "Hello", value: "Bye" },
+              { text: "Hello", value: "Bye" },
+              { text: "Hello", value: "Bye" },
+              { text: "Hello", value: "Bye" },
+            ]}
+            label={"Select Category"}
+          />
+        </li> */
+}
+{
+  /* <li className="grid-2">
+          <Input type="text" label={"Base Price"} />
+          <Input type="text" label={"Price"} />
+        </li> */
+}
+
+// case "size":
+//   return (
+//     <div className="tabcontantinner">
+//       <h1>Size</h1>
+//     </div>
+//   );
+// case "color":
+//   return (
+//     <div className="tabcontantinner">
+//       <h1>Color</h1>
+//     </div>
+//   );
+// case "headBoard":
+//   return (
+//     <div className="tabcontantinner">
+//       <h1>HeadBoard</h1>
+//     </div>
+//   );
+// case "storage":
+//   return (
+//     <div className="tabcontantinner">
+//       <h1>Storage</h1>
+//     </div>
+//   );
+// case "feet":
+//   return (
+//     <div className="tabcontantinner">
+//       <h1>Feet</h1>
+//     </div>
+//   );
+// case "mattress":
+//   return (
+//     <div className="tabcontantinner">
+//       <h1>Mattress</h1>
+//     </div>
+//   );

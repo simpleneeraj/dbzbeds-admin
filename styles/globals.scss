@@ -401,6 +401,11 @@ img {
   display: grid;
 }
 
+.grid {
+  @include grid();
+  // grid-template-columns: repeat(2, 1fr);
+  gap: unset;
+}
 .grid-2 {
   @include grid();
   grid-template-columns: repeat(2, 1fr);

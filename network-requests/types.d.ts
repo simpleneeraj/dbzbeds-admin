@@ -31,6 +31,7 @@ interface VariantsTypes {
 }
 
 type Bed = {
+    image: string;
     _id: string;
     name: string;
     description: string;

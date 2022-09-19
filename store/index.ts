@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import selectbedSlice from "./slices/selectbed";
+import userSlice from "./slices/user";
 
 
 const store = configureStore({
   reducer: {
-    // addToCart: addToCartSlice.reducer,
-    selectbed: selectbedSlice.reducer
+    user: userSlice.reducer,
+
   },
   devTools: process.env.NODE_ENV === 'development'
 })

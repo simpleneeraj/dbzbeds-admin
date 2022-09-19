@@ -1,12 +1,18 @@
 import React from "react";
 import css from "styles/admin.module.scss";
 
-const Button = (props: React.ComponentPropsWithoutRef<"button">) => {
+const Button = React.forwardRef(
+  (
+    props: React.ComponentPropsWithRef<"button">,
+    ref: React.Ref<HTMLButtonElement>
+  ) => {
     return (
-        <div className={css.button}>
-            <button {...props} />
-        </div>
+      <div className={css.button}>
+        <button ref={ref} {...props} />
+      </div>
     );
-};
+  }
+);
+Button.displayName = "Button";
 
 export default Button;

@@ -1,30 +1,37 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
+import { useRouter } from "next/router";
+import DashboardHeader from "layout/header";
 import styles from "styles/order.module.scss";
-
-import { AddAccessoriesTabs } from "components/product/accessories";
+import Button from "components/element/button";
+import { UpdateAccessoriesTabs } from "components/product/accessories";
 import accessoriesTabArray from "components/product/accessories/tabarray";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Toast from "components/toast";
 
 /**
  * AddBedAccessories
  * @returns
  */
-function AddBedAccessories() {
+function AllAccessories() {
   const [activeTab, setActiveTab] = React.useState("Color");
-
   const onActiveTab = (value: string) => {
     setActiveTab(value);
   };
 
+  const router = useRouter();
   return (
     <>
       <div className={styles.rightsidebar}>
-        {/* <DashboardHeader /> */}
+        <DashboardHeader />
         <main className={styles.main}>
           <div className={styles.containerbox}>
-            <div className={styles.mainheading}>Add {activeTab}</div>
+            <div className={styles.mainheading}>
+              All {activeTab}
+              <Button onClick={() => router.push(`/accessories/create`)}>
+                Create New{" "}
+              </Button>
+            </div>
+
             <div
               className={` ${styles.tablebox} ${styles.mt2} ${styles.productuploadtabbox}`}
             >
@@ -42,15 +49,15 @@ function AddBedAccessories() {
                 })}
               </ul>
               <div className={styles.tabbox}>
-                <AddAccessoriesTabs tabName={activeTab} />
+                <UpdateAccessoriesTabs tabName={activeTab} />
               </div>
             </div>
           </div>
         </main>
       </div>
-      <ToastContainer />
+      <Toast />
     </>
   );
 }
 
-export default AddBedAccessories;
+export default AllAccessories;

@@ -4,7 +4,7 @@ import React from "react";
 import css from "styles/admin.module.scss";
 import AddMoreButton from "./addmore";
 import Input from "./input";
-import FilePicker from "./picker";
+
 import Select from "./select";
 
 type E = React.ChangeEvent<HTMLSelectElement | HTMLInputElement>;
@@ -20,6 +20,7 @@ interface StateType {
 interface OptionsTypes {
   text: any;
   value: any;
+  label: string;
 }
 interface DynamicInputProps {
   title: string;

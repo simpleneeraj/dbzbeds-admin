@@ -7,7 +7,7 @@ const AdminHome = () => {
     <div className={styles.rightsidebar}>
       <DashboardHeader />
       <main>
-        <h1>Hello</h1>
+        <h1>Product Overview</h1>
       </main>
     </div>
   );
