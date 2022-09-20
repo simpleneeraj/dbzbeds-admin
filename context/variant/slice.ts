@@ -53,9 +53,9 @@ const {
                 storage: action.payload,
             };
         },
-        ["WHOLESTATE"]: (state: StateTypes, action: ActionTypes) => {
-            return Object.assign(state, action.payload)
-        },
+        // ["WHOLESTATE"]: (state: StateTypes, action: ActionTypes) => {
+        //     return Object.assign(state, action.payload)
+        // },
     },
 });
 

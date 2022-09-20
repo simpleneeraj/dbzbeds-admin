@@ -8,7 +8,7 @@ const Mattress = ({ getValue, value, id }: VarientsProps) => {
   const { data = [] } = useFetchIconsByType("MATTRESS", id as string);
   const [state, setState] = React.useState<any>([]);
 
-  useDeepCompareEffect(() => {
+  React.useEffect(() => {
     if (state.length <= 0) {
       setState(value);
     }

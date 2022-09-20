@@ -51,11 +51,12 @@ function DynamicImagePicker({
   };
 
   const handleImageURL = (url: string | File) => {
-    if (url instanceof File) {
-      return URL.createObjectURL(url);
-    } else {
-      return url;
-    }
+    if (typeof File !== "undefined")
+      if (url instanceof File) {
+        return URL.createObjectURL(url);
+      } else {
+        return url;
+      }
   };
 
   useDeepEffect(() => {

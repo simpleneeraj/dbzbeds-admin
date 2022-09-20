@@ -10,7 +10,7 @@ const Color = ({ getValue, value, id }: VarientsProps) => {
 
   const [state, setState] = React.useState<any>([]);
 
-  useDeepCompareEffect(() => {
+  React.useEffect(() => {
     if (state.length <= 0) {
       setState(value);
     }

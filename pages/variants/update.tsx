@@ -38,12 +38,13 @@ function CreateVariant() {
 export default CreateVariant;
 
 const Create = () => {
-  const { state } = React.useContext(UpdateVariantContext);
-  const [activeTab, setActiveTab] = React.useState("Basic");
+  const { state, dispatch } = React.useContext(UpdateVariantContext);
+  const { color, feet, headboard, mattress, general, storage } = state;
+  // const [activeTab, setActiveTab] = React.useState("Basic");
 
-  const onActiveTab = (value: string) => {
-    setActiveTab(value);
-  };
+  // const onActiveTab = (value: string) => {
+  //   setActiveTab(value);
+  // };
 
   const router = useRouter();
   const id = router.query?.id as string;
@@ -94,7 +95,7 @@ const Create = () => {
       <main className={styles.main}>
         <div className={styles.containerbox}>
           <div className={styles.mainheading}>Create Variant</div>
-          <div
+          {/* <div
             className={` ${styles.tablebox} ${styles.mt2} ${styles.productuploadtabbox}`}
           >
             <ul className={styles.productuploadtab}>
@@ -113,6 +114,45 @@ const Create = () => {
             <div className={styles.tabbox}>
               <AccessoriesTabs id={id} tabName={activeTab} />
             </div>
+          </div> */}
+          <div
+            style={{
+              marginTop: "10px",
+              background: "#fff",
+              padding: ".5rem",
+            }}
+          >
+            <General
+              id={id}
+              getValue={(v) => dispatch(VariantsActions.GENERAL(v))}
+              value={general}
+            />
+
+            <Color
+              id={id}
+              getValue={(v) => dispatch(VariantsActions.COLOR(v))}
+              value={color}
+            />
+            <HeadBoard
+              id={id}
+              getValue={(v) => dispatch(VariantsActions.HEADBOARD(v))}
+              value={headboard}
+            />
+            <Storages
+              id={id}
+              getValue={(v) => dispatch(VariantsActions.STORAGE(v))}
+              value={storage}
+            />
+            <Feet
+              id={id}
+              getValue={(v) => dispatch(VariantsActions.FEET(v))}
+              value={feet}
+            />
+            <Mattress
+              id={id}
+              getValue={(v) => dispatch(VariantsActions.MATTRESS(v))}
+              value={mattress}
+            />
           </div>
           <div className="grid">
             <Button onClick={handleProductUpdate}>Submit Data</Button>
@@ -123,60 +163,60 @@ const Create = () => {
   );
 };
 
-const AccessoriesTabs = ({ tabName, id }: AccessoriesTabsProps) => {
-  const { state, dispatch } = React.useContext(UpdateVariantContext);
-  const { color, feet, headboard, mattress, general, storage } = state;
+// const AccessoriesTabs = ({ tabName, id }: AccessoriesTabsProps) => {
+//   const { state, dispatch } = React.useContext(UpdateVariantContext);
+//   const { color, feet, headboard, mattress, general, storage } = state;
 
-  switch (tabName) {
-    case "Basic":
-      return (
-        <General
-          id={id}
-          getValue={(v) => dispatch(VariantsActions.GENERAL(v))}
-          value={general}
-        />
-      );
-    case "Color":
-      return (
-        <Color
-          id={id}
-          getValue={(v) => dispatch(VariantsActions.COLOR(v))}
-          value={color}
-        />
-      );
-    case "HeadBoard":
-      return (
-        <HeadBoard
-          id={id}
-          getValue={(v) => dispatch(VariantsActions.HEADBOARD(v))}
-          value={headboard}
-        />
-      );
-    case "Storage":
-      return (
-        <Storages
-          id={id}
-          getValue={(v) => dispatch(VariantsActions.STORAGE(v))}
-          value={storage}
-        />
-      );
-    case "Feet":
-      return (
-        <Feet
-          id={id}
-          getValue={(v) => dispatch(VariantsActions.FEET(v))}
-          value={feet}
-        />
-      );
-    case "Mattress":
-      return (
-        <Mattress
-          id={id}
-          getValue={(v) => dispatch(VariantsActions.MATTRESS(v))}
-          value={mattress}
-        />
-      );
-    default:
-      return null;
-  }
-};
+//   switch (tabName) {
+//     case "Basic":
+//       return (
+//         <General
+//           id={id}
+//           getValue={(v) => dispatch(VariantsActions.GENERAL(v))}
+//           value={general}
+//         />
+//       );
+//     case "Color":
+//       return (
+//         <Color
+//           id={id}
+//           getValue={(v) => dispatch(VariantsActions.COLOR(v))}
+//           value={color}
+//         />
+//       );
+//     case "HeadBoard":
+//       return (
+//         <HeadBoard
+//           id={id}
+//           getValue={(v) => dispatch(VariantsActions.HEADBOARD(v))}
+//           value={headboard}
+//         />
+//       );
+//     case "Storage":
+//       return (
+//         <Storages
+//           id={id}
+//           getValue={(v) => dispatch(VariantsActions.STORAGE(v))}
+//           value={storage}
+//         />
+//       );
+//     case "Feet":
+//       return (
+//         <Feet
+//           id={id}
+//           getValue={(v) => dispatch(VariantsActions.FEET(v))}
+//           value={feet}
+//         />
+//       );
+//     case "Mattress":
+//       return (
+//         <Mattress
+//           id={id}
+//           getValue={(v) => dispatch(VariantsActions.MATTRESS(v))}
+//           value={mattress}
+//         />
+//       );
+//     default:
+//       return null;
+//   }
+// };
