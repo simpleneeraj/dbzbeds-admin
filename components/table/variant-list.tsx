@@ -26,6 +26,7 @@ const VariantList = ({
   price,
   size,
 }: TableListProps) => {
+  console.log(price);
   return (
     <tr>
       <td>

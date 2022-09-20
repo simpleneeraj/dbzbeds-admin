@@ -127,7 +127,6 @@ const AccessoriesTabs = ({ tabName, id }: AccessoriesTabsProps) => {
   const { state, dispatch } = React.useContext(UpdateVariantContext);
   const { color, feet, headboard, mattress, general, storage } = state;
 
-  // console.log(state);
   switch (tabName) {
     case "Basic":
       return (

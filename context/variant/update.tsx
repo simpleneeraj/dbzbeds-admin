@@ -25,8 +25,6 @@ const UpdateVariantProvider = ({
 
   const { data } = useFetchBedVariantsById(id);
 
-  console.log({ SIMLE: data });
-
   React.useEffect(() => {
     dispatch({
       type: "WHOLESTATE",
@@ -46,6 +44,8 @@ const UpdateVariantProvider = ({
       },
     });
   }, [data]);
+
+  console.log({ SIMLE: state });
 
   return (
     <UpdateVariantContext.Provider value={{ state, dispatch }}>

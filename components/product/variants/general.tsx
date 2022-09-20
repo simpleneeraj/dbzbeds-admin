@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Input from "../../element/input";
 import Select from "../../element/select";
 import { useFetchIconsByType } from "network-requests/queries";
 import { VarientsProps } from "typings/variants";
 import imageToUrl from "utils/image2url";
 import { useRouter } from "next/router";
+import useDeepCompareEffect from "hooks/use-deep-effect";
 
 interface StateTypes {
   size: string;
@@ -27,8 +28,12 @@ const General = ({ getValue, value }: VarientsProps) => {
       setState((current: StateTypes) => ({ ...current, [name]: value }));
     }
   };
+  React.useEffect(() => {
+    setState(value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     getValue(state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);

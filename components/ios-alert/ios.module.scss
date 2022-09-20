@@ -1,0 +1,50 @@
+// Alert
+
+.container {
+  position: fixed;
+  display: grid;
+  place-content: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.alert-box {
+  background: #fff;
+  width: 300px;
+  border-radius: 15px;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  overflow: hidden;
+}
+
+.msg {
+  padding: 1rem 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  p {
+    color: #222222;
+    font-size: 0.9rem;
+  }
+}
+.button {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #0000003b;
+  button {
+    padding: 0.4rem;
+    flex: 1;
+    background: transparent;
+    font-size: 16px;
+    color: #007aff;
+    &:hover {
+      background-color: #f1f1f1;
+    }
+  }
+}
