@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 // import Input from "components/admin/context/input";
 import Input from "components/element/input";
-import { useCreateBedColor } from "network-requests/mutations";
+import { useCreateAccessoriesIcon } from "network-requests/mutations";
 import React from "react";
 import Button from "components/element/button";
 
@@ -19,7 +19,7 @@ interface InputTypes {
 }
 const AddSize = () => {
   //API POST
-  const { mutate } = useCreateBedColor();
+  const { mutate } = useCreateAccessoriesIcon();
 
   const [inputValue, setInputValue] = React.useState<InputTypes>({
     type: "SIZE",

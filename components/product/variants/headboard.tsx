@@ -7,7 +7,8 @@ import DynamicInputFields from "../../element/input-field";
 const HeadBoard = ({ getValue, value, id }: VarientsProps) => {
   const { data = [] } = useFetchIconsByType("HEADBOARD", id as string);
   const [state, setState] = React.useState<any>([]);
-
+  // data[0].label
+  // data[0].value
   React.useEffect(() => {
     if (state.length <= 0) {
       setState(value);
@@ -15,6 +16,8 @@ const HeadBoard = ({ getValue, value, id }: VarientsProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
+  console.log({ HeadBoard: value });
+  console.log({ HeadBoardDATA: data });
   useDeepCompareEffect(() => {
     getValue(state);
     // eslint-disable-next-line react-hooks/exhaustive-deps

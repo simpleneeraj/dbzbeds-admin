@@ -2,7 +2,7 @@ import { useMutation } from "react-query";
 import {
     createBed,
     createBedVariantById,
-    createColorIcon,
+    createAccessoriesIcon,
     deleteBedById,
     deleteBedVariantById,
     deleteIconById,
@@ -32,14 +32,15 @@ export const useCreateNewBedVariant = (id: string) =>
             createBedVariantById(id, props)
     );
 
-export const useCreateBedColor = () =>
+export const useCreateAccessoriesIcon = () =>
     useMutation(
         (payload: ColorIcon): Promise<UploadBedImage> =>
-            createColorIcon(
+            createAccessoriesIcon(
                 payload.image,
                 payload.label,
                 payload.value,
-                payload.type
+                payload.type,
+                payload.size
             )
     );
 

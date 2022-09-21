@@ -103,6 +103,14 @@ export const getIconAllByType = (type: string): Promise<Accessories[]> =>
             throw error;
         });
 
+export const getIconAllByTypeAndSize = (type: string, size: string): Promise<Accessories[]> =>
+    axios
+        .get<Accessories[]>(`/icons/accessories/all/${type}?size=${size}`)
+        .then((response) => response.data)
+        .catch((error) => {
+            throw error;
+        });
+
 export const getAllIcons = (): Promise<Accessories[]> =>
     axios
         .get<Accessories[]>(`/icons/accessories`)
@@ -148,16 +156,19 @@ export const uploadBedImage = async (image: Blob): Promise<UploadBedImage> => {
 };
 
 //CREATE COLOR ICON
-export const createColorIcon = async (
+export const createAccessoriesIcon = async (
     image: Blob,
     label: string,
     value: string,
-    type: string
+    type: string,
+    size: string,
+
 ): Promise<UploadBedImage> => {
     const formdata = new FormData();
     formdata.append("label", label);
     formdata.append("value", value);
     formdata.append("type", type);
+    formdata.append("size", size);
     formdata.append("image", image);
 
     return await axios

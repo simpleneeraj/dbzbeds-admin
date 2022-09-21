@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "styles/order.module.scss";
-import { productSideTab } from "constants/sidetab";
 import DashboardHeader from "layout/header";
 import { VariantsActions } from "context/variant/create";
 import General from "components/product/variants/general";
@@ -42,6 +41,7 @@ const Create = () => {
   const { color, feet, headboard, mattress, general, storage } = state;
   // const [activeTab, setActiveTab] = React.useState("Basic");
 
+  console.log({ RES: state.mattress });
   // const onActiveTab = (value: string) => {
   //   setActiveTab(value);
   // };

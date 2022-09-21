@@ -588,3 +588,46 @@
     border-radius: 4px;
   }
 }
+
+// FOR SEGEMENTED CONTROL
+.segment {
+  display: flex;
+  padding: 0.4rem;
+  align-items: center;
+  gap: 0.4rem;
+  button {
+    padding: 0.2rem;
+    flex: 1;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    max-width: 100px;
+    // background: #03a9f4;
+  }
+}
+
+// FOR GRID SYSTEM
+
+.sizes-box {
+  background: #fff;
+  padding: 0.5rem;
+
+  ul {
+    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    li {
+      padding: 0.5rem;
+      border-radius: 10px;
+      height: 100px;
+      display: grid;
+      place-content: center;
+      border: 2px solid #eee;
+      transition: all 200ms ease;
+
+      &:hover {
+        background: #90caf9;
+        border: 2px solid #90caf9;
+      }
+    }
+  }
+}

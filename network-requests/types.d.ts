@@ -100,6 +100,8 @@ type ColorIcon = {
     value: string;
     image: File;
     type: string;
+    size: string;
+
 };
 type UpdateColorIcon = {
     id: string;
@@ -107,6 +109,9 @@ type UpdateColorIcon = {
     value: string;
     image: File;
     type: string;
+    size: string;
+
+
 };
 
 interface Accessories {
@@ -115,4 +120,5 @@ interface Accessories {
     value: string;
     type: string;
     image: string;
+    size: string;
 }

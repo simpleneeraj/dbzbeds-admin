@@ -7,6 +7,8 @@ import Button from "components/element/button";
 import { UpdateAccessoriesTabs } from "components/product/accessories";
 import accessoriesTabArray from "components/product/accessories/tabarray";
 import Toast from "components/toast";
+import { useFetchAllIconByTypeAndSize } from "network-requests/queries";
+import sizeArray from "constants/sizes";
 
 /**
  * AddBedAccessories
@@ -19,6 +21,14 @@ function AllAccessories() {
   };
 
   const router = useRouter();
+  const [size, setSize] = React.useState("2 Feet");
+
+  const { data } = useFetchAllIconByTypeAndSize("COLOR", size);
+
+  const onSetSize = (size: string) => {
+    router.push(`/accessories/create/${size}`);
+  };
+
   return (
     <>
       <div className={styles.rightsidebar}>
@@ -49,6 +59,21 @@ function AllAccessories() {
                 })}
               </ul>
               <div className={styles.tabbox}>
+                <div className={styles.segment}>
+                  {sizeArray.map(({ text, value }, index) => {
+                    return (
+                      <button
+                        key={index}
+                        onClick={() => onSetSize(value)}
+                        style={{
+                          background: size === value ? "#2196f3" : "#fff",
+                        }}
+                      >
+                        {text}
+                      </button>
+                    );
+                  })}
+                </div>
                 <UpdateAccessoriesTabs tabName={activeTab} />
               </div>
             </div>

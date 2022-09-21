@@ -4,12 +4,15 @@ import styles from "styles/order.module.scss";
 import { AddAccessoriesTabs } from "components/product/accessories";
 import accessoriesTabArray from "components/product/accessories/tabarray";
 import Toast from "components/toast";
+import { useRouter } from "next/router";
 
 /**
  * AddBedAccessories
  * @returns
  */
 function AddBedAccessories() {
+  const router = useRouter();
+
   const [activeTab, setActiveTab] = React.useState("Color");
 
   const onActiveTab = (value: string) => {
@@ -22,7 +25,19 @@ function AddBedAccessories() {
         {/* <DashboardHeader /> */}
         <main className={styles.main}>
           <div className={styles.containerbox}>
-            <div className={styles.mainheading}>Add {activeTab}</div>
+            <div className={styles.mainheading}>
+              <span>
+                Add{" "}
+                <span
+                  style={{
+                    color: "#E91E63",
+                  }}
+                >
+                  {router.query?.size}
+                </span>
+              </span>
+              <span>{activeTab} Icons</span>
+            </div>
             <div
               className={` ${styles.tablebox} ${styles.mt2} ${styles.productuploadtabbox}`}
             >
