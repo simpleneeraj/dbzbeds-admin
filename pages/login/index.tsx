@@ -1,6 +1,7 @@
 import Button from "components/element/button";
 import Input from "components/element/input";
 import { useLogin } from "network-requests/mutations";
+import Router from "next/router";
 import React from "react";
 import css from "styles/auth.module.scss";
 
@@ -12,7 +13,14 @@ const LoginPage = () => {
 
     const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        mutate({ email, password });
+        mutate(
+            { email, password },
+            {
+                onSuccess: () => {
+                    Router.push("/dasboard");
+                },
+            }
+        );
     };
 
     return (
