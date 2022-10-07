@@ -17,7 +17,7 @@ const LoginPage = () => {
             { email, password },
             {
                 onSuccess: () => {
-                    Router.push("/dasboard");
+                    Router.push("/");
                 },
             }
         );
