@@ -9,6 +9,7 @@ import {
     updateAccessoriesIcon,
     updateBedById,
     updateBedVariantById,
+    login,
 } from "./api";
 import {
     BedRequestPayload,
@@ -18,6 +19,11 @@ import {
     UploadBedImage,
     VariantsTypes,
 } from "./types";
+
+//AUTH MUTATIONS
+export const useLogin = () => {
+    return useMutation(({ email, password }: any) => login(email, password));
+};
 
 //CREATE MUTATIONS
 export const useCreateNewBed = () =>
@@ -83,6 +89,5 @@ export const useDeleteBedVariantById = () =>
 
 export const useDeleteIconById = () =>
     useMutation(
-        (id: string): Promise<CreateBedVariantResponse> =>
-            deleteIconById(id)
+        (id: string): Promise<CreateBedVariantResponse> => deleteIconById(id)
     );

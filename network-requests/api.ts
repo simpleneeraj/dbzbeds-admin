@@ -13,8 +13,12 @@ import {
     VariantsTypes,
 } from "./types";
 
-//GET REQUESTS
+//AUTH API
+export const login = (email: string, password: string) => {
+    return axios.post("/auth/login", { email, password });
+};
 
+//GET REQUESTS
 export const getAllBeds = ({
     pageParam = 1,
 }: GetAllBedsParams): Promise<BedResponse> =>
@@ -79,7 +83,10 @@ export const getBedVariantById = (
             });
 };
 
-export const getIconsByType = (type: string, id: string): Promise<Accessories[]> =>
+export const getIconsByType = (
+    type: string,
+    id: string
+): Promise<Accessories[]> =>
     axios
         .get<Accessories[]>(`/icons/accessories/${type}/${id}`)
         .then((response) => response.data)
@@ -103,7 +110,10 @@ export const getIconAllByType = (type: string): Promise<Accessories[]> =>
             throw error;
         });
 
-export const getIconAllByTypeAndSize = (type: string, size: string): Promise<Accessories[]> =>
+export const getIconAllByTypeAndSize = (
+    type: string,
+    size: string
+): Promise<Accessories[]> =>
     axios
         .get<Accessories[]>(`/icons/accessories/all/${type}?size=${size}`)
         .then((response) => response.data)
@@ -161,8 +171,7 @@ export const createAccessoriesIcon = async (
     label: string,
     value: string,
     type: string,
-    size: string,
-
+    size: string
 ): Promise<UploadBedImage> => {
     const formdata = new FormData();
     formdata.append("label", label);
@@ -249,14 +258,10 @@ export const deleteBedVariantById = (
             throw error;
         });
 
-export const deleteIconById = (
-    id: string
-): Promise<CreateBedVariantResponse> =>
+export const deleteIconById = (id: string): Promise<CreateBedVariantResponse> =>
     axios
         .delete(`/icons/accessories/${id}`)
         .then((response) => response.data)
         .catch((error) => {
             throw error;
         });
-
-
