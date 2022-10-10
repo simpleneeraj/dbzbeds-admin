@@ -155,7 +155,13 @@ export const uploadBedImage = async (image: Blob): Promise<UploadBedImage> => {
     const formdata = new FormData();
     formdata.append("image", image);
     return await axios
-        .post<UploadBedImage>(`/beds/upload-image`, formdata)
+        .post<UploadBedImage>(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/beds/upload-image`,
+            formdata,
+            {
+                withCredentials: false,
+            }
+        )
         .then((response) => {
             console.log(response.data);
             return response.data;
@@ -181,7 +187,13 @@ export const createAccessoriesIcon = async (
     formdata.append("image", image);
 
     return await axios
-        .postForm<UploadBedImage>(`/icons/accessories`, formdata)
+        .postForm<UploadBedImage>(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/icons/accessories`,
+            formdata,
+            {
+                withCredentials: false,
+            }
+        )
         .then((response) => {
             return response.data;
         })
@@ -230,7 +242,13 @@ export const updateAccessoriesIcon = async (
     image && formdata.append("image", image);
 
     return await axios
-        .patchForm<UploadBedImage>(`/icons/update/${id}`, formdata)
+        .patchForm<UploadBedImage>(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/icons/update/${id}`,
+            formdata,
+            {
+                withCredentials: false,
+            }
+        )
         .then((response) => {
             return response.data;
         })
