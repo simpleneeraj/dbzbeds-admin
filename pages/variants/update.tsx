@@ -18,6 +18,7 @@ import {
   UpdateVariantContext,
   UpdateVariantProvider,
 } from "context/variant/update";
+import { toast } from "react-toastify";
 
 interface AccessoriesTabsProps {
   id: string;
@@ -72,21 +73,28 @@ const Create = () => {
     };
     const colorWithUrlAndName = await pMap(state.color, getImageUrlAndName);
 
-    mutate({
-      price: {
-        basePrice: state.general.basePrice,
-        salePrice: state.general.basePrice,
+    mutate(
+      {
+        price: {
+          basePrice: state.general.basePrice,
+          salePrice: state.general.basePrice,
+        },
+        size: state.general.size,
+        image: baseImage,
+        accessories: {
+          color: colorWithUrlAndName as any,
+          storage: state.storage,
+          feet: state.feet,
+          headboard: state.headboard,
+          mattress: state.mattress,
+        },
       },
-      size: state.general.size,
-      image: baseImage,
-      accessories: {
-        color: colorWithUrlAndName as any,
-        storage: state.storage,
-        feet: state.feet,
-        headboard: state.headboard,
-        mattress: state.mattress,
-      },
-    });
+      {
+        onSuccess: (data) => {
+          toast.success(data?.message || "Varient Created Successfully");
+        },
+      }
+    );
   };
 
   return (

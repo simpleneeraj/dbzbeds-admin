@@ -7,7 +7,6 @@ import Button from "components/element/button";
 import { UpdateAccessoriesTabs } from "components/product/accessories";
 import accessoriesTabArray from "components/product/accessories/tabarray";
 import Toast from "components/toast";
-import { useFetchAllIconByTypeAndSize } from "network-requests/queries";
 import sizeArray from "constants/sizes";
 
 /**
@@ -21,9 +20,7 @@ function AllAccessories() {
   };
 
   const router = useRouter();
-  const [size, setSize] = React.useState("2 Feet");
-
-  const { data } = useFetchAllIconByTypeAndSize("COLOR", size);
+  const [size] = React.useState("2 Feet");
 
   const onSetSize = (size: string) => {
     router.push(`/accessories/create/${size}`);

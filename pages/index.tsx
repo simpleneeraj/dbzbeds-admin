@@ -1,4 +1,3 @@
-import IosAlert from "components/ios-alert";
 import DashboardHeader from "layout/header";
 import React from "react";
 import styles from "styles/order.module.scss";

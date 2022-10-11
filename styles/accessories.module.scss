@@ -17,6 +17,9 @@
 .container ul {
   display: grid;
   gap: 5px;
+  max-height: 300px;
+  overflow: auto;
+  padding-right: 0.2rem;
 }
 
 .container ul li {

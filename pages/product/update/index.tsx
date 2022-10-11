@@ -102,7 +102,7 @@ const Basic = () => {
     setBed({ ...bed, [event.target.name]: event.target.value });
   };
 
-  const handleBedCreate = React.useCallback(() => {
+  const handleBedUpdate = React.useCallback(() => {
     mutate(
       {
         name: bed.name,
@@ -159,7 +159,7 @@ const Basic = () => {
           </li>
         </ul>
         <div className={styles.buttonsection}>
-          <AddMoreButton title="Update" onClick={handleBedCreate} />
+          <AddMoreButton title="Update" onClick={handleBedUpdate} />
         </div>
       </div>
     </div>

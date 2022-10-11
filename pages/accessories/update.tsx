@@ -55,7 +55,7 @@ export default function UpdateProduct({ id }: Props) {
       { ...inputValue, id },
       {
         onSuccess: (data) => {
-          toast.success(data?.message || "Color Icon Updated Successfully");
+          toast.success(data?.message || "Accessories Updated Successfully");
         },
         onError: () => {
           toast.error("Something went wrong");
