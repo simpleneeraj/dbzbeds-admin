@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export const config = {
-    matcher: ["/((?!_next|api/auth).*)(.+)"],
+    matcher: ["/((?!_next|api/auth).*)(.+)", "/"],
 };
 
 const authPages = ["/login"];

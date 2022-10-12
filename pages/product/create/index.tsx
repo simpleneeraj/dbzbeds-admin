@@ -9,6 +9,7 @@ import ChipInput from "components/chip-input";
 import { useCreateNewBed } from "network-requests/mutations";
 import { toast } from "react-toastify";
 import Toast from "components/toast";
+import { useRouter } from "next/router";
 
 function CreateProduct() {
   const [activeTab, setActiveTab] = React.useState("Basic");
@@ -101,6 +102,7 @@ const TabsRender = ({ tabName }: any) => {
 };
 
 const Basic = () => {
+  const router = useRouter();
   const [bed, setBed] = React.useState({
     name: "" as string,
     description: "" as string,
@@ -123,7 +125,11 @@ const Basic = () => {
     setBed({ ...bed, [event.target.name]: event.target.value });
   };
 
-  const handleBedCreate = React.useCallback(() => {
+  const handleBedCreate = React.useCallback(async () => {
+    // if (bed.name) await lazyAlert("Product Name Required");
+    // if (bed.description) await lazyAlert("Product Description Required");
+    if (bed.categories.length <= 0)
+      await lazyAlert("Product Category Required");
     mutate(bed, {
       onSuccess: (data) => {
         toast.success(data?.message || "Product Created Successfully");
@@ -132,7 +138,7 @@ const Basic = () => {
         toast.error("Something went wrong");
       },
     });
-    console.log(bed);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bed]);
 
@@ -202,3 +208,10 @@ const Basic = () => {
           <Input type="text" label={"Price"} />
         </li> */
 }
+
+const lazyAlert = (succes?: any, error?: any) => {
+  return new Promise((resolve, reject) => {
+    resolve(alert(succes));
+    reject(alert(error));
+  });
+};

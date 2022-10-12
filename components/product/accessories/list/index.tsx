@@ -7,6 +7,7 @@ import { useFetchAllIconByType } from "network-requests/queries";
 import EditIcon from "icons/edit";
 import DeleteIcon from "icons/delete";
 import { useDeleteIconById } from "network-requests/mutations";
+import { toast } from "react-toastify";
 
 // @ts-ignore
 const arr = [...Array(5).keys()];
@@ -31,8 +32,9 @@ function AccessoriesList({ type }: Props) {
       if (window.confirm("Are you sure to delete this Accessories")) {
         console.log(id);
         mutate(id, {
-          onSuccess: () => {
+          onSuccess: (data) => {
             refetch();
+            toast.success(data?.message || "Accessories Created Successfully");
           },
         });
       }

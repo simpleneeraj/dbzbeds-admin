@@ -1,6 +1,7 @@
 import React from "react";
-import Image from "next/image";
 import Styles from "styles/order.module.scss";
+import UserIcon from "icons/UserIcon";
+import SearchIcon from "icons/SearchIcon";
 
 const DashboardHeader = () => {
   return (
@@ -9,26 +10,22 @@ const DashboardHeader = () => {
         <div className={Styles.topsearch}>
           <input type="text" placeholder="Type Hare...." />
           <button>
-            <Image
+            {/* <Image
               src="/icons/search-line.svg"
               alt="search"
               width={24}
               height={24}
-            />
+            /> */}
+            <SearchIcon />
           </button>
         </div>
       </div>
       <div className={Styles.rightside}>
         <div className={Styles.dropdownaction}>
           <div className={Styles.userimagewithtext}>
-            <div className={Styles.text}>Simple Inc.</div>
+            <div className={Styles.text}>Admin</div>
             <div className={Styles.image}>
-              <Image
-                src="/icons/user-line.svg"
-                alt="search"
-                width={24}
-                height={24}
-              />
+              <UserIcon />
             </div>
           </div>
         </div>
