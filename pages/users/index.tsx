@@ -71,7 +71,7 @@ function Users() {
             <div className={Styles.dropdownorpagination}>
                 <div className={Styles.dropdown}>
                     <div className={Styles.dropdown1}>
-                        <select name="Bulkaction"  className={Styles.dropdownbox}>
+                        <select name="Bulkaction" className={Styles.dropdownbox}>
                             <option value="volvo">Bulk Actions</option>
                             <option value="saab">Delete</option>
                             <option value="opel">send password reset</option>
@@ -84,7 +84,7 @@ function Users() {
 
                     </div>
                     <div className={Styles.dropdown2}>
-                    <select name="Bulkaction"  className={Styles.dropdownbox}>
+                        <select name="Bulkaction" className={Styles.dropdownbox}>
                             <option value="Change role to">Change role to....</option>
                             <option value="Shop manager">Shop manager</option>
                             <option value="Customer">Customer</option>
@@ -105,13 +105,45 @@ function Users() {
                 </div>
                 <div className={Styles.pagination}>
                     <div>7,574 items</div>
-                    <div> </div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    
+                    <div className={Styles.arrow}><span className={Styles.imgstyle}>
+                        <Image
+
+                            src="/icons/leftdouble.svg"
+                            alt="search"
+                            width={10}
+                            height={10}
+                        />
+                    </span></div>
+                    <div className={Styles.arrow}><span className={Styles.imgstyle}>
+                        <Image
+                            src="/icons/leftsingle.svg"
+
+                            alt="search"
+                            width={10}
+                            height={10}
+                        />
+                    </span></div>
+                    <div> <input type="text" className={Styles.count} placeholder='1' /></div>
+                    <div>  of  379</div>
+                    <div className={Styles.arrow}><span className={Styles.imgstyle}>
+                        <Image
+                            src="/icons/rightarrow-single.svg"
+
+                            alt="search"
+                            width={10}
+                            height={10}
+                        />
+                    </span></div>
+                    <div className={Styles.arrow}><span className={Styles.imgstyle}>
+                        <Image
+                            src="/icons/rightarrow-double.svg"
+
+                            alt="search"
+                            width={10}
+                            height={10}
+                        />
+                    </span></div>
+
 
                 </div>
 
@@ -119,370 +151,370 @@ function Users() {
 
             </div>
             <div className={Styles.userdetail}>
-            <table className={Styles.tables}>
+                <table className={Styles.tables}>
                     <tbody>
-                      <tr>
-                        <th><input type="checkbox"  /></th>
-                        <th>User Name</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Posts</th>
-                       
-                      </tr>
-                     
-                      <tr >
-                              <td>
-                              <input type="checkbox"  />
-                 
-                                
-                              </td>
-                              <td>
+                        <tr>
+                            <th><input type="checkbox" /></th>
+                            <th>User Name</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Posts</th>
+
+                        </tr>
+
+                        <tr >
+                            <td>
+                                <input type="checkbox" />
+
+
+                            </td>
+                            <td>
                                 <div className={Styles.username}>
-                                    <span>
-                              <Image
-                src="/icons/profile.png"
-                alt="search"
-                width={32}
-                height={32}
-              />
-              </span>
-              <span>161899</span>
-              </div>
-                                
-                              </td>
-                              <td>
+                                    <span className={Styles.imgstyle}>
+                                        <Image
+                                            src="/icons/profile.png"
+                                            alt="search"
+                                            width={32}
+                                            height={32}
+                                        />
+                                    </span>
+                                    <span>161899</span>
+                                </div>
+
+                            </td>
+                            <td>
                                 -
-                              </td>
-                              <td className={Styles.email}>
-                              161899@archibel.be
-                              </td>
-                              <td>
-                              Customer
-                                
-                              </td>
-                              <td >
-                              0
-                              </td>
-                             
-                            </tr>
-                            <tr >
-                              <td>
-                              <input type="checkbox"  />
-                 
-                                
-                              </td>
-                              <td>
+                            </td>
+                            <td className={Styles.email}>
+                                161899@archibel.be
+                            </td>
+                            <td>
+                                Customer
+
+                            </td>
+                            <td >
+                                0
+                            </td>
+
+                        </tr>
+                        <tr >
+                            <td>
+                                <input type="checkbox" />
+
+
+                            </td>
+                            <td>
                                 <div className={Styles.username}>
-                                    <span>
-                              <Image
-                src="/icons/profile.png"
-                alt="search"
-                width={32}
-                height={32}
-              />
-              </span>
-              <span>161899</span>
-              </div>
-                                
-                              </td>
-                              <td>
+                                    <span className={Styles.imgstyle}>
+                                        <Image
+                                            src="/icons/profile.png"
+                                            alt="search"
+                                            width={32}
+                                            height={32}
+                                        />
+                                    </span>
+                                    <span>161899</span>
+                                </div>
+
+                            </td>
+                            <td>
                                 -
-                              </td>
-                              <td className={Styles.email}>
-                              161899@archibel.be
-                              </td>
-                              <td>
-                              Customer
-                                
-                              </td>
-                              <td >
-                              0
-                              </td>
-                             
-                            </tr>
-                            <tr >
-                              <td>
-                              <input type="checkbox"  />
-                 
-                                
-                              </td>
-                              <td>
+                            </td>
+                            <td className={Styles.email}>
+                                161899@archibel.be
+                            </td>
+                            <td>
+                                Customer
+
+                            </td>
+                            <td >
+                                0
+                            </td>
+
+                        </tr>
+                        <tr >
+                            <td>
+                                <input type="checkbox" />
+
+
+                            </td>
+                            <td>
                                 <div className={Styles.username}>
-                                    <span>
-                              <Image
-                src="/icons/profile.png"
-                alt="search"
-                width={32}
-                height={32}
-              />
-              </span>
-              <span>161899</span>
-              </div>
-                                
-                              </td>
-                              <td>
+                                    <span className={Styles.imgstyle}>
+                                        <Image
+                                            src="/icons/profile.png"
+                                            alt="search"
+                                            width={32}
+                                            height={32}
+                                        />
+                                    </span>
+                                    <span>161899</span>
+                                </div>
+
+                            </td>
+                            <td>
                                 -
-                              </td>
-                              <td className={Styles.email}>
-                              161899@archibel.be
-                              </td>
-                              <td>
-                              Customer
-                                
-                              </td>
-                              <td >
-                              0
-                              </td>
-                             
-                            </tr>
-                            <tr >
-                              <td>
-                              <input type="checkbox"  />
-                 
-                                
-                              </td>
-                              <td>
+                            </td>
+                            <td className={Styles.email}>
+                                161899@archibel.be
+                            </td>
+                            <td>
+                                Customer
+
+                            </td>
+                            <td >
+                                0
+                            </td>
+
+                        </tr>
+                        <tr >
+                            <td>
+                                <input type="checkbox" />
+
+
+                            </td>
+                            <td>
                                 <div className={Styles.username}>
-                                    <span>
-                              <Image
-                src="/icons/profile.png"
-                alt="search"
-                width={32}
-                height={32}
-              />
-              </span>
-              <span>161899</span>
-              </div>
-                                
-                              </td>
-                              <td>
+                                    <span className={Styles.imgstyle}>
+                                        <Image
+                                            src="/icons/profile.png"
+                                            alt="search"
+                                            width={32}
+                                            height={32}
+                                        />
+                                    </span>
+                                    <span>161899</span>
+                                </div>
+
+                            </td>
+                            <td>
                                 -
-                              </td>
-                              <td className={Styles.email}>
-                              161899@archibel.be
-                              </td>
-                              <td>
-                              Customer
-                                
-                              </td>
-                              <td >
-                              0
-                              </td>
-                             
-                            </tr>
-                            <tr >
-                              <td>
-                              <input type="checkbox"  />
-                 
-                                
-                              </td>
-                              <td>
+                            </td>
+                            <td className={Styles.email}>
+                                161899@archibel.be
+                            </td>
+                            <td>
+                                Customer
+
+                            </td>
+                            <td >
+                                0
+                            </td>
+
+                        </tr>
+                        <tr >
+                            <td>
+                                <input type="checkbox" />
+
+
+                            </td>
+                            <td>
                                 <div className={Styles.username}>
-                                    <span>
-                              <Image
-                src="/icons/profile.png"
-                alt="search"
-                width={32}
-                height={32}
-              />
-              </span>
-              <span>161899</span>
-              </div>
-                                
-                              </td>
-                              <td>
+                                    <span className={Styles.imgstyle}>
+                                        <Image
+                                            src="/icons/profile.png"
+                                            alt="search"
+                                            width={32}
+                                            height={32}
+                                        />
+                                    </span>
+                                    <span>161899</span>
+                                </div>
+
+                            </td>
+                            <td>
                                 -
-                              </td>
-                              <td className={Styles.email}>
-                              161899@archibel.be
-                              </td>
-                              <td>
-                              Customer
-                                
-                              </td>
-                              <td >
-                              0
-                              </td>
-                             
-                            </tr>
-                            <tr >
-                              <td>
-                              <input type="checkbox"  />
-                 
-                                
-                              </td>
-                              <td>
+                            </td>
+                            <td className={Styles.email}>
+                                161899@archibel.be
+                            </td>
+                            <td>
+                                Customer
+
+                            </td>
+                            <td >
+                                0
+                            </td>
+
+                        </tr>
+                        <tr >
+                            <td>
+                                <input type="checkbox" />
+
+
+                            </td>
+                            <td>
                                 <div className={Styles.username}>
-                                    <span>
-                              <Image
-                src="/icons/profile.png"
-                alt="search"
-                width={32}
-                height={32}
-              />
-              </span>
-              <span>161899</span>
-              </div>
-                                
-                              </td>
-                              <td>
+                                    <span className={Styles.imgstyle}>
+                                        <Image
+                                            src="/icons/profile.png"
+                                            alt="search"
+                                            width={32}
+                                            height={32}
+                                        />
+                                    </span>
+                                    <span>161899</span>
+                                </div>
+
+                            </td>
+                            <td>
                                 -
-                              </td>
-                              <td className={Styles.email}>
-                              161899@archibel.be
-                              </td>
-                              <td>
-                              Customer
-                                
-                              </td>
-                              <td >
-                              0
-                              </td>
-                             
-                            </tr>
-                            <tr >
-                              <td>
-                              <input type="checkbox"  />
-                 
-                                
-                              </td>
-                              <td>
+                            </td>
+                            <td className={Styles.email}>
+                                161899@archibel.be
+                            </td>
+                            <td>
+                                Customer
+
+                            </td>
+                            <td >
+                                0
+                            </td>
+
+                        </tr>
+                        <tr >
+                            <td>
+                                <input type="checkbox" />
+
+
+                            </td>
+                            <td>
                                 <div className={Styles.username}>
-                                    <span>
-                              <Image
-                src="/icons/profile.png"
-                alt="search"
-                width={32}
-                height={32}
-              />
-              </span>
-              <span>161899</span>
-              </div>
-                                
-                              </td>
-                              <td>
+                                    <span className={Styles.imgstyle}>
+                                        <Image
+                                            src="/icons/profile.png"
+                                            alt="search"
+                                            width={32}
+                                            height={32}
+                                        />
+                                    </span>
+                                    <span>161899</span>
+                                </div>
+
+                            </td>
+                            <td>
                                 -
-                              </td>
-                              <td className={Styles.email}>
-                              161899@archibel.be
-                              </td>
-                              <td>
-                              Customer
-                                
-                              </td>
-                              <td >
-                              0
-                              </td>
-                             
-                            </tr>
-                            <tr >
-                              <td>
-                              <input type="checkbox"  />
-                 
-                                
-                              </td>
-                              <td>
+                            </td>
+                            <td className={Styles.email}>
+                                161899@archibel.be
+                            </td>
+                            <td>
+                                Customer
+
+                            </td>
+                            <td >
+                                0
+                            </td>
+
+                        </tr>
+                        <tr >
+                            <td>
+                                <input type="checkbox" />
+
+
+                            </td>
+                            <td>
                                 <div className={Styles.username}>
-                                    <span>
-                              <Image
-                src="/icons/profile.png"
-                alt="search"
-                width={32}
-                height={32}
-              />
-              </span>
-              <span>161899</span>
-              </div>
-                                
-                              </td>
-                              <td>
+                                    <span className={Styles.imgstyle}>
+                                        <Image
+                                            src="/icons/profile.png"
+                                            alt="search"
+                                            width={32}
+                                            height={32}
+                                        />
+                                    </span>
+                                    <span>161899</span>
+                                </div>
+
+                            </td>
+                            <td>
                                 -
-                              </td>
-                              <td className={Styles.email}>
-                              161899@archibel.be
-                              </td>
-                              <td>
-                              Customer
-                                
-                              </td>
-                              <td >
-                              0
-                              </td>
-                             
-                            </tr>
-                            <tr >
-                              <td>
-                              <input type="checkbox"  />
-                 
-                                
-                              </td>
-                              <td>
+                            </td>
+                            <td className={Styles.email}>
+                                161899@archibel.be
+                            </td>
+                            <td>
+                                Customer
+
+                            </td>
+                            <td >
+                                0
+                            </td>
+
+                        </tr>
+                        <tr >
+                            <td>
+                                <input type="checkbox" />
+
+
+                            </td>
+                            <td>
                                 <div className={Styles.username}>
-                                    <span>
-                              <Image
-                src="/icons/profile.png"
-                alt="search"
-                width={32}
-                height={32}
-              />
-              </span>
-              <span>161899</span>
-              </div>
-                                
-                              </td>
-                              <td>
+                                    <span className={Styles.imgstyle}>
+                                        <Image
+                                            src="/icons/profile.png"
+                                            alt="search"
+                                            width={32}
+                                            height={32}
+                                        />
+                                    </span>
+                                    <span>161899</span>
+                                </div>
+
+                            </td>
+                            <td>
                                 -
-                              </td>
-                              <td className={Styles.email}>
-                              161899@archibel.be
-                              </td>
-                              <td>
-                              Customer
-                                
-                              </td>
-                              <td >
-                              0
-                              </td>
-                             
-                            </tr>
-                            <tr >
-                              <td>
-                              <input type="checkbox"  />
-                 
-                                
-                              </td>
-                              <td>
+                            </td>
+                            <td className={Styles.email}>
+                                161899@archibel.be
+                            </td>
+                            <td>
+                                Customer
+
+                            </td>
+                            <td >
+                                0
+                            </td>
+
+                        </tr>
+                        <tr >
+                            <td>
+                                <input type="checkbox" />
+
+
+                            </td>
+                            <td>
                                 <div className={Styles.username}>
-                                    <span>
-                              <Image
-                src="/icons/profile.png"
-                alt="search"
-                width={32}
-                height={32}
-              />
-              </span>
-              <span>161899</span>
-              </div>
-                                
-                              </td>
-                              <td>
+                                    <span className={Styles.imgstyle}>
+                                        <Image
+                                            src="/icons/profile.png"
+                                            alt="search"
+                                            width={32}
+                                            height={32}
+                                        />
+                                    </span>
+                                    <span>161899</span>
+                                </div>
+
+                            </td>
+                            <td>
                                 -
-                              </td>
-                              <td className={Styles.email}>
-                              161899@archibel.be
-                              </td>
-                              <td>
-                              Customer
-                                
-                              </td>
-                              <td >
-                              0
-                              </td>
-                             
-                            </tr>
+                            </td>
+                            <td className={Styles.email}>
+                                161899@archibel.be
+                            </td>
+                            <td>
+                                Customer
+
+                            </td>
+                            <td >
+                                0
+                            </td>
+
+                        </tr>
                     </tbody>
-                  </table>
+                </table>
             </div>
 
         </div>

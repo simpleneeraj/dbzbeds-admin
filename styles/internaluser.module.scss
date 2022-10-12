@@ -1,0 +1,194 @@
+.containerbox {
+    padding: 20px;
+    width: 100%;
+    background: #f0f0f1;
+    height: 100vh;
+    overflow: auto;
+
+    h1 {
+        color: #1d2327;
+        font-size: 1.3em;
+        font-weight: 600;
+    }
+
+    .useraddnew {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+
+        .addnew {
+
+            button {
+                padding: 4px 8px;
+                border: 1px solid #2271b1;
+                border-radius: 2px;
+                text-shadow: none;
+                font-weight: 600;
+                font-size: 13px;
+                line-height: normal;
+                color: #2271b1;
+                background: #f6f7f7;
+                cursor: pointer;
+            }
+
+        }
+    }
+
+    .data {
+        .tables {
+            border-collapse: collapse;
+            margin-top: 0.5em;
+            width: 100%;
+            font-size: 14px;
+
+            tr {
+                th {
+                    vertical-align: top;
+                    text-align: left;
+                    padding: 20px 10px 20px 0;
+                    width: 300px;
+                    line-height: 1.3;
+                    font-weight: 600;
+                    color: #1d2327;
+                }
+
+                td {
+                    margin-bottom: 9px;
+                    padding: 15px 10px;
+                    line-height: 1.3;
+                    vertical-align: middle;
+                    .checkboxstyle{
+                        // padding-right: 5px;
+                        margin-right: 5px;
+
+                    }
+
+                    button {
+                        padding: 4px 8px;
+                        border: 1px solid #2271b1;
+                        border-radius: 2px;
+                        text-shadow: none;
+                        font-weight: 600;
+                        font-size: 13px;
+                        line-height: normal;
+                        color: #2271b1;
+                        background: #f6f7f7;
+                        cursor: pointer;
+                        height: 30px;
+                    }
+
+                    .textbox {
+                        height: 30px;
+                        box-shadow: 0 0 0 transparent;
+                        padding: 0 8px;
+                        border-radius: 4px;
+                        border: 1px solid #8c8f94;
+                        background-color: #fff;
+                        color: #2c3338;
+                        width: 25em;
+                        font-size: 14px;
+                    }
+                    .textbox2 {
+                        height: 30px;
+                        box-shadow: 0 0 0 transparent;
+                        padding: 0 8px;
+                        border-radius: 4px;
+                        border: 1px solid #8c8f94;
+                        background-color: #fff;
+                        color: #2c3338;
+                        width: 15em;
+                        font-size: 14px;
+                    }
+
+                    .textareabox {
+                        width: 500px;
+                        margin-bottom: 6px;
+                        box-shadow: 0 0 0 transparent;
+                        border-radius: 4px;
+                        border: 1px solid #8c8f94;
+                        background-color: #fff;
+                        color: #2c3338;
+                        padding: 2px 6px;
+                        line-height: 1.42857143;
+                        resize: vertical;
+                        font-size: 14px;
+                        height: 100px;
+                    }
+
+                    .instruction {
+                        font-size: 14px;
+                        margin: 2px 0 5px;
+                        color: #646970;
+                    }
+                    .description{
+                        font-size: 14px;
+                        margin: 2px 0 5px;
+                        color: #646970;
+                        margin-top: 4px;
+
+                    }
+                }
+
+            }
+
+        }
+        .customerdetail{
+            h1{
+                color: #1d2327;
+    font-size: 1.3em;
+    margin: 1em 0;
+            }
+            p{
+                font-size: 13px;
+                margin: 1em 0;
+            }
+          
+        }
+    }
+    .applicationpassword{
+        p{
+            font-size: 13px;
+            
+            margin: 1em 0;
+        }
+    }
+    .submitdetail{
+        margin-top: 20px;
+        button{
+            background: #2271b1;
+    color: #fff;
+    font-size: 13px;
+    margin: 0;
+    padding: 0 10px;
+    cursor: pointer;
+    height: 30px;
+    
+    border: 1px solid #2271b1;
+    border-radius: 4px;
+
+        }
+    }
+
+    .signupheading{
+        color: #1d2327;
+    font-size: 1.3em;
+    margin: 1em 0;
+    margin-bottom: 2em;
+    }
+}
+
+.dropdownbox {
+    height: 30px;
+    background-size: 16px 16px;
+    cursor: pointer;
+    vertical-align: middle;
+    font-size: 14px;
+    line-height: 2;
+    color: #2c3338;
+    border-color: #8c8f94;
+    box-shadow: none;
+    border-radius: 3px;
+    padding: 0 24px 0 8px;
+    width: 20em;
+}

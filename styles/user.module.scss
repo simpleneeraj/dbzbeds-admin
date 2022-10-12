@@ -90,6 +90,28 @@
         align-items: center;
         justify-content: space-between;
         margin-top: 20px;
+        .pagination{
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+            color: #3c434a;
+            .arrow{
+                border: 1px solid #2271b1;
+    color: #2271b1;
+    background: #f6f7f7;
+    padding: 0px 5px;
+    border-radius: 2px;
+            }
+            .count{
+                width: 40px;
+    padding: 0px 5px;
+    height: 20px;
+    text-align: center;
+    border: 1px solid #2271b1;
+    border-radius: 2px;
+            }
+        }
 
         .dropdown {
             display: flex;
@@ -154,7 +176,7 @@
 
     }
     .userdetail{
-        height: 500px;
+        height: 435px;
         overflow: auto;
         .tables{
             width: 100%;
@@ -184,6 +206,9 @@
                 justify-content: center;
                 font-size: 13px;
                 color: #2271b1;
+                .imgstyle{
+                    margin-right: 5px;
+                }
             }
         }
         .tables tr:nth-child(even){
