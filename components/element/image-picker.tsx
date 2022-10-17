@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import useDeepEffect from "hooks/use-deep-effect";
 import React from "react";
+import { useEffect } from "react";
 import styles from "styles/admin.module.scss";
 import AddMoreButton from "./addmore";
 import Input from "./input";
@@ -37,17 +38,20 @@ function DynamicImagePicker({
             data[index][event.target.name] = event.target.value;
         }
         setInputFields(data);
+        getValue(data);
     };
 
     const addFields = () => {
         let object = { name: "", image: null };
         setInputFields([...inputFields, object]);
+        getValue([...inputFields, object]);
     };
 
     const removeFields = (index: number) => {
         let data = [...inputFields];
         data.splice(index, 1);
         setInputFields(data);
+        getValue(data);
     };
 
     const handleImageURL = (url: string | File) => {
@@ -59,23 +63,17 @@ function DynamicImagePicker({
             }
     };
 
-    useDeepEffect(() => {
-        if (initialValue && initialValue?.length > 0) {
-            setInputFields(initialValue);
-        }
-    }, [initialValue]);
-
-    useDeepEffect(() => {
-        if (inputFields.length > 0) {
-            getValue(inputFields);
-        }
-    }, [inputFields]);
-
     options?.map((item) => {
         if (item?._id) {
             item.value = item._id;
         }
     });
+
+    useEffect(() => {
+        if (initialValue && initialValue?.length > 0) {
+            setInputFields(initialValue);
+        }
+    }, [initialValue]);
 
     return (
         <React.Fragment>

@@ -6,62 +6,61 @@ import { VariantsActions } from "./create";
 import { useFetchBedVariantsById } from "network-requests/queries";
 
 interface UpdateVariantProviderProps {
-  id: string;
+    id: string;
 }
 
 interface IContextType {
-  state: ContextType;
-  dispatch?: any;
+    state: ContextType;
+    dispatch?: any;
 }
 
 const UpdateVariantContext = React.createContext<IContextType>({
-  state: initialState,
-  dispatch: () => initialState,
+    state: initialState,
+    dispatch: () => initialState,
 });
 
 const UpdateVariantProvider = ({
-  id,
-  children,
+    id,
+    children,
 }: React.PropsWithChildren<UpdateVariantProviderProps>) => {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+    const [state, dispatch] = React.useReducer(reducer, initialState);
 
-  const { data, isFetched, refetch } = useFetchBedVariantsById(id);
+    // console.log({ state });
 
-  // const setData = React.useCallback(async () => {
-  //   // const data: any = await getBedVariantById(id);
+    const { data, isFetched } = useFetchBedVariantsById(id);
 
-  // }, [data]);
+    console.log({ data });
 
-  React.useEffect(() => {
-    if (isFetched) {
-      const general = {
-        size: data?.size,
-        image: data?.image,
-        basePrice: data?.price?.basePrice,
-        salePrice: data?.price?.salePrice,
-      };
-      dispatch(VariantsActions.GENERAL(general));
-      dispatch(VariantsActions.COLOR(data?.accessories?.color));
-      dispatch(VariantsActions.HEADBOARD(data?.accessories?.headboard));
-      dispatch(VariantsActions.STORAGE(data?.accessories?.feet));
-      dispatch(VariantsActions.FEET(data?.accessories?.mattress));
-      dispatch(VariantsActions.MATTRESS(data?.accessories?.storage));
-    }
-  }, [data, isFetched]);
+    React.useEffect(() => {
+        if (isFetched && data) {
+            const general = {
+                size: data?.size,
+                image: data?.image,
+                basePrice: data?.price?.basePrice,
+                salePrice: data?.price?.salePrice,
+            };
+            dispatch(VariantsActions.GENERAL(general));
+            dispatch(VariantsActions.COLOR(data?.accessories?.color));
+            dispatch(VariantsActions.HEADBOARD(data?.accessories?.headboard));
+            dispatch(VariantsActions.STORAGE(data?.accessories?.storage));
+            dispatch(VariantsActions.FEET(data?.accessories?.feet));
+            dispatch(VariantsActions.MATTRESS(data?.accessories?.mattress));
+        }
+    }, [data, isFetched]);
 
-  // console.log({ SIMLE: state });
+    console.log({ accessories: data?.accessories });
 
-  return (
-    <UpdateVariantContext.Provider value={{ state, dispatch }}>
-      {children}
-    </UpdateVariantContext.Provider>
-  );
+    return (
+        <UpdateVariantContext.Provider value={{ state, dispatch }}>
+            {children}
+        </UpdateVariantContext.Provider>
+    );
 };
 
 export {
-  actions as UpdateVariantActions,
-  UpdateVariantContext,
-  UpdateVariantProvider,
+    actions as UpdateVariantActions,
+    UpdateVariantContext,
+    UpdateVariantProvider,
 };
 
 // dispatch({

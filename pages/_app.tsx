@@ -12,35 +12,37 @@ import { ReactQueryDevtools } from "react-query/devtools";
  */
 
 function RootApp({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout ?? ((page: any) => page);
+    const getLayout = Component.getLayout ?? ((page: any) => page);
 
-  const [queryClient] = React.useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            refetchOnReconnect: true,
-            retry: false,
-            refetchOnMount: false,
-            refetchOnWindowFocus: false,
-          },
-        },
-      })
-  );
+    const [queryClient] = React.useState(
+        () =>
+            new QueryClient({
+                defaultOptions: {
+                    queries: {
+                        refetchOnReconnect: true,
+                        retry: false,
+                        refetchOnMount: false,
+                        refetchOnWindowFocus: false,
+                        staleTime: 0,
+                        cacheTime: 0,
+                    },
+                },
+            })
+    );
 
-  return getLayout(
-    <Provider store={store}>
-      <Layout>
-        <QueryClientProvider client={queryClient}>
-          {/* @ts-ignore */}
-          <Hydrate state={pageProps.dehydratedState}>
-            <Component {...pageProps} />
-            <ReactQueryDevtools initialIsOpen={false} />
-          </Hydrate>
-        </QueryClientProvider>
-      </Layout>
-    </Provider>
-  );
+    return getLayout(
+        <Provider store={store}>
+            <Layout>
+                <QueryClientProvider client={queryClient}>
+                    {/* @ts-ignore */}
+                    <Hydrate state={pageProps.dehydratedState}>
+                        <Component {...pageProps} />
+                        <ReactQueryDevtools initialIsOpen={false} />
+                    </Hydrate>
+                </QueryClientProvider>
+            </Layout>
+        </Provider>
+    );
 }
 export default RootApp;
 
