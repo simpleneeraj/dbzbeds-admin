@@ -134,7 +134,7 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 50%;
+          // border-radius: 50%;
           overflow: hidden;
           border-radius: 4px;
         }
@@ -151,17 +151,79 @@
     padding-right: 30px;
     padding-left: 30px;
     margin-top: 1rem;
+    display: flex;
     // height: 100vh;
+    .devide {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .free_ship {
+        background-color: white;
+        padding: 23px 24px 8px 24px;
+        margin-top: 15px;
+        display: flex;
+
+        tr {
+          p {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 3rem 0 1rem;
+          }
+          flex: 1;
+        }
+      }
+      .Order_subtotal {
+        background: #f2f1f1;
+        line-height: 2.5;
+        font-size: 13px;
+        .subtotal_paid {
+          float: right;
+          text-align: right;
+          padding: 20px;
+          width: 50%;
+          border-bottom: 2px solid #9f9f9f;
+        }
+        .total_paid {
+          width: 100%;
+          float: right;
+          text-align: right;
+          padding: 20px;
+          border-bottom: 1px solid #dfdfdf;
+        }
+        .refund_button {
+          display: flex;
+          width: 100%;
+
+          p {
+            display: flex;
+            justify-content: space-between;
+            flex: 1;
+            padding: 30px;
+            button {
+              height: 2rem;
+              padding: 0 15px;
+              border: 1px solid #0a4b78;
+              border-radius: 4px;
+            }
+          }
+        }
+      }
+    }
     .mainheading {
-      font-size: 30px;
-      font-weight: 500;
       background: #fff;
-      padding: 10px 30px;
+      padding: 23px 24px 12px 24px;
       box-shadow: 2px 2px 1px #f1f5f9;
       border: 1px solid #e5e5e5;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      h1 {
+        font-size: 21px;
+        font-weight: 400;
+        font-family: sans-serif;
+      }
+      p {
+        font-size: 16px;
+        line-height: 1.6em;
+      }
     }
   }
 }
@@ -319,6 +381,7 @@
   }
 }
 // -----------------------------------------
+.mainheading,
 .singleorderpage {
   background: #fff;
   padding: 30px 30px;
@@ -341,7 +404,57 @@
   .orderdetails {
     display: flex;
     flex-wrap: wrap;
+    margin: 1.33em 0 0;
+    line-height: 1.4;
+    select {
+      padding-left: 8px;
+      padding-right: 20px;
+      line-height: 28px;
+      font-size: 13px;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      color: #777;
+      width: 90%;
+      min-height: 30px;
+    }
+
+    p {
+      width: 100%;
+    }
+    label {
+      font-size: 13px;
+      line-height: 2.5;
+      display: flex;
+      justify-content: space-between;
+      a {
+        margin-right: 10px;
+      }
+    }
+    input {
+      padding: 0 8px;
+      line-height: 2;
+      min-height: 30px;
+      vertical-align: middle;
+      border: 1px solid #8c8f94;
+      border-radius: 4px;
+    }
+    .hours,
+    .minutes {
+      width: 3.5em;
+    }
+    .Billingbox {
+      span {
+        width: 100%;
+        display: flex;
+        font-size: 13px;
+        color: #777;
+        a {
+          color: #2271b1 !important;
+        }
+      }
+    }
   }
+
   .box {
     .outerbox {
       display: flex;
@@ -355,68 +468,47 @@
 }
 
 .orderdetails {
-  .wdheading {
-    font-size: 20px;
-    font-weight: 500;
-    margin-bottom: 10px;
-  }
-  ul {
-    margin: 0;
-    padding: 0;
-    font-size: 15px;
-    line-height: 1.8em;
-    color: #766f6f;
-  }
   .swdheading {
     font-size: 15px;
     font-weight: 500;
+    line-height: 1.4;
   }
   .texttrp {
     color: transparent;
     opacity: 0;
   }
 }
-
-// -------------------------------------------
 .productdetailslist {
-  border-top: 1px solid #e5e5e5;
-  margin-top: 30px;
-  padding-top: 30px;
-  margin-left: -30px;
-  margin-right: -30px;
-  padding-left: 30px;
-  padding-right: 30px;
-  padding-bottom: 30px;
+  line-height: 3;
+  font-size: 13px;
   table {
     width: 100%;
-    thead {
-      background: #1e293b;
-      color: #fff;
-      font-size: 20px;
+    text-align: left;
+    tr {
       th {
-        padding: 10px 15px;
+        padding: 0 0 0 5px;
       }
-    }
-    .woocmproduct {
-      tr {
-        border-bottom: 1px solid #e5e5e5;
-        padding: 6px 0px;
-        td {
-          padding: 10px 15px;
-          font-size: 14px;
-          .productimage {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            .image {
-              width: 30px;
-              height: 30px;
-              border-radius: 4px;
-            }
-          }
+      td {
+        padding: 0 0 0 5px;
+        img {
+          height: 90px;
+          width: 120px;
+          margin-top: 15px;
         }
       }
     }
+  }
+  .total_cal {
+    background-color: #0f172a;
+    line-height: 4;
+    color: white;
+    width: 100%;
+  }
+  td {
+    border-bottom: 1px solid #ececec;
+  }
+  .free_ship {
+    margin-top: 10px;
   }
 }
 
@@ -627,6 +719,84 @@
       &:hover {
         background: #90caf9;
         border: 2px solid #90caf9;
+      }
+    }
+  }
+}
+
+// Order page right column
+.containerbox {
+  .order_Action {
+    background-color: white;
+    min-width: 260px;
+    border: 1px solid #e5e5e5;
+    padding: 23px 24px 12px 24px;
+    margin-top: 15px;
+    box-shadow: 2px 2px 1px #f1f5f9;
+    margin-left: 20px;
+    height: max-content;
+    line-height: 2.5;
+    h2 {
+      font-size: 14px;
+    }
+    .action_Select {
+      select {
+        min-height: 30px;
+        padding: 0px 24px 0px 8px;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+      }
+    }
+    .action_update {
+      display: flex;
+      justify-content: space-between;
+      .left_link {
+        a {
+          font-size: 13px;
+          color: #b32d2e !important;
+        }
+      }
+      .right_update_button {
+        button {
+          font-size: 13px;
+          min-height: 30px;
+          padding: 0 10px;
+          background-color: #135e96;
+          color: white;
+          border: 1px solid #135e96;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+  .action_parent {
+    .Order_printing {
+      padding: 18px 24px 18px 24px;
+      background-color: white;
+      margin: 20px 0 0 20px;
+      border: 1px solid #e5e5e5;
+      box-shadow: 2px #f1f5f9;
+      h2 {
+        font-size: 14px;
+      }
+    }
+    .printing_buttons {
+      padding: 13px 24px 13px 24px;
+      background-color: white;
+      margin: 0 0 0 20px;
+      button {
+        height: 30px;
+        margin-left: 15px;
+        padding: 0 15px;
+        border-radius: 4px;
+        border: 1px solid #2271b1;
+        color: #2271b1;
+        background-color: #f6f7f7;
+      }
+      span {
+        button {
+          margin-top: 10px;
+        }
       }
     }
   }
