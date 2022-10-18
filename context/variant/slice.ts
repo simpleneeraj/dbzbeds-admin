@@ -10,11 +10,7 @@ export const init = {
     storage: [],
 };
 
-const {
-    initialState,
-    reducer,
-    actions,
-} = slicer<ContextType>({
+const { initialState, reducer, actions } = slicer<ContextType>({
     initialState: init,
     reducer: {
         ["GENERAL"]: (state: StateTypes, action: ActionTypes) => {
@@ -59,5 +55,4 @@ const {
     },
 });
 
-
-export { initialState, reducer, actions }
+export { initialState, reducer, actions };

@@ -24,28 +24,30 @@ function DynamicInputFields({
     initialValue,
     label,
 }: DynamicInputProps) {
-    const [inputFields, setInputFields] = useState<InputFields[]>([
-        { name: "", price: "" },
-    ]);
+    const [inputFields, setInputFields] = useState<InputFields[]>([]);
 
     const handleFormChange = (
         index: number,
         event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
     ) => {
+        console.log({ event });
         let data = [...inputFields] as any;
         data[index][event.target.name] = event.target.value;
         setInputFields(data);
+        getValue(data);
     };
 
     const addFields = () => {
         let object = { name: "", price: "" };
         setInputFields([...inputFields, object]);
+        getValue([...inputFields, object]);
     };
 
     const removeFields = (index: number) => {
         let data = [...inputFields];
         data.splice(index, 1);
         setInputFields(data);
+        getValue(data);
     };
 
     useEffect(() => {
@@ -54,15 +56,13 @@ function DynamicInputFields({
         }
     }, [initialValue]);
 
-    useEffect(() => {
-        getValue(inputFields);
-    }, [inputFields]);
-
     options?.map((item) => {
         if (item?._id) {
             item.value = item._id;
         }
     });
+
+    console.log({ initialValue, inputFields, options });
 
     return (
         <React.Fragment>
@@ -70,6 +70,7 @@ function DynamicInputFields({
             {title && <h1 className={styles.heading}>{title}</h1>}
             <div className={styles.grid}>
                 {inputFields.map((data: any, index: number) => {
+                    console.log({ check: data });
                     return (
                         <React.Fragment key={index}>
                             <Select
