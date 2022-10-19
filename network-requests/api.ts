@@ -9,6 +9,7 @@ import {
     BedWithSize,
     CreateBedVariantResponse,
     GetAllBedsParams,
+    Order,
     UploadBedImage,
     VariantsTypes,
 } from "./types";
@@ -279,6 +280,16 @@ export const deleteBedVariantById = (
 export const deleteIconById = (id: string): Promise<CreateBedVariantResponse> =>
     axios
         .delete(`/icons/accessories/${id}`)
+        .then((response) => response.data)
+        .catch((error) => {
+            throw error;
+        });
+
+//get all orders
+
+export const getAllOrders = (): Promise<Order[]> =>
+    axios
+        .get<Order[]>(`/order`)
         .then((response) => response.data)
         .catch((error) => {
             throw error;

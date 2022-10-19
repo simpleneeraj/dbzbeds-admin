@@ -101,7 +101,6 @@ type ColorIcon = {
     image: File;
     type: string;
     size: string;
-
 };
 type UpdateColorIcon = {
     id: string;
@@ -110,8 +109,6 @@ type UpdateColorIcon = {
     image: File;
     type: string;
     size: string;
-
-
 };
 
 interface Accessories {
@@ -121,4 +118,56 @@ interface Accessories {
     type: string;
     image: string;
     size: string;
+}
+
+interface Order {
+    orderId: Number;
+    _id: string;
+    user: {
+        firstName: string;
+        lastName: string;
+        email: string;
+        phone: string;
+    };
+    orderItems: {
+        name: string;
+        size: string;
+        quantity: number;
+        accessories: any[];
+        price: number;
+        image: string;
+    }[];
+    shippingAddress?:
+        | {
+              address?: string | undefined;
+              townCity?: string | undefined;
+              postalCode?: string | undefined;
+              country?: string | undefined;
+              companyName?: string | undefined;
+          }
+        | undefined;
+    totalPrice: number;
+
+    payment?:
+        | {
+              paymentMethod: string;
+              status: string;
+              paymentResult?:
+                  | {
+                        id?: string | undefined;
+                        status?: string | undefined;
+                        update_time?: string | undefined;
+                        email_address?: string | undefined;
+                    }
+                  | undefined;
+          }
+        | undefined;
+
+    orderNotes?: string | undefined;
+
+    isDelivered?: boolean | undefined;
+    deliveredAt?: string | undefined;
+
+    createdAt?: string | undefined;
+    updatedAt?: string | undefined;
 }
