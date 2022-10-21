@@ -17,6 +17,13 @@ interface AccessoriesTypes {
     headboard?: ProductType[];
     mattress?: ProductType[];
 }
+interface AccessoriesOrderTypes {
+    color?: ProductType;
+    storage?: ProductType;
+    feet?: ProductType;
+    headboard?: ProductType;
+    mattress?: ProductType;
+}
 interface VariantsTypes {
     _id?: string;
     image: string | null;
@@ -120,6 +127,14 @@ interface Accessories {
     size: string;
 }
 
+export interface OrderItems {
+    name: string;
+    size: string;
+    quantity: number;
+    accessories: AccessoriesOrderTypes;
+    price: number;
+    image: string;
+}
 interface Order {
     orderId: Number;
     _id: string;
@@ -129,14 +144,7 @@ interface Order {
         email: string;
         phone: string;
     };
-    orderItems: {
-        name: string;
-        size: string;
-        quantity: number;
-        accessories: any[];
-        price: number;
-        image: string;
-    }[];
+    orderItems: OrderItems[];
     shippingAddress?:
         | {
               address?: string | undefined;

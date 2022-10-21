@@ -11,6 +11,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
     "axios": "^1.1.2",
+    "date-fns": "^2.29.3",
     "dequal": "^2.0.3",
     "http-proxy": "^1.18.1",
     "mini-state": "^1.20.0",

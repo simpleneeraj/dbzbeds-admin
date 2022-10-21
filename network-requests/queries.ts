@@ -11,6 +11,7 @@ import {
     getIconAllByTypeAndSize,
     getIconById,
     getIconsByType,
+    getOrderById,
 } from "./api";
 import {
     Accessories,
@@ -134,4 +135,10 @@ export const useFetchAllIcons = () =>
 export const useFetchAllOrders = () =>
     useQuery("orders", (): Promise<Order[]> => getAllOrders(), {
         refetchOnMount: false,
+    });
+
+export const useFetchOrderById = (id: string) =>
+    useQuery(["order", id], (): Promise<Order> => getOrderById(id), {
+        refetchOnMount: false,
+        enabled: !!id,
     });

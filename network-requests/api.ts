@@ -294,3 +294,11 @@ export const getAllOrders = (): Promise<Order[]> =>
         .catch((error) => {
             throw error;
         });
+
+export const getOrderById = (id: string): Promise<Order> =>
+    axios
+        .get<Order>(`/order/${id}`)
+        .then((response) => response.data)
+        .catch((error) => {
+            throw error;
+        });
