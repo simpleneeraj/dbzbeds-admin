@@ -7,6 +7,7 @@ import DashboardHeader from "layout/header";
 import dynamic from "next/dynamic";
 import { useFetchOrderById } from "network-requests/queries";
 import { format } from "date-fns";
+import { useUpdateOrderStatus } from "network-requests/mutations";
 const ProductDetails = dynamic(
     () => import("components/order/product-details"),
     {
@@ -17,14 +18,33 @@ const ItemSubtotal = dynamic(() => import("components/order/item-subtotal"), {
     ssr: false,
 });
 
+const paymentOptions = [
+    { label: "Pending Payment", value: "PENDING_PAYMENT" },
+    { label: "Processing", value: "PROCESSING" },
+    { label: "On Hold", value: "ON_HOLD" },
+    { label: "Completed", value: "COMPLETED" },
+    { label: "Canacelled", value: "CANCELLED" },
+    { label: "Refunded", value: "REFUNDED" },
+    { label: "Failed", value: "FAILED" },
+    { label: "Pending", value: "PENDING" },
+    { label: "Delivered", value: "DELIVERED" },
+    { label: "Draft", value: "DRAFT" },
+];
+
 function SingleOrderPreview() {
     const router = useRouter();
     const { id } = router.query;
 
     const { data, isLoading } = useFetchOrderById(id as string);
+    const { mutate } = useUpdateOrderStatus(id as string);
 
     const [orderDate, setOrderDate] = React.useState("");
     const [paymentStatus, setPaymentStatus] = React.useState("");
+
+    const handleOrderStatus = (e: any) => {
+        mutate({ status: e.target.value });
+        setPaymentStatus(e.target.value);
+    };
 
     React.useEffect(() => {
         if (data) {
@@ -91,39 +111,18 @@ function SingleOrderPreview() {
                                                 name="order_status"
                                                 className={styles.select_status}
                                                 value={paymentStatus}
-                                                onChange={(e) =>
-                                                    setPaymentStatus(
-                                                        e.target.value
-                                                    )
-                                                }
+                                                onChange={handleOrderStatus}
                                             >
-                                                <option value="status-payment">
-                                                    Pending payment
-                                                </option>
-                                                <option value="Processing">
-                                                    Processing
-                                                </option>
-                                                <option value="status-hold">
-                                                    On hold
-                                                </option>
-                                                <option value="status-Completed">
-                                                    Completed
-                                                </option>
-                                                <option value="status-Cancelled">
-                                                    Cancelled
-                                                </option>
-                                                <option value="status-Refunded">
-                                                    Refunded
-                                                </option>
-                                                <option value="status-failed">
-                                                    failed
-                                                </option>
-                                                <option value="status-Delivered">
-                                                    Delivered
-                                                </option>
-                                                <option value="status-Draft">
-                                                    Draft
-                                                </option>
+                                                {paymentOptions?.map((item) => {
+                                                    return (
+                                                        <option
+                                                            key={item?.value}
+                                                            value={item?.value}
+                                                        >
+                                                            {item?.label}
+                                                        </option>
+                                                    );
+                                                })}
                                             </select>
                                             <span></span>
                                         </div>

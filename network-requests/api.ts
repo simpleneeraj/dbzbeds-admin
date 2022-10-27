@@ -302,3 +302,13 @@ export const getOrderById = (id: string): Promise<Order> =>
         .catch((error) => {
             throw error;
         });
+
+export const updateOrderStatus = (id: string, status: string): Promise<any> =>
+    axios
+        .patch<CreateBedVariantResponse>(`/order/update-status/${id}`, {
+            status,
+        })
+        .then((response) => response.data)
+        .catch((error) => {
+            throw error;
+        });

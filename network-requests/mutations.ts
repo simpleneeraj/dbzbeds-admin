@@ -10,6 +10,7 @@ import {
     updateBedById,
     updateBedVariantById,
     login,
+    updateOrderStatus,
 } from "./api";
 import {
     BedRequestPayload,
@@ -23,6 +24,10 @@ import {
 //AUTH MUTATIONS
 export const useLogin = () => {
     return useMutation(({ email, password }: any) => login(email, password));
+};
+
+export const useUpdateOrderStatus = (id: string) => {
+    return useMutation(({ status }: any) => updateOrderStatus(id, status));
 };
 
 //CREATE MUTATIONS
