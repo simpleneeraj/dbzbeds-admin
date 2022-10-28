@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "styles/order.module.scss";
 import DashboardHeader from "layout/header";
 import { VariantsActions } from "context/variant/create";
@@ -47,6 +47,7 @@ const Create = () => {
     const router = useRouter();
     const id = router.query?.id as string;
     const { mutate } = useUpdateBedVariant(id);
+    const [isDraft, setIsDraft] = useState(false);
 
     const handleProductUpdate = async () => {
         const baseImage =
@@ -92,6 +93,7 @@ const Create = () => {
                     headboard: state.headboard,
                     mattress: state.mattress,
                 },
+                isDraft: isDraft,
             },
             {
                 onSuccess: (data) => {
@@ -102,6 +104,10 @@ const Create = () => {
             }
         );
     };
+
+    useEffect(() => {
+        setIsDraft(state.general?.isDraft);
+    }, [state.general?.isDraft]);
 
     console.log({ headboardInitial: headboard, storage });
 
@@ -119,6 +125,12 @@ const Create = () => {
                             padding: ".5rem",
                         }}
                     >
+                        is draft
+                        <input
+                            type="checkbox"
+                            checked={isDraft}
+                            onChange={(e) => setIsDraft(e.target.checked)}
+                        />
                         <General
                             id={id}
                             getValue={(v) =>
@@ -126,13 +138,11 @@ const Create = () => {
                             }
                             value={general}
                         />
-
                         <Color
                             id={id}
                             getValue={(v) => dispatch(VariantsActions.COLOR(v))}
                             value={color}
                         />
-
                         <HeadBoard
                             id={id}
                             getValue={(v) =>
@@ -140,7 +150,6 @@ const Create = () => {
                             }
                             value={headboard}
                         />
-
                         <Storages
                             id={id}
                             getValue={(v) =>
@@ -148,13 +157,11 @@ const Create = () => {
                             }
                             value={storage}
                         />
-
                         <Feet
                             id={id}
                             getValue={(v) => dispatch(VariantsActions.FEET(v))}
                             value={feet}
                         />
-
                         <Mattress
                             id={id}
                             getValue={(v) =>

@@ -35,6 +35,7 @@ interface VariantsTypes {
     accessories?: AccessoriesTypes;
     createdAt?: string;
     updatedAt?: string;
+    isDraft?: boolean;
 }
 
 type Bed = {
@@ -77,6 +78,7 @@ type BedWithImage = {
     _id?: string;
     name?: string;
     description?: string;
+    isDraft?: boolean;
 
     categories?: string[];
     createdAt?: string;

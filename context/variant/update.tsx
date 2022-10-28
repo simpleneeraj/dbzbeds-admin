@@ -38,6 +38,7 @@ const UpdateVariantProvider = ({
                 image: data?.image,
                 basePrice: data?.price?.basePrice,
                 salePrice: data?.price?.salePrice,
+                isDraft: data?.isDraft,
             };
             dispatch(VariantsActions.GENERAL(general));
             dispatch(VariantsActions.COLOR(data?.accessories?.color));
