@@ -13,166 +13,195 @@ import { useRouter } from "next/router";
 import { useFetchBedById } from "network-requests/queries";
 
 function CreateProduct() {
-  const [activeTab, setActiveTab] = React.useState("Basic");
+    const [activeTab, setActiveTab] = React.useState("Basic");
 
-  const onActiveTab = (value: string) => {
-    setActiveTab(value);
-  };
+    const onActiveTab = (value: string) => {
+        setActiveTab(value);
+    };
 
-  return (
-    <React.Fragment>
-      <Toast />
-      <div className={styles.rightsidebar}>
-        <DashboardHeader />
-        <main className={styles.main}>
-          <div className={styles.containerbox}>
-            <div className={styles.mainheading}>Update Product</div>
-            <div
-              className={` ${styles.tablebox} ${styles.mt2} ${styles.productuploadtabbox}`}
-            >
-              <ul className={styles.productuploadtab}>
-                {productSideTab.slice(0, 1).map(({ text }, index) => {
-                  return (
-                    <li
-                      key={index}
-                      onClick={() => onActiveTab(text)}
-                      className={text === activeTab ? styles.active : ""}
-                    >
-                      {text}
-                    </li>
-                  );
-                })}
-              </ul>
-              <div className={styles.tabbox}>
-                {/* {activeTab} */}
-                <TabsRender
-                  tabName={activeTab}
-                  // onChange={(value: any) => console.log(value)}
-                />
-              </div>
+    return (
+        <React.Fragment>
+            <Toast />
+            <div className={styles.rightsidebar}>
+                <DashboardHeader />
+                <main className={styles.main}>
+                    <div className={styles.containerbox}>
+                        <div className={styles.mainheading}>Update Product</div>
+                        <div
+                            className={` ${styles.tablebox} ${styles.mt2} ${styles.productuploadtabbox}`}
+                        >
+                            <ul className={styles.productuploadtab}>
+                                {productSideTab
+                                    .slice(0, 1)
+                                    .map(({ text }, index) => {
+                                        return (
+                                            <li
+                                                key={index}
+                                                onClick={() =>
+                                                    onActiveTab(text)
+                                                }
+                                                className={
+                                                    text === activeTab
+                                                        ? styles.active
+                                                        : ""
+                                                }
+                                            >
+                                                {text}
+                                            </li>
+                                        );
+                                    })}
+                            </ul>
+                            <div className={styles.tabbox}>
+                                {/* {activeTab} */}
+                                <TabsRender
+                                    tabName={activeTab}
+                                    // onChange={(value: any) => console.log(value)}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </main>
             </div>
-          </div>
-        </main>
-      </div>
-    </React.Fragment>
-  );
+        </React.Fragment>
+    );
 }
 
 export default CreateProduct;
 
 const TabsRender = ({ tabName }: any) => {
-  switch (tabName) {
-    case "Basic":
-      return <Basic />;
-    default:
-      return null;
-  }
+    switch (tabName) {
+        case "Basic":
+            return <Basic />;
+        default:
+            return null;
+    }
 };
 
 const Basic = () => {
-  const router = useRouter();
-  const [bed, setBed] = React.useState({
-    name: "" as string,
-    description: "" as string,
-    categories: [] as string[],
-  });
-  const { data } = useFetchBedById(router.query.id as string);
-  // INITILIZE OLD DATA IN STATE
-  React.useEffect(() => {
-    setBed({
-      name: data?.name as string,
-      description: data?.description as string,
-      categories: data?.categories as string[],
+    const router = useRouter();
+    const [bed, setBed] = React.useState({
+        name: "" as string,
+        description: "" as string,
+        categories: [] as string[],
+        isDraft: false,
     });
-  }, [data]);
+    const { data } = useFetchBedById(router.query.id as string);
+    // INITILIZE OLD DATA IN STATE
+    React.useEffect(() => {
+        setBed({
+            name: data?.name as string,
+            description: data?.description as string,
+            categories: data?.categories as string[],
+            isDraft: data?.isDraft as boolean,
+        });
+    }, [data]);
 
-  //API POST
-  const { mutate, isLoading } = useUpdateBed(router.query?.id as string);
+    //API POST
+    const { mutate, isLoading } = useUpdateBed(router.query?.id as string);
 
-  const handleAddChip = React.useCallback(
-    (value: string[]) => {
-      setBed({ ...bed, categories: value });
-    },
-    [bed]
-  );
-
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setBed({ ...bed, [event.target.name]: event.target.value });
-  };
-
-  const handleBedUpdate = React.useCallback(() => {
-    mutate(
-      {
-        name: bed.name,
-        description: bed.description,
-        categories: bed.categories,
-      },
-      {
-        onSuccess: (data) => {
-          toast.success(data?.message || "Product Updated Successfully");
-          // if (window.confirm(`Do you want go to products page`)) {
-          //   router.back();
-          // }
+    const handleAddChip = React.useCallback(
+        (value: string[]) => {
+            setBed({ ...bed, categories: value });
         },
-        onError: () => {
-          toast.error("Something went wrong");
-        },
-      }
+        [bed]
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bed]);
 
-  return (
-    <div className="tabcontantinner">
-      <h1>Basic Info</h1>
-      <div className="box">
-        <ul>
-          <li>
-            <Input
-              name="name"
-              type="text"
-              label={"Product Name"}
-              placeholder="Enter product name"
-              onChange={handleInputChange}
-              value={bed.name}
-            />
-          </li>
-          <li>
-            <Textarea
-              name="description"
-              placeholder="Enter product description"
-              label="Product Description"
-              onChange={handleInputChange}
-              value={bed.description}
-            />
-          </li>
+    const handleIsDraft = React.useCallback(
+        (value: boolean) => {
+            setBed({ ...bed, isDraft: value });
+        },
+        [bed]
+    );
 
-          <li className="grid">
-            <ChipInput
-              label={`Category`}
-              onChange={handleAddChip}
-              placeholder="Add Category..."
-              value={bed.categories}
-            />
-          </li>
-        </ul>
-        <div className={styles.buttonsection}>
-          <AddMoreButton title="Update" onClick={handleBedUpdate} />
+    const handleInputChange = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        setBed({ ...bed, [event.target.name]: event.target.value });
+    };
+
+    const handleBedUpdate = React.useCallback(() => {
+        mutate(
+            {
+                name: bed.name,
+                description: bed.description,
+                categories: bed.categories,
+                isDraft: bed.isDraft,
+            },
+            {
+                onSuccess: (data) => {
+                    toast.success(
+                        data?.message || "Product Updated Successfully"
+                    );
+                    // if (window.confirm(`Do you want go to products page`)) {
+                    //   router.back();
+                    // }
+                },
+                onError: () => {
+                    toast.error("Something went wrong");
+                },
+            }
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [bed]);
+
+    return (
+        <div className="tabcontantinner">
+            <h1>Basic Info</h1>
+            <div className="box">
+                <ul>
+                    <li>
+                        <Input
+                            name="name"
+                            type="text"
+                            label={"Product Name"}
+                            placeholder="Enter product name"
+                            onChange={handleInputChange}
+                            value={bed.name}
+                        />
+                    </li>
+                    <li>
+                        <Textarea
+                            name="description"
+                            placeholder="Enter product description"
+                            label="Product Description"
+                            onChange={handleInputChange}
+                            value={bed.description}
+                        />
+                    </li>
+
+                    <li className="grid">
+                        <ChipInput
+                            label={`Category`}
+                            onChange={handleAddChip}
+                            placeholder="Add Category..."
+                            value={bed.categories}
+                        />
+                    </li>
+                    <li>
+                        is draft
+                        <input
+                            type="checkbox"
+                            checked={bed?.isDraft}
+                            onChange={(e) => handleIsDraft(e.target.checked)}
+                        />
+                    </li>
+                </ul>
+
+                <div className={styles.buttonsection}>
+                    <AddMoreButton title="Update" onClick={handleBedUpdate} />
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 {
-  /* <li>
+    /* <li>
           <Input type="file" label={"Featured Image"} />
         </li> */
 }
 {
-  /* <li>
+    /* <li>
           <Select
             // multiple
             options={[
@@ -188,7 +217,7 @@ const Basic = () => {
         </li> */
 }
 {
-  /* <li className="grid-2">
+    /* <li className="grid-2">
           <Input type="text" label={"Base Price"} />
           <Input type="text" label={"Price"} />
         </li> */

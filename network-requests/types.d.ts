@@ -47,6 +47,7 @@ type Bed = {
     categories: string[];
     createdAt: string;
     updatedAt: string;
+    isDraft: boolean;
     __v: number;
 };
 
@@ -54,6 +55,7 @@ interface BedRequestPayload {
     name: string;
     description: string;
     categories: string[];
+    isDraft: boolean;
 }
 
 type BedResponse = {
