@@ -17,6 +17,7 @@ interface AccessoriesTypes {
     headboard?: ProductType[];
     mattress?: ProductType[];
 }
+
 interface AccessoriesOrderTypes {
     color?: ProductType;
     storage?: ProductType;

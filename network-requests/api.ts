@@ -312,3 +312,16 @@ export const updateOrderStatus = (id: string, status: string): Promise<any> =>
         .catch((error) => {
             throw error;
         });
+export const SendorderDetails = (
+    email: string,
+    message: string
+): Promise<any> =>
+    axios
+        .post<any>(`/order/send-order-details`, {
+            email,
+            message,
+        })
+        .then((response) => response.data)
+        .catch((error) => {
+            throw error;
+        });

@@ -13,6 +13,7 @@
     "axios": "^1.1.2",
     "date-fns": "^2.29.3",
     "dequal": "^2.0.3",
+    "easyinvoice": "^2.3.3",
     "http-proxy": "^1.18.1",
     "mini-state": "^1.20.0",
     "mongoose": "^6.6.5",

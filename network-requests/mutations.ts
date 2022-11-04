@@ -11,6 +11,7 @@ import {
     updateBedVariantById,
     login,
     updateOrderStatus,
+    SendorderDetails,
 } from "./api";
 import {
     BedRequestPayload,
@@ -95,4 +96,9 @@ export const useDeleteBedVariantById = () =>
 export const useDeleteIconById = () =>
     useMutation(
         (id: string): Promise<CreateBedVariantResponse> => deleteIconById(id)
+    );
+
+export const useSendOrderDetails = () =>
+    useMutation(({ email, message }: any): any =>
+        SendorderDetails(email, message)
     );

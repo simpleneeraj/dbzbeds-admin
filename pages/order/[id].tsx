@@ -7,7 +7,11 @@ import DashboardHeader from "layout/header";
 import dynamic from "next/dynamic";
 import { useFetchOrderById } from "network-requests/queries";
 import { format } from "date-fns";
-import { useUpdateOrderStatus } from "network-requests/mutations";
+import {
+    useSendOrderDetails,
+    useUpdateOrderStatus,
+} from "network-requests/mutations";
+import easyinvoice from "easyinvoice";
 const ProductDetails = dynamic(
     () => import("components/order/product-details"),
     {
@@ -38,13 +42,86 @@ function SingleOrderPreview() {
     const { data, isLoading } = useFetchOrderById(id as string);
     const { mutate } = useUpdateOrderStatus(id as string);
 
+    const { mutate: sendEmailInvoce } = useSendOrderDetails();
+
     const [orderDate, setOrderDate] = React.useState("");
     const [paymentStatus, setPaymentStatus] = React.useState("");
 
+    const handleEmailSend = () => {
+        sendEmailInvoce({
+            email: data?.user.email,
+            message:
+                "Order ID: " +
+                data?._id +
+                "Your order has been placed successfully",
+        });
+    };
     const handleOrderStatus = (e: any) => {
         mutate({ status: e.target.value });
         setPaymentStatus(e.target.value);
     };
+
+    const handleInvoicePrint = () => {
+        // Create your invoice! Easy!
+        const data = {
+            images: {
+                logo: "https://public.easyinvoice.cloud/img/logo_en_original.png",
+                background:
+                    "https://public.easyinvoice.cloud/img/watermark-draft.jpg",
+            },
+            sender: {
+                company: "DBZBEDS",
+                address: "Sample Street 123",
+                zip: "1234 AB",
+                city: "Sampletown",
+                country: "Samplecountry",
+            },
+            client: {
+                company: "Client Corp",
+                address: "Clientstreet 456",
+                zip: "4567 CD",
+                city: "Clientcity",
+                country: "Clientcountry",
+            },
+            information: {
+                number: "2022.0001",
+                date: "1.1.2022",
+                "due-date": "15.1.2022",
+            },
+            products: [
+                {
+                    quantity: "2",
+                    description: "Test1",
+                    "tax-rate": 6,
+                    price: 33.87,
+                },
+                {
+                    quantity: "4",
+                    description: "Test2",
+                    "tax-rate": 21,
+                    price: 10.45,
+                },
+            ],
+            "bottom-notice": "Kindly pay your invoice within 15 days.",
+            settings: {
+                currency: "USD",
+                "tax-notation": "vat",
+                "margin-top": 25,
+                "margin-right": 25,
+                "margin-left": 25,
+                "margin-bottom": 25,
+            },
+        };
+
+        easyinvoice.createInvoice(data, (result: any) => {
+            // The response will contain a base64 encoded PDF file
+            easyinvoice.download(`invoice_${data.information.number}.pdf`);
+        });
+    };
+
+    // easyinvoice.createInvoice(data, function (result: any) {
+    //     // The response will contain a base64 encoded PDF file
+    //     easyinvoice.download(`invoice_${data.information.number}.pdf`);
 
     React.useEffect(() => {
         if (data) {
@@ -253,7 +330,10 @@ function SingleOrderPreview() {
                                     <div className={styles.left_link}>
                                         <a href="#">Move to bin</a>
                                     </div>
-                                    <div className={styles.right_update_button}>
+                                    <div
+                                        className={styles.right_update_button}
+                                        onClick={handleEmailSend}
+                                    >
                                         <button type="button">Update</button>
                                     </div>
                                 </div>
@@ -262,7 +342,9 @@ function SingleOrderPreview() {
                                 <h2>Order Printing</h2>
                             </div>
                             <div className={styles.printing_buttons}>
-                                <button>Print Invoice</button>
+                                <button onClick={handleInvoicePrint}>
+                                    Print Invoice
+                                </button>
                                 <button>Print Delivery Note</button>
                                 <span>
                                     <button>Print Receipt</button>
