@@ -290,7 +290,7 @@ export const deleteIconById = (id: string): Promise<CreateBedVariantResponse> =>
 export const getAllOrders = (): Promise<Order[]> =>
     axios
         .get<Order[]>(`/order`)
-        .then((response) => response.data)
+        .then((response: any) => response?.data?.orders)
         .catch((error) => {
             throw error;
         });

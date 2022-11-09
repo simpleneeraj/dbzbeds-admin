@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "styles/order.module.scss";
@@ -271,11 +271,50 @@ function SingleOrderPreview() {
                                                 Shipping
                                             </div>
                                             <div className={styles.Billingbox}>
-                                                <span>Jasmine Windsor</span>
-                                                <span>16 Dale View</span>
-                                                <span>Hove</span>
-                                                <span> East Sussex</span>
-                                                <span>BN3 8LF</span>
+                                                <span>
+                                                    {data?.user?.firstName}{" "}
+                                                    {data?.user?.lastName}
+                                                </span>
+                                                <span>
+                                                    {
+                                                        data?.shippingAddress
+                                                            ?.companyName
+                                                    }
+                                                </span>
+                                                <span>
+                                                    {
+                                                        data?.shippingAddress
+                                                            ?.address
+                                                    }
+                                                </span>
+                                                <span>
+                                                    {
+                                                        data?.shippingAddress
+                                                            ?.townCity
+                                                    }
+                                                </span>
+                                                <span>
+                                                    {
+                                                        data?.shippingAddress
+                                                            ?.country
+                                                    }
+                                                </span>
+                                                <span>
+                                                    {
+                                                        data?.shippingAddress
+                                                            ?.postalCode
+                                                    }
+                                                </span>
+                                                <span>
+                                                    <strong>
+                                                        Email address:
+                                                    </strong>
+                                                </span>{" "}
+                                                <span>
+                                                    <a href="mailto:">
+                                                        {data?.user?.email}
+                                                    </a>
+                                                </span>
                                                 <span>
                                                     <strong>Phone:</strong>
                                                 </span>{" "}
