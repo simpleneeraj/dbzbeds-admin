@@ -12,6 +12,9 @@ import {
     login,
     updateOrderStatus,
     SendorderDetails,
+    createHeadboard,
+    updateHeadboardById,
+    createHeadboardVariantById,
 } from "./api";
 import {
     BedRequestPayload,
@@ -37,11 +40,22 @@ export const useCreateNewBed = () =>
         (payload: BedRequestPayload): Promise<CreateBedVariantResponse> =>
             createBed(payload)
     );
+export const useCreateNewHeadboard = () =>
+    useMutation(
+        (payload: BedRequestPayload): Promise<CreateBedVariantResponse> =>
+            createHeadboard(payload)
+    );
 
 export const useCreateNewBedVariant = (id: string) =>
     useMutation(
         (props: VariantsTypes): Promise<CreateBedVariantResponse> =>
             createBedVariantById(id, props)
+    );
+
+export const useCreateNewHeadboardVariant = (id: string) =>
+    useMutation(
+        (props: VariantsTypes): Promise<CreateBedVariantResponse> =>
+            createHeadboardVariantById(id, props)
     );
 
 export const useCreateAccessoriesIcon = () =>
@@ -67,6 +81,11 @@ export const useUpdateBed = (id: string) =>
     useMutation(
         (props: BedRequestPayload): Promise<CreateBedVariantResponse> =>
             updateBedById(id, props)
+    );
+export const useUpdateHeadboard = (id: string) =>
+    useMutation(
+        (props: BedRequestPayload): Promise<CreateBedVariantResponse> =>
+            updateHeadboardById(id, props)
     );
 
 export const useUpdateAccessoriesIcon = () =>

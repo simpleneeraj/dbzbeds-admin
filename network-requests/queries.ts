@@ -3,10 +3,12 @@ import {
     getAllBeds,
     getAllBedsWithImage,
     getAllBedsWithImageAdmin,
+    getAllHeadboardsWithImageAdmin,
     getAllIcons,
     getAllOrders,
     getBedById,
     getBedVariantById,
+    getHeadboardById,
     getIconAllByType,
     getIconAllByTypeAndSize,
     getIconById,
@@ -67,8 +69,29 @@ export const useFetchAllBedsWithImageAdmin = () =>
         }
     );
 
+export const useFetchAllHeadboardsWithImageAdmin = () =>
+    useInfiniteQuery(
+        "headboard-image-admin",
+        ({ pageParam = 1 }): Promise<BedResponse> =>
+            getAllHeadboardsWithImageAdmin({ pageParam }),
+        {
+            refetchOnMount: true,
+
+            getNextPageParam: (lastPage: any) => {
+                if (lastPage.nextPage <= lastPage.totalPages)
+                    return lastPage.nextPage;
+                return undefined;
+            },
+        }
+    );
+
 export const useFetchBedById = (id: string) =>
     useQuery(["bed", id], (): Promise<Bed> => getBedById(id), {
+        enabled: !!id,
+    });
+
+export const useFetchHeadboardById = (id: string) =>
+    useQuery(["headboard", id], (): Promise<Bed> => getHeadboardById(id), {
         enabled: !!id,
     });
 

@@ -56,9 +56,28 @@ export const getAllBedsWithImageAdmin = ({
             throw error;
         });
 
+export const getAllHeadboardsWithImageAdmin = ({
+    pageParam = 1,
+}: GetAllBedsParams): Promise<BedResponse> =>
+    axios
+        .get<BedResponse>(
+            `/headboard/get-headboard-with-image?page=${pageParam}`
+        )
+        .then((response) => response.data)
+        .catch((error) => {
+            throw error;
+        });
+
 export const getBedById = (id: string): Promise<Bed> =>
     axios
         .get<Bed>(`/beds/${id}`)
+        .then((response) => response.data)
+        .catch((error) => {
+            throw error;
+        });
+export const getHeadboardById = (id: string): Promise<Bed> =>
+    axios
+        .get<Bed>(`/headboard/${id}`)
         .then((response) => response.data)
         .catch((error) => {
             throw error;
@@ -140,6 +159,15 @@ export const createBed = (
         .catch((error) => {
             throw error;
         });
+export const createHeadboard = (
+    payload: BedRequestPayload
+): Promise<CreateBedVariantResponse> =>
+    axios
+        .post<CreateBedVariantResponse>(`/headboard/create`, payload)
+        .then((response) => response.data)
+        .catch((error) => {
+            throw error;
+        });
 
 export const createBedVariantById = (
     id: string,
@@ -147,6 +175,20 @@ export const createBedVariantById = (
 ): Promise<CreateBedVariantResponse> =>
     axios
         .post<CreateBedVariantResponse>(`/beds/add-bed/${id}`, payload)
+        .then((response) => response.data)
+        .catch((error) => {
+            throw error;
+        });
+
+export const createHeadboardVariantById = (
+    id: string,
+    payload: VariantsTypes
+): Promise<CreateBedVariantResponse> =>
+    axios
+        .post<CreateBedVariantResponse>(
+            `/headboard/add-headboard/${id}`,
+            payload
+        )
         .then((response) => response.data)
         .catch((error) => {
             throw error;
@@ -224,6 +266,17 @@ export const updateBedById = (
 ): Promise<CreateBedVariantResponse> =>
     axios
         .patch<CreateBedVariantResponse>(`/beds/update-bed/${id}`, payload)
+        .then((response) => response.data)
+        .catch((error) => {
+            throw error;
+        });
+
+export const updateHeadboardById = (
+    id: string,
+    payload: BedRequestPayload
+): Promise<CreateBedVariantResponse> =>
+    axios
+        .put<CreateBedVariantResponse>(`/headboard/${id}`, payload)
         .then((response) => response.data)
         .catch((error) => {
             throw error;

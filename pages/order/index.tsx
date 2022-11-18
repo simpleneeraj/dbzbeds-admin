@@ -43,7 +43,9 @@ function AllOrderPage() {
                         <div className={` ${styles.tablebox} ${styles.mt2}`}>
                             <div className={styles.tabletopheading}>
                                 All Orders{" "}
-                                <span className={styles.number}>442</span>
+                                <span className={styles.number}>
+                                    {data?.length}
+                                </span>
                             </div>
 
                             <div className={styles.subsubsubactionbtnlist}>
