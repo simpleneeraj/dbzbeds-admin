@@ -1,0 +1,86 @@
+.invoice_top {
+  width: 60%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.invoive_beds_divan {
+  padding: 10px 80px;
+  width: 100%;
+  white-space: nowrap;
+  font-size: 13px;
+  h2 {
+    margin-top: 25px;
+  }
+  .billing_address {
+    width: 40%;
+  }
+  .invoice_address {
+    display: flex;
+    width: 100%;
+    margin-top: 30px;
+    line-height: 1.5;
+    ul {
+      margin-top: 10px;
+    }
+  }
+  .invoice_details {
+    h3 {
+      margin-top: 50px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid black;
+    }
+    .invoice_upper {
+      display: flex;
+      line-height: 2;
+
+      .left_ul {
+        width: 30%;
+        p {
+          border-bottom: 2px solid #bbbbbb;
+        }
+      }
+      .right_ul {
+        width: 100%;
+        p {
+          border-bottom: 2px solid #bbbbbb;
+        }
+      }
+    }
+  }
+  .invoice_product_details {
+    .invoice_table {
+      display: flex;
+      table {
+        width: 100%;
+        text-align: center;
+        line-height: 2;
+        tbody {
+          tr {
+            .sku {
+              border-bottom: 2px solid #bbbbbb;
+              text-align: left;
+            }
+            .ukdelivery {
+              text-align: left;
+            }
+            .pillow {
+              border-bottom: 2px solid #bbbbbb;
+            }
+            .subtotal {
+              text-align: left;
+              border-bottom: 2px solid #bbbbbb;
+            }
+            .table_end {
+              border-bottom: 2px solid black;
+            }
+            .table_end_total {
+              border-bottom: 2px solid black;
+              text-align: left;
+            }
+          }
+        }
+      }
+    }
+  }
+}
