@@ -9,6 +9,7 @@ import {
     getBedById,
     getBedVariantById,
     getHeadboardById,
+    getHeadboardVariantById,
     getIconAllByType,
     getIconAllByTypeAndSize,
     getIconById,
@@ -94,6 +95,15 @@ export const useFetchHeadboardById = (id: string) =>
     useQuery(["headboard", id], (): Promise<Bed> => getHeadboardById(id), {
         enabled: !!id,
     });
+
+export const useFetchHeadboardVariantById = (id: string) =>
+    useQuery(
+        ["headboard-variant", id],
+        (): Promise<Bed> => getHeadboardVariantById(id),
+        {
+            enabled: !!id,
+        }
+    );
 
 export const useFetchBedVariantsById = (id: string) =>
     useQuery(

@@ -15,6 +15,7 @@ import {
     createHeadboard,
     updateHeadboardById,
     createHeadboardVariantById,
+    updateHeadboardVariantById,
 } from "./api";
 import {
     BedRequestPayload,
@@ -75,6 +76,11 @@ export const useUpdateBedVariant = (id: string) =>
     useMutation(
         (props: VariantsTypes): Promise<CreateBedVariantResponse> =>
             updateBedVariantById(id, props)
+    );
+export const useUpdateHeadboardVariant = (id: string) =>
+    useMutation(
+        (props: VariantsTypes): Promise<CreateBedVariantResponse> =>
+            updateHeadboardVariantById(id, props)
     );
 
 export const useUpdateBed = (id: string) =>

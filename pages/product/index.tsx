@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { useRouter } from "next/router";
-import Skeleton from "components/skeleton";
 import DashboardHeader from "layout/header";
 import styles from "styles/order.module.scss";
 import Button from "components/element/button";
@@ -11,6 +10,9 @@ import ProductList from "components/table/product-list";
 import { deleteBedById } from "network-requests/api";
 import { useInView } from "react-intersection-observer";
 import { useFetchAllBedsWithImageAdmin } from "network-requests/queries";
+import dynamic from "next/dynamic";
+
+const Skeleton = dynamic(() => import("components/skeleton"), { ssr: false });
 
 function ProductPage() {
     const { push } = useRouter();
@@ -36,12 +38,15 @@ function ProductPage() {
         }
     }, [inView, hasNextPage, fetchNextPage]);
 
-    const onDeleteProduct = React.useCallback(async (id: string) => {
-        if (window.confirm("Are you sure to delete this Product")) {
-            const res = await deleteBedById(id);
-            refetch();
-        }
-    }, []);
+    const onDeleteProduct = React.useCallback(
+        async (id: string) => {
+            if (window.confirm("Are you sure to delete this Product")) {
+                const res = await deleteBedById(id);
+                refetch();
+            }
+        },
+        [refetch]
+    );
 
     return (
         <>
@@ -60,20 +65,22 @@ function ProductPage() {
                             >
                                 <table>
                                     {isLoading ? (
-                                        <div className={styles.loading}>
+                                        <tbody className={styles.loading}>
                                             {Array.from(Array(5).keys()).map(
                                                 (_, i) => (
-                                                    <Skeleton
-                                                        key={i}
-                                                        className={
-                                                            styles.skeleton
-                                                        }
-                                                    />
+                                                    <tr key={i}>
+                                                        <Skeleton
+                                                            key={i}
+                                                            className={
+                                                                styles.skeleton
+                                                            }
+                                                        />
+                                                    </tr>
                                                 )
                                             )}
-                                        </div>
+                                        </tbody>
                                     ) : isError ? (
-                                        <span>{`Error: Something Went Wrong`}</span>
+                                        <thead>{`Error: Something Went Wrong`}</thead>
                                     ) : (
                                         <React.Fragment>
                                             <thead>

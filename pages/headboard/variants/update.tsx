@@ -8,7 +8,10 @@ import Storages from "components/product/variants/storage";
 import Feet from "components/product/variants/feet";
 import Mattress from "components/product/variants/mattress";
 import HeadBoard from "components/product/variants/headboard";
-import { useUpdateBedVariant } from "network-requests/mutations";
+import {
+    useUpdateBedVariant,
+    useUpdateHeadboardVariant,
+} from "network-requests/mutations";
 import { useRouter } from "next/router";
 import pMap from "p-map";
 
@@ -46,7 +49,7 @@ const Create = () => {
     console.log({ state });
     const router = useRouter();
     const id = router.query?.id as string;
-    const { mutate } = useUpdateBedVariant(id);
+    const { mutate } = useUpdateHeadboardVariant(id);
     const [isDraft, setIsDraft] = useState(false);
 
     const handleProductUpdate = async () => {
@@ -88,10 +91,6 @@ const Create = () => {
                 image: baseImage,
                 accessories: {
                     color: colorWithUrlAndName as any,
-                    storage: state.storage,
-                    feet: state.feet,
-                    headboard: state.headboard,
-                    mattress: state.mattress,
                 },
                 isDraft: isDraft,
             },
@@ -143,7 +142,7 @@ const Create = () => {
                             getValue={(v) => dispatch(VariantsActions.COLOR(v))}
                             value={color}
                         />
-                        <HeadBoard
+                        {/* <HeadBoard
                             id={id}
                             getValue={(v) =>
                                 dispatch(VariantsActions.HEADBOARD(v))
@@ -168,7 +167,7 @@ const Create = () => {
                                 dispatch(VariantsActions.MATTRESS(v))
                             }
                             value={mattress}
-                        />
+                        /> */}
                     </div>
                     <div className="grid">
                         <Button onClick={handleProductUpdate}>

@@ -82,6 +82,13 @@ export const getHeadboardById = (id: string): Promise<Bed> =>
         .catch((error) => {
             throw error;
         });
+export const getHeadboardVariantById = (id: string): Promise<Bed> =>
+    axios
+        .get<Bed>(`/headboard/get-headboard/${id}`)
+        .then((response) => response.data)
+        .catch((error) => {
+            throw error;
+        });
 
 export const getBedVariantById = (
     id: string,
@@ -187,6 +194,20 @@ export const createHeadboardVariantById = (
     axios
         .post<CreateBedVariantResponse>(
             `/headboard/add-headboard/${id}`,
+            payload
+        )
+        .then((response) => response.data)
+        .catch((error) => {
+            throw error;
+        });
+
+export const updateHeadboardVariantById = (
+    id: string,
+    payload: VariantsTypes
+): Promise<CreateBedVariantResponse> =>
+    axios
+        .put<CreateBedVariantResponse>(
+            `/headboard/update-headboard/${id}`,
             payload
         )
         .then((response) => response.data)

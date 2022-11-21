@@ -148,7 +148,7 @@ const Create = () => {
                             getValue={(v) => dispatch(VariantsActions.COLOR(v))}
                             value={color}
                         />
-                        <HeadBoard
+                        {/* <HeadBoard
                             id={id}
                             getValue={(v) =>
                                 dispatch(VariantsActions.HEADBOARD(v))
@@ -173,7 +173,7 @@ const Create = () => {
                                 dispatch(VariantsActions.MATTRESS(v))
                             }
                             value={mattress}
-                        />
+                        /> */}
                     </div>
                     <div className="grid">
                         <Button onClick={handleProductUpload}>

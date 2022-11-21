@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { useRouter } from "next/router";
-import Skeleton from "components/skeleton";
 import DashboardHeader from "layout/header";
 import styles from "styles/order.module.scss";
 import Button from "components/element/button";
@@ -14,6 +13,10 @@ import {
     useFetchAllBedsWithImageAdmin,
     useFetchAllHeadboardsWithImageAdmin,
 } from "network-requests/queries";
+
+import dynamic from "next/dynamic";
+
+const Skeleton = dynamic(() => import("components/skeleton"), { ssr: false });
 
 function ProductPage() {
     const { push } = useRouter();
@@ -63,20 +66,22 @@ function ProductPage() {
                             >
                                 <table>
                                     {isLoading ? (
-                                        <div className={styles.loading}>
+                                        <tbody className={styles.loading}>
                                             {Array.from(Array(5).keys()).map(
                                                 (_, i) => (
-                                                    <Skeleton
-                                                        key={i}
-                                                        className={
-                                                            styles.skeleton
-                                                        }
-                                                    />
+                                                    <tr key={i}>
+                                                        <Skeleton
+                                                            key={i}
+                                                            className={
+                                                                styles.skeleton
+                                                            }
+                                                        />
+                                                    </tr>
                                                 )
                                             )}
-                                        </div>
+                                        </tbody>
                                     ) : isError ? (
-                                        <span>{`Error: Something Went Wrong`}</span>
+                                        <thead>{`Error: Something Went Wrong`}</thead>
                                     ) : (
                                         <React.Fragment>
                                             <thead>

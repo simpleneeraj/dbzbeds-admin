@@ -3,7 +3,11 @@ import { ContextType } from "context/variant";
 import { initialState, reducer, actions } from "./slice";
 import { getBedVariantById } from "network-requests/api";
 import { VariantsActions } from "./create";
-import { useFetchBedVariantsById } from "network-requests/queries";
+import {
+    useFetchBedVariantsById,
+    useFetchHeadboardVariantById,
+} from "network-requests/queries";
+import { useRouter } from "next/router";
 
 interface UpdateVariantProviderProps {
     id: string;
@@ -23,11 +27,17 @@ const UpdateVariantProvider = ({
     id,
     children,
 }: React.PropsWithChildren<UpdateVariantProviderProps>) => {
+    const router = useRouter();
     const [state, dispatch] = React.useReducer(reducer, initialState);
 
-    // console.log({ state });
+    console.log({ state: router.pathname });
 
-    const { data, isFetched } = useFetchBedVariantsById(id);
+    const { data, isFetched } =
+        router.pathname === "/headboard/variants/update"
+            ? // eslint-disable-next-line react-hooks/rules-of-hooks
+              (useFetchHeadboardVariantById(id) as any)
+            : // eslint-disable-next-line react-hooks/rules-of-hooks
+              (useFetchBedVariantsById(id) as any);
 
     console.log({ data });
 
