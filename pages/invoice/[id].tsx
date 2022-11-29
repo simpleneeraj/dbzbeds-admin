@@ -20,6 +20,12 @@ function Invoice() {
                     <p>
                         <span>Invoice</span>
                     </p>
+                    <button
+                        className="printButton"
+                        onClick={() => window.print()}
+                    >
+                        Print
+                    </button>
                 </div>
             </div>
             <div className="container">
