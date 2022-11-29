@@ -816,3 +816,8 @@
     width: 15%;
   }
 }
+@media print {
+  .sidebar {
+    display: none !important;
+  }
+}
