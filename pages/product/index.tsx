@@ -52,15 +52,15 @@ function ProductPage() {
     <>
       <div className={styles.rightsidebar}>
         <DashboardHeader />
+        <div className={styles.mainheading}>Products list</div>
         <main className={styles.main}>
-          <div className={styles.mainheading}>Products list</div>
           <div className={styles.containerbox}>
             <div className={` ${styles.tablebox} ${styles.mt2}`}>
               <FilterHeader
                 onCreate={() => push("/product/create")}
                 createText="Create New Product"
               />
-              <div className={`${styles.table} ${styles} `}>
+              <div className={`${styles.table} ${styles.allproducttable} `}>
                 <table>
                   {isLoading ? (
                     <tbody className={styles.loading}>
