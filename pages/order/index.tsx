@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "styles/order.module.scss";
@@ -8,322 +8,319 @@ import DashboardHeader from "layout/header";
 import { useFetchAllOrders } from "network-requests/queries";
 
 function AllOrderPage() {
-    const { data } = useFetchAllOrders();
+  const { data } = useFetchAllOrders();
 
-    const [orders, setOrders] = React.useState<any>([]);
+  // filter payment method
+  const [filterPayment, setFilterPayment] = useState("");
 
-    React.useEffect(() => {
-        if (data) {
-            setOrders(data);
-        }
-    }, [data]);
+  const onFilterPayment = React.useCallback(
+    (value: string) => {
+      setFilterPayment(value);
+    },
+    [filterPayment]
+  );
 
-    const orderStatus = {
-        PendingPayment: "PENDING_PAYMENT",
-        Processing: "PROCESSING",
-        OnHold: "ON_HOLD",
-        Completed: "COMPLETED",
-        Cancelled: "CANCELLED",
-        Refunded: "REFUNDED",
-        Failed: "FAILED",
-        Pending: "PENDING",
-        Delivered: "DELIVERED",
-        Draft: "DRAFT",
-    };
+  const [orders, setOrders] = React.useState<typeof data>([]);
 
-    return (
-        <>
-            <div className={styles.rightsidebar}>
-                <DashboardHeader />
+  React.useEffect(() => {
+    if (data) {
+      setOrders(data);
+    }
+  }, [data]);
 
-                <main className={styles.main}>
-                    <div className={styles.containerbox}>
-                        <div className={styles.mainheading}>Orders </div>
+  const filterArrary = React.useMemo(() => {
+    return orders?.filter((d) => {
+      return filterPayment === ""
+        ? d
+        : d.payment?.paymentMethod === filterPayment;
+    });
+  }, [filterPayment, orders]);
 
-                        <div className={` ${styles.tablebox} ${styles.mt2}`}>
-                            <div className={styles.tabletopheading}>
-                                All Orders{" "}
-                                <span className={styles.number}>
-                                    {data?.length}
-                                </span>
-                            </div>
+  console.log(filterArrary);
 
-                            <div className={styles.subsubsubactionbtnlist}>
-                                <div className={styles.actionbtnlist}>
-                                    <ul>
-                                        <li>
-                                            <a onClick={() => setOrders(data)}>
-                                                All{" "}
-                                                <span>({data?.length})</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                onClick={() => {
-                                                    setOrders(
-                                                        data?.filter(
-                                                            (order: any) =>
-                                                                order.payment
-                                                                    .status ===
-                                                                orderStatus.PendingPayment
-                                                        )
-                                                    );
-                                                }}
-                                            >
-                                                Pending payments{" "}
-                                                <span>
-                                                    (
-                                                    {data?.reduce(
-                                                        (item, i) =>
-                                                            item +
-                                                            (i?.payment
-                                                                ?.status ===
-                                                            orderStatus.PendingPayment
-                                                                ? 1
-                                                                : 0),
-                                                        0
-                                                    )}
-                                                    )
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                onClick={() => {
-                                                    setOrders(
-                                                        data?.filter(
-                                                            (order: any) =>
-                                                                order.payment
-                                                                    .status ===
-                                                                orderStatus.OnHold
-                                                        )
-                                                    );
-                                                }}
-                                            >
-                                                On hold{" "}
-                                                <span>
-                                                    ({" "}
-                                                    {data?.reduce(
-                                                        (item, i) =>
-                                                            item +
-                                                            (i?.payment
-                                                                ?.status ===
-                                                            orderStatus.OnHold
-                                                                ? 1
-                                                                : 0),
-                                                        0
-                                                    )}
-                                                    )
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                onClick={() => {
-                                                    setOrders(
-                                                        data?.filter(
-                                                            (order: any) =>
-                                                                order.payment
-                                                                    .status ===
-                                                                orderStatus.Completed
-                                                        )
-                                                    );
-                                                }}
-                                            >
-                                                Completed{" "}
-                                                <span>
-                                                    ({" "}
-                                                    {data?.reduce(
-                                                        (item, i) =>
-                                                            item +
-                                                            (i?.payment
-                                                                ?.status ===
-                                                            orderStatus.Completed
-                                                                ? 1
-                                                                : 0),
-                                                        0
-                                                    )}
-                                                    )
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                onClick={() => {
-                                                    setOrders(
-                                                        data?.filter(
-                                                            (order: any) =>
-                                                                order.payment
-                                                                    .status ===
-                                                                orderStatus.Cancelled
-                                                        )
-                                                    );
-                                                }}
-                                            >
-                                                Cancelled{" "}
-                                                <span>
-                                                    ({" "}
-                                                    {data?.reduce(
-                                                        (item, i) =>
-                                                            item +
-                                                            (i?.payment
-                                                                ?.status ===
-                                                            orderStatus.Cancelled
-                                                                ? 1
-                                                                : 0),
-                                                        0
-                                                    )}
-                                                    )
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                onClick={() => {
-                                                    setOrders(
-                                                        data?.filter(
-                                                            (order: any) =>
-                                                                order.payment
-                                                                    .status ===
-                                                                orderStatus.Refunded
-                                                        )
-                                                    );
-                                                }}
-                                            >
-                                                Refunded{" "}
-                                                <span>
-                                                    ({" "}
-                                                    {data?.reduce(
-                                                        (item, i) =>
-                                                            item +
-                                                            (i?.payment
-                                                                ?.status ===
-                                                            orderStatus.Refunded
-                                                                ? 1
-                                                                : 0),
-                                                        0
-                                                    )}
-                                                    )
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                onClick={() => {
-                                                    setOrders(
-                                                        data?.filter(
-                                                            (order: any) =>
-                                                                order.payment
-                                                                    .status ===
-                                                                orderStatus.Failed
-                                                        )
-                                                    );
-                                                }}
-                                            >
-                                                Failed{" "}
-                                                <span>
-                                                    ({" "}
-                                                    {data?.reduce(
-                                                        (item, i) =>
-                                                            item +
-                                                            (i?.payment
-                                                                ?.status ===
-                                                            orderStatus.Failed
-                                                                ? 1
-                                                                : 0),
-                                                        0
-                                                    )}
-                                                    ){" "}
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                onClick={() => {
-                                                    setOrders(
-                                                        data?.filter(
-                                                            (order: any) =>
-                                                                order.payment
-                                                                    .status ===
-                                                                orderStatus.Delivered
-                                                        )
-                                                    );
-                                                }}
-                                            >
-                                                Delivered{" "}
-                                                <span>
-                                                    ({" "}
-                                                    {data?.reduce(
-                                                        (item, i) =>
-                                                            item +
-                                                            (i?.payment
-                                                                ?.status ===
-                                                            orderStatus.Delivered
-                                                                ? 1
-                                                                : 0),
-                                                        0
-                                                    )}
-                                                    )
-                                                </span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div className={styles.searchlistproduct}>
-                                    <div className={styles.box}>
-                                        <input
-                                            type="text"
-                                            placeholder="Search Order"
-                                        />
-                                        <button>
-                                            <Image
-                                                src="/icons/search-line.svg"
-                                                alt="search"
-                                                width={24}
-                                                height={24}
-                                            />
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+  const orderStatus = {
+    PendingPayment: "PENDING_PAYMENT",
+    Processing: "PROCESSING",
+    OnHold: "ON_HOLD",
+    Completed: "COMPLETED",
+    Cancelled: "CANCELLED",
+    Refunded: "REFUNDED",
+    Failed: "FAILED",
+    Pending: "PENDING",
+    Delivered: "DELIVERED",
+    Draft: "DRAFT",
+  };
 
-                            <div className={styles.table}>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>ORDER</th>
-                                            <th>DATE</th>
-                                            <th>CUSTOMER</th>
-                                            <th>TOTAL</th>
-                                            <th>STATUS</th>
-                                            <th>ITEMS</th>
-                                            <th>LOCATION</th>
-                                            <th>PAYMENT TYPE</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {/* @ts-ignore */}
-                                        {orders?.map((order, i) => (
-                                            <OrderList
-                                                order={order}
-                                                key={order?._id}
-                                            />
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </main>
+  return (
+    <>
+      <div className={styles.rightsidebar}>
+        <DashboardHeader />
+
+        <main className={styles.main}>
+          <div className={styles.containerbox}>
+            {/* <div className={styles.mainheading}>Orders </div> */}
+
+            <div className={` ${styles.tablebox} ${styles.mt2}`}>
+              <div className={styles.tabletopheading}>
+                All Orders <span className={styles.number}>{data?.length}</span>
+              </div>
+
+              <div className={styles.subsubsubactionbtnlist}>
+                <div className={styles.actionbtnlist}>
+                  <ul>
+                    <li>
+                      <a onClick={() => setOrders(data)}>
+                        All <span>({data?.length})</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setOrders(
+                            data?.filter(
+                              (order: any) =>
+                                order.payment.status ===
+                                orderStatus.PendingPayment
+                            )
+                          );
+                        }}
+                      >
+                        Pending payments{" "}
+                        <span>
+                          (
+                          {data?.reduce(
+                            (item, i) =>
+                              item +
+                              (i?.payment?.status === orderStatus.PendingPayment
+                                ? 1
+                                : 0),
+                            0
+                          )}
+                          )
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setOrders(
+                            data?.filter(
+                              (order: any) =>
+                                order.payment.status === orderStatus.OnHold
+                            )
+                          );
+                        }}
+                      >
+                        On hold{" "}
+                        <span>
+                          ({" "}
+                          {data?.reduce(
+                            (item, i) =>
+                              item +
+                              (i?.payment?.status === orderStatus.OnHold
+                                ? 1
+                                : 0),
+                            0
+                          )}
+                          )
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setOrders(
+                            data?.filter(
+                              (order: any) =>
+                                order.payment.status === orderStatus.Completed
+                            )
+                          );
+                        }}
+                      >
+                        Completed{" "}
+                        <span>
+                          ({" "}
+                          {data?.reduce(
+                            (item, i) =>
+                              item +
+                              (i?.payment?.status === orderStatus.Completed
+                                ? 1
+                                : 0),
+                            0
+                          )}
+                          )
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setOrders(
+                            data?.filter(
+                              (order: any) =>
+                                order.payment.status === orderStatus.Cancelled
+                            )
+                          );
+                        }}
+                      >
+                        Cancelled{" "}
+                        <span>
+                          ({" "}
+                          {data?.reduce(
+                            (item, i) =>
+                              item +
+                              (i?.payment?.status === orderStatus.Cancelled
+                                ? 1
+                                : 0),
+                            0
+                          )}
+                          )
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setOrders(
+                            data?.filter(
+                              (order: any) =>
+                                order.payment.status === orderStatus.Refunded
+                            )
+                          );
+                        }}
+                      >
+                        Refunded{" "}
+                        <span>
+                          ({" "}
+                          {data?.reduce(
+                            (item, i) =>
+                              item +
+                              (i?.payment?.status === orderStatus.Refunded
+                                ? 1
+                                : 0),
+                            0
+                          )}
+                          )
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setOrders(
+                            data?.filter(
+                              (order: any) =>
+                                order.payment.status === orderStatus.Failed
+                            )
+                          );
+                        }}
+                      >
+                        Failed{" "}
+                        <span>
+                          ({" "}
+                          {data?.reduce(
+                            (item, i) =>
+                              item +
+                              (i?.payment?.status === orderStatus.Failed
+                                ? 1
+                                : 0),
+                            0
+                          )}
+                          ){" "}
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => {
+                          setOrders(
+                            data?.filter(
+                              (order: any) =>
+                                order.payment.status === orderStatus.Delivered
+                            )
+                          );
+                        }}
+                      >
+                        Delivered{" "}
+                        <span>
+                          ({" "}
+                          {data?.reduce(
+                            (item, i) =>
+                              item +
+                              (i?.payment?.status === orderStatus.Delivered
+                                ? 1
+                                : 0),
+                            0
+                          )}
+                          )
+                        </span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                {/* <div className={styles.searchlistproduct}>
+                  <div className={styles.box}>
+                    <input type="text" placeholder="Search Order" />
+                    <button>
+                      <Image
+                        src="/icons/search-line.svg"
+                        alt="search"
+                        width={24}
+                        height={24}
+                      />
+                    </button>
+                  </div>
+                </div> */}
+              </div>
+
+              <div className={styles.paymentDropdown}>
+                <p>Payment Method</p>
+                <select
+                  value={filterPayment}
+                  onChange={(e) => onFilterPayment(e.target.value)}
+                >
+                  <option value="">All</option>
+                  <option value="stripe">Stripe</option>
+                  <option value="cash-on-delivery">Cash on dilivery</option>
+                  {/* <option value="one">Klarna</option>
+                  <option value="one">Amazon Pay</option> */}
+                </select>
+              </div>
+
+              <div className={styles.table}>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ORDER</th>
+                      <th>DATE</th>
+                      <th>CUSTOMER</th>
+                      <th>TOTAL</th>
+                      <th>STATUS</th>
+                      <th>ITEMS</th>
+                      <th>LOCATION</th>
+                      <th>PAYMENT TYPE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {/* @ts-ignore */}
+                    {filterArrary?.map((order, i) => (
+                      <OrderList order={order} key={order?._id} />
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-        </>
-    );
+          </div>
+        </main>
+      </div>
+    </>
+  );
 }
 
 export default AllOrderPage;
 
 {
-    /* <ul className="dropnav">
+  /* <ul className="dropnav">
                   <li>
                     <Link href="#">
                       <a>

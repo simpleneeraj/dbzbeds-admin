@@ -418,3 +418,10 @@ img {
   @include grid();
   grid-template-columns: repeat(4, 1fr);
 }
+
+
+@media print{
+	.printButton{
+    display: none !important;
+  }
+}
