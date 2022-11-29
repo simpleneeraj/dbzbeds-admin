@@ -12,6 +12,7 @@ import {
     useUpdateOrderStatus,
 } from "network-requests/mutations";
 import easyinvoice from "easyinvoice";
+import { useSocket } from "hooks/useSocket";
 const ProductDetails = dynamic(
     () => import("components/order/product-details"),
     {
@@ -37,6 +38,8 @@ const paymentOptions = [
 
 function SingleOrderPreview() {
     const router = useRouter();
+    const socket = useSocket();
+
     const { id } = router.query;
 
     const { data, isLoading } = useFetchOrderById(id as string);
@@ -62,61 +65,7 @@ function SingleOrderPreview() {
     };
 
     const handleInvoicePrint = () => {
-        // Create your invoice! Easy!
-        const data = {
-            images: {
-                logo: "https://public.easyinvoice.cloud/img/logo_en_original.png",
-                background:
-                    "https://public.easyinvoice.cloud/img/watermark-draft.jpg",
-            },
-            sender: {
-                company: "DBZBEDS",
-                address: "Sample Street 123",
-                zip: "1234 AB",
-                city: "Sampletown",
-                country: "Samplecountry",
-            },
-            client: {
-                company: "Client Corp",
-                address: "Clientstreet 456",
-                zip: "4567 CD",
-                city: "Clientcity",
-                country: "Clientcountry",
-            },
-            information: {
-                number: "2022.0001",
-                date: "1.1.2022",
-                "due-date": "15.1.2022",
-            },
-            products: [
-                {
-                    quantity: "2",
-                    description: "Test1",
-                    "tax-rate": 6,
-                    price: 33.87,
-                },
-                {
-                    quantity: "4",
-                    description: "Test2",
-                    "tax-rate": 21,
-                    price: 10.45,
-                },
-            ],
-            "bottom-notice": "Kindly pay your invoice within 15 days.",
-            settings: {
-                currency: "USD",
-                "tax-notation": "vat",
-                "margin-top": 25,
-                "margin-right": 25,
-                "margin-left": 25,
-                "margin-bottom": 25,
-            },
-        };
-
-        easyinvoice.createInvoice(data, (result: any) => {
-            // The response will contain a base64 encoded PDF file
-            easyinvoice.download(`invoice_${data.information.number}.pdf`);
-        });
+        router.push("/invoice/" + id);
     };
 
     // easyinvoice.createInvoice(data, function (result: any) {
@@ -135,8 +84,61 @@ function SingleOrderPreview() {
         }
     }, [data]);
 
-    if (isLoading) return <div>Loading...</div>;
+    const [accessible, setAccessible] = React.useState(false);
+    const [socketLoading, setSocketLoading] = React.useState(false);
+
+    React.useEffect(() => {
+        if (socket) {
+            if (id) {
+                setSocketLoading(true);
+                socket.emit("active-order", id as string);
+            }
+            socket.on("is-order-accessible", ({ access }) => {
+                setAccessible(access);
+                setSocketLoading(false);
+            });
+        }
+        return () => {
+            if (socket) {
+                socket.off("is-order-accessible");
+                socket.emit("inactive-order", id as string);
+            }
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id, socket]);
+
+    if (isLoading || socketLoading) return <div>Loading...</div>;
     if (!data) return <div>No order found</div>;
+    if (!accessible)
+        return (
+            <div
+                style={{
+                    width: "80%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "100vh",
+                }}
+            >
+                <h1>Order is not accessible</h1>
+                <p style={{ textAlign: "center" }}>
+                    Other Admin is working on this order currently <br />
+                    Please try again later
+                </p>
+                <button
+                    onClick={() => router.back()}
+                    style={{
+                        width: "max-content",
+                        padding: 10,
+                        borderRadius: 8,
+                        marginTop: 20,
+                    }}
+                >
+                    Go Back
+                </button>
+            </div>
+        );
 
     return (
         <>

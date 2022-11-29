@@ -1,40 +1,41 @@
 {
-  "name": "dbzbeds-admin",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@reduxjs/toolkit": "^1.8.6",
-    "axios": "^1.1.2",
-    "date-fns": "^2.29.3",
-    "dequal": "^2.0.3",
-    "easyinvoice": "^2.3.3",
-    "http-proxy": "^1.18.1",
-    "mini-state": "^1.20.0",
-    "mongoose": "^6.6.5",
-    "next": "^12.3.1",
-    "p-map": "^5.5.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-infinite-scroll-component": "^6.1.0",
-    "react-intersection-observer": "^9.4.0",
-    "react-query": "^3.39.2",
-    "react-redux": "^8.0.4",
-    "react-toastify": "^9.0.8",
-    "sass": "^1.55.0"
-  },
-  "devDependencies": {
-    "@types/http-proxy": "^1.17.9",
-    "@types/node": "18.8.4",
-    "@types/react": "18.0.21",
-    "@types/react-dom": "18.0.6",
-    "eslint": "8.25.0",
-    "eslint-config-next": "12.3.1",
-    "typescript": "4.8.4"
-  }
+    "name": "dbzbeds-admin",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev -p 4000",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@reduxjs/toolkit": "^1.8.6",
+        "axios": "^1.1.2",
+        "date-fns": "^2.29.3",
+        "dequal": "^2.0.3",
+        "easyinvoice": "^2.3.3",
+        "http-proxy": "^1.18.1",
+        "mini-state": "^1.20.0",
+        "mongoose": "^6.6.5",
+        "next": "^12.3.1",
+        "p-map": "^5.5.0",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "react-infinite-scroll-component": "^6.1.0",
+        "react-intersection-observer": "^9.4.0",
+        "react-query": "^3.39.2",
+        "react-redux": "^8.0.4",
+        "react-toastify": "^9.0.8",
+        "sass": "^1.55.0",
+        "socket.io-client": "^4.5.4"
+    },
+    "devDependencies": {
+        "@types/http-proxy": "^1.17.9",
+        "@types/node": "18.8.4",
+        "@types/react": "18.0.21",
+        "@types/react-dom": "18.0.6",
+        "eslint": "8.25.0",
+        "eslint-config-next": "12.3.1",
+        "typescript": "4.8.4"
+    }
 }

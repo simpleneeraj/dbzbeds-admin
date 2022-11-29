@@ -1,217 +1,194 @@
+import pMap from "p-map";
 import React from "react";
-import styles from "styles/order.module.scss";
-import Input from "components/element/input";
-import Textarea from "components/element/textarea";
-import AddMoreButton from "components/element/addmore";
-import { productSideTab } from "constants/sidetab";
-import DashboardHeader from "layout/header";
-import ChipInput from "components/chip-input";
-import { useCreateNewBed } from "network-requests/mutations";
-import { toast } from "react-toastify";
 import Toast from "components/toast";
-import { useRouter } from "next/router";
+import replacer from "utils/replacer";
+import { toast } from "react-toastify";
+import Input from "components/element/input";
+import ChipInput from "components/chip-input";
+import styles from "styles/order.module.scss";
+import DashboardHeader from "layout/header";
+import Textarea from "components/element/textarea";
+import { uploadBedImage } from "network-requests/api";
+import AddMoreButton from "components/element/addmore";
+import { useCreateNewBed } from "network-requests/mutations";
+import DynamicImageGrid from "components/element/image-picker-grid";
+import lazyAlert from "constants/lazy-alert";
+
+type E = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
 function CreateProduct() {
-  const [activeTab, setActiveTab] = React.useState("Basic");
+    const [bedInfoInputs, setBedInfoInputs] = React.useState<any>({
+        name: "" as string,
+        slug: "" as string,
+        description: "" as string,
+        categories: [] as string[],
+        images: [] as any,
+    });
 
-  const onActiveTab = (value: string) => {
-    setActiveTab(value);
-  };
+    //API POST
+    const { mutate, isLoading } = useCreateNewBed();
 
-  return (
-    <React.Fragment>
-      <Toast />
-      <div className={styles.rightsidebar}>
-        <DashboardHeader />
-        <main className={styles.main}>
-          <div className={styles.containerbox}>
-            <div className={styles.mainheading}>Create Product</div>
-            <div
-              className={` ${styles.tablebox} ${styles.mt2} ${styles.productuploadtabbox}`}
-            >
-              <ul className={styles.productuploadtab}>
-                {productSideTab.slice(0, 1).map(({ text }, index) => {
-                  return (
-                    <li
-                      key={index}
-                      onClick={() => onActiveTab(text)}
-                      className={text === activeTab ? styles.active : ""}
+    const handleAddChip = React.useCallback(
+        (value: string[]) => {
+            setBedInfoInputs({ ...bedInfoInputs, categories: value });
+        },
+        [bedInfoInputs]
+    );
+
+    const handleInputChange = React.useCallback(
+        (event: E) => {
+            switch (event.target.name) {
+                case "slug":
+                    setBedInfoInputs({
+                        ...bedInfoInputs,
+                        [event.target.name]: replacer(event.target.value),
+                    });
+                    break;
+                default:
+                    setBedInfoInputs({
+                        ...bedInfoInputs,
+                        [event.target.name]: event.target.value,
+                    });
+                    break;
+            }
+        },
+        [bedInfoInputs]
+    );
+
+    // SUBMIT DATA TO DB
+    const handleBedCreate = React.useCallback(async () => {
+        const getImageUrl = async (image: any) => {
+            if (image) {
+                const imageUrl = await uploadBedImage(image as Blob);
+                return imageUrl;
+            }
+            return "";
+        };
+        const imagesUrl = await pMap(bedInfoInputs.images, getImageUrl);
+        if (bedInfoInputs.categories.length <= 0)
+            await lazyAlert("Product Category Required");
+        mutate(
+            {
+                ...bedInfoInputs,
+                images: imagesUrl,
+            },
+            {
+                onSuccess: (data) => {
+                    toast.success(
+                        data?.message || "Product Created Successfully"
+                    );
+                },
+                onError: () => {
+                    toast.error("Something went wrong");
+                },
+            }
+        );
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [bedInfoInputs]);
+
+    return (
+        <React.Fragment>
+            <Toast />
+            <div className={styles.rightsidebar}>
+                <DashboardHeader />
+                {/* <div className={styles["overlay"]}></div> */}
+                <main className={styles.main}>
+                    <div
+                        className={styles.containerbox}
+                        style={
+                            isLoading
+                                ? {
+                                      opacity: 0.5,
+                                      pointerEvents: "none",
+                                      userSelect: "none",
+                                  }
+                                : {}
+                        }
                     >
-                      {text}
-                    </li>
-                  );
-                })}
-              </ul>
-              <div className={styles.tabbox}>
-                <TabsRender tabName={activeTab} />
-              </div>
+                        <div className={styles.mainheading}>Create Product</div>
+                        <div
+                            className={`${styles.tablebox} ${styles.mt2} ${styles.productuploadtabbox}`}
+                        >
+                            <div className={styles.tabbox}>
+                                <div className="tabcontantinner">
+                                    <h2>Basic Info</h2>
+                                    <div className="box">
+                                        <ul>
+                                            <li>
+                                                <Input
+                                                    name="name"
+                                                    type="text"
+                                                    label={"Product Name"}
+                                                    placeholder="Enter product name"
+                                                    onChange={handleInputChange}
+                                                />
+                                            </li>
+                                            <li>
+                                                <Input
+                                                    name="slug"
+                                                    type="text"
+                                                    label={
+                                                        "Slug (uniq for every product)"
+                                                    }
+                                                    placeholder="Auto Generated"
+                                                    value={bedInfoInputs.slug}
+                                                    onChange={handleInputChange}
+                                                />
+                                            </li>
+                                            <li>
+                                                <Textarea
+                                                    name="description"
+                                                    placeholder="Enter product description"
+                                                    label="Product Description"
+                                                    onChange={handleInputChange}
+                                                />
+                                            </li>
+                                            <li className="grid">
+                                                <ChipInput
+                                                    label={`Category`}
+                                                    onChange={handleAddChip}
+                                                    placeholder="Add Category..."
+                                                />
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles.right}>
+                                <h2>Cover Images</h2>
+                                <div className={styles["box"]}>
+                                    <ul>
+                                        <li>
+                                            <DynamicImageGrid
+                                                getValue={(value) =>
+                                                    setBedInfoInputs({
+                                                        ...bedInfoInputs,
+                                                        images: value,
+                                                    })
+                                                }
+                                                initialValue={
+                                                    bedInfoInputs.images
+                                                }
+                                            />
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={styles.mainheading}>
+                            <AddMoreButton
+                                title="Submit Product Data"
+                                onClick={handleBedCreate}
+                            />
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                </main>
             </div>
-          </div>
-        </main>
-      </div>
-    </React.Fragment>
-  );
+        </React.Fragment>
+    );
 }
 
 export default CreateProduct;
-
-const TabsRender = ({ tabName }: any) => {
-  switch (tabName) {
-    case "Basic":
-      return <Basic />;
-    // case "size":
-    //   return (
-    //     <div className="tabcontantinner">
-    //       <h1>Size</h1>
-    //     </div>
-    //   );
-    // case "color":
-    //   return (
-    //     <div className="tabcontantinner">
-    //       <h1>Color</h1>
-    //     </div>
-    //   );
-    // case "headBoard":
-    //   return (
-    //     <div className="tabcontantinner">
-    //       <h1>HeadBoard</h1>
-    //     </div>
-    //   );
-    // case "storage":
-    //   return (
-    //     <div className="tabcontantinner">
-    //       <h1>Storage</h1>
-    //     </div>
-    //   );
-    // case "feet":
-    //   return (
-    //     <div className="tabcontantinner">
-    //       <h1>Feet</h1>
-    //     </div>
-    //   );
-    // case "mattress":
-    //   return (
-    //     <div className="tabcontantinner">
-    //       <h1>Mattress</h1>
-    //     </div>
-    //   );
-
-    default:
-      return null;
-  }
-};
-
-const Basic = () => {
-  const router = useRouter();
-  const [bed, setBed] = React.useState({
-    name: "" as string,
-    description: "" as string,
-    categories: [] as string[],
-  });
-
-  //API POST
-  const { mutate, isLoading } = useCreateNewBed();
-
-  const handleAddChip = React.useCallback(
-    (value: string[]) => {
-      setBed({ ...bed, categories: value });
-    },
-    [bed]
-  );
-
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setBed({ ...bed, [event.target.name]: event.target.value });
-  };
-
-  const handleBedCreate = React.useCallback(async () => {
-    // if (bed.name) await lazyAlert("Product Name Required");
-    // if (bed.description) await lazyAlert("Product Description Required");
-    if (bed.categories.length <= 0)
-      await lazyAlert("Product Category Required");
-    mutate(bed, {
-      onSuccess: (data) => {
-        toast.success(data?.message || "Product Created Successfully");
-      },
-      onError: () => {
-        toast.error("Something went wrong");
-      },
-    });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bed]);
-
-  return (
-    <div className="tabcontantinner">
-      <h1>Basic Info</h1>
-      <div className="box">
-        <ul>
-          <li>
-            <Input
-              name="name"
-              type="text"
-              label={"Product Name"}
-              placeholder="Enter product name"
-              onChange={handleInputChange}
-            />
-          </li>
-          <li>
-            <Textarea
-              name="description"
-              placeholder="Enter product description"
-              label="Product Description"
-              onChange={handleInputChange}
-            />
-          </li>
-
-          <li className="grid">
-            <ChipInput
-              label={`Category`}
-              onChange={handleAddChip}
-              placeholder="Add Category..."
-            />
-          </li>
-        </ul>
-        <div className={styles.buttonsection}>
-          <AddMoreButton title="Create" onClick={handleBedCreate} />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-{
-  /* <li>
-          <Input type="file" label={"Featured Image"} />
-        </li> */
-}
-{
-  /* <li>
-          <Select
-            // multiple
-            options={[
-              { text: "Select", value: "" },
-              { text: "Hello", value: "Bye" },
-              { text: "Hello", value: "Bye" },
-              { text: "Hello", value: "Bye" },
-              { text: "Hello", value: "Bye" },
-              { text: "Hello", value: "Bye" },
-            ]}
-            label={"Select Category"}
-          />
-        </li> */
-}
-{
-  /* <li className="grid-2">
-          <Input type="text" label={"Base Price"} />
-          <Input type="text" label={"Price"} />
-        </li> */
-}
-
-const lazyAlert = (succes?: any, error?: any) => {
-  return new Promise((resolve, reject) => {
-    resolve(alert(succes));
-    reject(alert(error));
-  });
-};

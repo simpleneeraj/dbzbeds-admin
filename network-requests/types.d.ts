@@ -24,6 +24,7 @@ interface AccessoriesOrderTypes {
     feet?: ProductType;
     headboard?: ProductType;
     mattress?: ProductType;
+    size?: ProductType;
 }
 interface VariantsTypes {
     _id?: string;
@@ -50,6 +51,8 @@ type Bed = {
     updatedAt: string;
     isDraft: boolean;
     __v: number;
+    slug: string;
+    images?: string[];
 };
 
 interface BedRequestPayload {
@@ -57,6 +60,8 @@ interface BedRequestPayload {
     description: string;
     categories: string[];
     isDraft: boolean;
+    slug: string;
+    images?: string[];
 }
 
 type BedResponse = {
@@ -133,6 +138,7 @@ interface Accessories {
 }
 
 export interface OrderItems {
+    _id: string;
     name: string;
     size: string;
     quantity: number;

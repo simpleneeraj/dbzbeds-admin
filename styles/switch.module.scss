@@ -1,0 +1,36 @@
+$size: 46px;
+$padding: 4px;
+
+$background: #bbb;
+$accent-color: #34c759;
+
+.active,
+.no {
+  background: $background;
+  height: $size / 2;
+  width: $size;
+  border-radius: 30px;
+  position: relative;
+  display: flex;
+  place-content: center;
+  padding: $padding;
+  transition: 150ms ease-in-out;
+  cursor: pointer;
+  span {
+    transition: 150ms ease-in-out;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate($padding - 1px, -50%);
+    height: $size / 2 - $padding;
+    width: $size / 2 - $padding;
+    border-radius: 100px;
+    background: #fff;
+  }
+}
+.active {
+  background: $accent-color;
+  span {
+    transform: translate($size / 2 + 2px, -50%);
+  }
+}

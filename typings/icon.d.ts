@@ -1,4 +1,5 @@
+import React from "react";
 
-import React from 'react'
-
-type SVGICONPROPS=React.SVGProps<SVGSVGElement>
+type SVGICONPROPS = {
+    size?: string;
+} & React.SVGProps<SVGSVGElement>;

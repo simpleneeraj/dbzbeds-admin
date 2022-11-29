@@ -6,6 +6,7 @@ import { AppPropsWithLayout } from "typings/layout";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import Layout from "layout";
 import { ReactQueryDevtools } from "react-query/devtools";
+import WebSocketProvider from "services/socket";
 
 /**
  * Admin Root
@@ -36,8 +37,10 @@ function RootApp({ Component, pageProps }: AppPropsWithLayout) {
                 <QueryClientProvider client={queryClient}>
                     {/* @ts-ignore */}
                     <Hydrate state={pageProps.dehydratedState}>
-                        <Component {...pageProps} />
-                        <ReactQueryDevtools initialIsOpen={false} />
+                        <WebSocketProvider>
+                            <Component {...pageProps} />
+                            <ReactQueryDevtools initialIsOpen={false} />
+                        </WebSocketProvider>
                     </Hydrate>
                 </QueryClientProvider>
             </Layout>
