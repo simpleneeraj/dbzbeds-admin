@@ -38,11 +38,12 @@
     font-size: 11px;
     font-style: normal;
     border-radius: 6px;
-    padding: 0 10px;
+    padding: 10px 10px;
     align-items: center;
     cursor: pointer;
     width: fit-content;
     background: #1d99f2 !important;
+    margin-top: 0px !important;
     i {
       display: grid;
       place-content: center;
