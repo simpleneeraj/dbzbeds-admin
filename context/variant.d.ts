@@ -1,5 +1,5 @@
-import { ProductType } from 'network-requests/types';
-import React from 'react';
+import { ProductType } from "network-requests/types";
+import React from "react";
 interface ContextType {
     general: any;
     color: string[];
@@ -7,9 +7,10 @@ interface ContextType {
     feet: ProductType[];
     mattress: ProductType[];
     storage: ProductType[];
+    reset: any;
 }
 
-interface StateTypes extends ContextType { }
+interface StateTypes extends ContextType {}
 
 interface ActionTypes {
     type: string;

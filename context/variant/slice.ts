@@ -49,9 +49,13 @@ const { initialState, reducer, actions } = slicer<ContextType>({
                 storage: action.payload,
             };
         },
-        // ["WHOLESTATE"]: (state: StateTypes, action: ActionTypes) => {
-        //     return Object.assign(state, action.payload)
-        // },
+        ["RESET"]: (state: StateTypes) => {
+            console.log({ running: "reset" });
+            return {
+                ...state,
+                ...init,
+            };
+        },
     },
 });
 

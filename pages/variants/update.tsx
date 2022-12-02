@@ -15,159 +15,176 @@ import pMap from "p-map";
 import { uploadBedImage } from "network-requests/api";
 import Button from "components/element/button";
 import {
-  UpdateVariantContext,
-  UpdateVariantProvider,
+    UpdateVariantContext,
+    UpdateVariantProvider,
 } from "context/variant/update";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+    useFetchBedVariantsById,
+    useFetchHeadboardVariantById,
+} from "network-requests/queries";
 
 interface AccessoriesTabsProps {
-  id: string;
-  tabName: string;
+    id: string;
+    tabName: string;
 }
 
 function CreateVariant() {
-  const router = useRouter();
-  const id = router.query?.id as string;
+    const router = useRouter();
+    const id = router.query?.id as string;
 
-  return (
-    <UpdateVariantProvider id={id}>
-      <Create />
-    </UpdateVariantProvider>
-  );
+    return (
+        <UpdateVariantProvider id={id}>
+            <Create />
+        </UpdateVariantProvider>
+    );
 }
 
 export default CreateVariant;
 
 const Create = () => {
-  const { state, dispatch } = React.useContext(UpdateVariantContext);
-  const { color, feet, headboard, mattress, general, storage } = state;
-  // const [activeTab, setActiveTab] = React.useState("Basic");
-  console.log({ state });
-  const router = useRouter();
-  const id = router.query?.id as string;
-  const { mutate } = useUpdateBedVariant(id);
-  const [isDraft, setIsDraft] = useState(false);
+    const { state, dispatch } = React.useContext(UpdateVariantContext);
+    const { color, feet, headboard, mattress, general, storage } = state;
+    // const [activeTab, setActiveTab] = React.useState("Basic");
+    console.log({ state });
+    const router = useRouter();
+    const id = router.query?.id as string;
+    const { mutate } = useUpdateBedVariant(id);
+    const [isDraft, setIsDraft] = useState(false);
 
-  const handleProductUpdate = async () => {
-    const baseImage =
-      typeof state.general.image === "string"
-        ? state.general.image
-        : await uploadBedImage(state.general.image as unknown as Blob);
+    const handleProductUpdate = async () => {
+        const baseImage =
+            typeof state.general.image === "string"
+                ? state.general.image
+                : await uploadBedImage(state.general.image as unknown as Blob);
 
-    const getImageUrlAndName = async (color: any) => {
-      console.log({ color });
-      if (color.image) {
-        console.log({ first: color.image });
-        const imageUrl =
-          typeof color.image === "string"
-            ? color.image
-            : await uploadBedImage(color.image as Blob);
-        return {
-          name: color?.name,
-          image: imageUrl,
+        const getImageUrlAndName = async (color: any) => {
+            console.log({ color });
+            if (color.image) {
+                console.log({ first: color.image });
+                const imageUrl =
+                    typeof color.image === "string"
+                        ? color.image
+                        : await uploadBedImage(color.image as Blob);
+                return {
+                    name: color?.name,
+                    image: imageUrl,
+                };
+            }
+            return {
+                name: color?.name,
+                image: null,
+            };
         };
-      }
-      return {
-        name: color?.name,
-        image: null,
-      };
+
+        const colorWithUrlAndName = await pMap(state.color, getImageUrlAndName);
+
+        console.log({ colorWithUrlAndName });
+
+        mutate(
+            {
+                price: {
+                    basePrice: state.general.basePrice,
+                    salePrice: state.general.basePrice,
+                },
+                size: state.general.size,
+                image: baseImage,
+                accessories: {
+                    color: colorWithUrlAndName as any,
+                    storage: state.storage,
+                    feet: state.feet,
+                    headboard: state.headboard,
+                    mattress: state.mattress,
+                },
+                isDraft: isDraft,
+            },
+            {
+                onSuccess: (data) => {
+                    toast.success(
+                        data?.message || "Varient Created Successfully"
+                    );
+                },
+            }
+        );
     };
 
-    const colorWithUrlAndName = await pMap(state.color, getImageUrlAndName);
+    useEffect(() => {
+        setIsDraft(state.general?.isDraft);
+    }, [state.general?.isDraft]);
 
-    console.log({ colorWithUrlAndName });
+    console.log({ headboardInitial: headboard, storage });
 
-    mutate(
-      {
-        price: {
-          basePrice: state.general.basePrice,
-          salePrice: state.general.basePrice,
-        },
-        size: state.general.size,
-        image: baseImage,
-        accessories: {
-          color: colorWithUrlAndName as any,
-          storage: state.storage,
-          feet: state.feet,
-          headboard: state.headboard,
-          mattress: state.mattress,
-        },
-        isDraft: isDraft,
-      },
-      {
-        onSuccess: (data) => {
-          toast.success(data?.message || "Varient Created Successfully");
-        },
-      }
-    );
-  };
+    return (
+        <div className={styles.rightsidebar}>
+            <ToastContainer />
 
-  useEffect(() => {
-    setIsDraft(state.general?.isDraft);
-  }, [state.general?.isDraft]);
-
-  console.log({ headboardInitial: headboard, storage });
-
-  return (
-    <div className={styles.rightsidebar}>
-      <DashboardHeader />
-      <ToastContainer />
-      <div className={styles.mainheading}>Create Variasnt</div>
-      <main className={styles.main}>
-        <div className={styles.containerbox}>
-          <div
-            style={{
-              marginTop: "10px",
-              background: "#fff",
-              padding: ".5rem",
-              width: " 100%",
-            }}
-          >
-            is draft
-            <input
-              type="checkbox"
-              checked={isDraft}
-              onChange={(e) => setIsDraft(e.target.checked)}
-            />
-            <General
-              id={id}
-              getValue={(v) => dispatch(VariantsActions.GENERAL(v))}
-              value={general}
-            />
-            <Color
-              id={id}
-              getValue={(v) => dispatch(VariantsActions.COLOR(v))}
-              value={color}
-            />
-            <HeadBoard
-              id={id}
-              getValue={(v) => dispatch(VariantsActions.HEADBOARD(v))}
-              value={headboard}
-            />
-            <Storages
-              id={id}
-              getValue={(v) => dispatch(VariantsActions.STORAGE(v))}
-              value={storage}
-            />
-            <Feet
-              id={id}
-              getValue={(v) => dispatch(VariantsActions.FEET(v))}
-              value={feet}
-            />
-            <Mattress
-              id={id}
-              getValue={(v) => dispatch(VariantsActions.MATTRESS(v))}
-              value={mattress}
-            />
-          </div>
-          <div className="grid">
-            <Button onClick={handleProductUpdate}>Submit Data</Button>
-          </div>
+            <DashboardHeader />
+            <div className={styles.mainheading}>Create Variasnt</div>
+            <main className={styles.main}>
+                <div className={styles.containerbox}>
+                    <div
+                        style={{
+                            marginTop: "10px",
+                            background: "#fff",
+                            padding: ".5rem",
+                            width: " 100%",
+                        }}
+                    >
+                        is draft
+                        <input
+                            type="checkbox"
+                            checked={isDraft}
+                            onChange={(e) => setIsDraft(e.target.checked)}
+                        />
+                        <General
+                            id={id}
+                            getValue={(v) =>
+                                dispatch(VariantsActions.GENERAL(v))
+                            }
+                            value={general}
+                        />
+                        <Color
+                            id={id}
+                            getValue={(v) => dispatch(VariantsActions.COLOR(v))}
+                            value={color}
+                        />
+                        <HeadBoard
+                            id={id}
+                            getValue={(v) =>
+                                dispatch(VariantsActions.HEADBOARD(v))
+                            }
+                            value={headboard}
+                        />
+                        <Storages
+                            id={id}
+                            getValue={(v) =>
+                                dispatch(VariantsActions.STORAGE(v))
+                            }
+                            value={storage}
+                        />
+                        <Feet
+                            id={id}
+                            getValue={(v) => dispatch(VariantsActions.FEET(v))}
+                            value={feet}
+                        />
+                        <Mattress
+                            id={id}
+                            getValue={(v) =>
+                                dispatch(VariantsActions.MATTRESS(v))
+                            }
+                            value={mattress}
+                        />
+                    </div>
+                    <div className="grid">
+                        <Button onClick={handleProductUpdate}>
+                            Submit Data
+                        </Button>
+                    </div>
+                </div>
+            </main>
         </div>
-      </main>
-    </div>
-  );
+    );
 };
 
 // const AccessoriesTabs = ({ tabName, id }: AccessoriesTabsProps) => {
