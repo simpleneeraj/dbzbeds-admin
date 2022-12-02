@@ -386,6 +386,7 @@ export const updateOrderStatus = (id: string, status: string): Promise<any> =>
         .catch((error) => {
             throw error;
         });
+
 export const SendorderDetails = (
     email: string,
     message: string
