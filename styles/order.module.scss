@@ -389,6 +389,8 @@
   box-shadow: 2px 2px 1px #f1f5f9;
   border: 1px solid #e5e5e5;
   margin-top: 15px;
+  font-size: 24px;
+  font-weight: 600;
   .actionbtn {
     ul {
       li {
@@ -537,10 +539,12 @@
     background: #1e293b;
     color: #fff !important;
     border-radius: 5px;
-    padding: 7px 30px;
+    padding: 10px 25px;
   }
 }
-
+.allproducttable {
+  margin-top: 10px;
+}
 // product table
 .allproducttable {
   thead {
@@ -630,11 +634,18 @@
     }
   }
 }
-
+.right {
+  width: 100%;
+}
+.inputbox ul li {
+  margin-top: 20px;
+}
 .productuploadtabbox {
   display: flex;
   padding: 1rem;
   gap: 15px;
+  width: 82%;
+    flex-wrap: wrap;
   ul.productuploadtab {
     width: 16rem;
     margin: 0;
@@ -660,7 +671,9 @@
     flex: 1;
   }
 }
-
+.box ul li {
+  margin-top: 10px;
+}
 .buttonsection {
   display: flex;
   justify-content: flex-end;
@@ -671,7 +684,6 @@
     padding: 10px 15px;
   }
 }
-
 .loading {
   padding: 0.4rem;
   display: grid;

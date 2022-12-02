@@ -7,7 +7,8 @@ const AddMoreButton = (props: ButtonProps) => {
   return (
     <div className={css.addMore}>
       <button type="button" {...props}>
-        <AddIcon fill="#fff" height={18} width={18} /> {props.title}
+        {/* <AddIcon fill="#fff" height={18} width={18} /> */}
+        {props.title}
       </button>
     </div>
   );

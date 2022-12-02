@@ -98,9 +98,9 @@ const Create = () => {
   return (
     <div className={styles.rightsidebar}>
       <DashboardHeader />
+      <div className={styles.mainheading}>Create Variant</div>
       <main className={styles.main}>
         <div className={styles.containerbox}>
-          <div className={styles.mainheading}>Create Variant</div>
           {/* <div
             className={` ${styles.tablebox} ${styles.mt2} ${styles.productuploadtabbox}`}
           >
@@ -127,6 +127,7 @@ const Create = () => {
               marginTop: "10px",
               background: "#fff",
               padding: ".5rem",
+              width: "100%",
             }}
           >
             <General
