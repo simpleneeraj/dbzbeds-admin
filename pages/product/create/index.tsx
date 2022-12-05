@@ -13,6 +13,8 @@ import AddMoreButton from "components/element/addmore";
 import { useCreateNewBed } from "network-requests/mutations";
 import DynamicImageGrid from "components/element/image-picker-grid";
 import lazyAlert from "constants/lazy-alert";
+import Router from "next/router";
+import { useCheckSlugAvailability } from "network-requests/queries";
 
 type E = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
@@ -25,6 +27,9 @@ function CreateProduct() {
     images: [] as any,
   });
 
+  const { data: slugAvailability, isFetched }: any = useCheckSlugAvailability(
+    bedInfoInputs.slug
+  );
   //API POST
   const { mutate, isLoading } = useCreateNewBed();
 
@@ -57,6 +62,10 @@ function CreateProduct() {
 
   // SUBMIT DATA TO DB
   const handleBedCreate = React.useCallback(async () => {
+    if (!slugAvailability?.success) {
+      return toast.error("Slug is already taken, please try another one");
+    }
+
     const getImageUrl = async (image: any) => {
       if (image) {
         const imageUrl = await uploadBedImage(image as Blob);
@@ -64,6 +73,7 @@ function CreateProduct() {
       }
       return "";
     };
+
     const imagesUrl = await pMap(bedInfoInputs.images, getImageUrl);
     if (bedInfoInputs.categories.length <= 0)
       await lazyAlert("Product Category Required");
@@ -75,6 +85,7 @@ function CreateProduct() {
       {
         onSuccess: (data) => {
           toast.success(data?.message || "Product Created Successfully");
+          Router.reload();
         },
         onError: () => {
           toast.error("Something went wrong");
@@ -126,11 +137,27 @@ function CreateProduct() {
                         <Input
                           name="slug"
                           type="text"
+                          style={{
+                            border:
+                              !slugAvailability?.success && isFetched
+                                ? "2px solid red"
+                                : "2px solid green",
+                          }}
                           label={"Slug (uniq for every product)"}
                           placeholder="Auto Generated"
                           value={bedInfoInputs.slug}
                           onChange={handleInputChange}
                         />
+                        {!slugAvailability?.success && isFetched && (
+                          <p
+                            style={{
+                              color: "red",
+                            }}
+                          >
+                            {slugAvailability?.message ||
+                              "Slug already exists. Please try another one"}
+                          </p>
+                        )}
                       </li>
                       <li>
                         <Textarea

@@ -51,25 +51,15 @@ export default function UpdateProduct({ id }: Props) {
 
   const handleIconUpdate = () => {
     if (!inputValue.label || !inputValue.value) return;
-    mutate(
-      { ...inputValue, id },
-      {
-        onSuccess: (data) => {
-          toast.success(data?.message || "Accessories Updated Successfully");
-        },
-        onError: () => {
-          toast.error("Something went wrong");
-        },
-      }
-    );
+    mutate({ ...inputValue, id } as any, {
+      onSuccess: (data) => {
+        toast.success(data?.message || "Accessories Updated Successfully");
+      },
+      onError: () => {
+        toast.error("Something went wrong");
+      },
+    });
   };
-
-  React.useEffect(() => {
-    setInputValue((prev) => ({
-      ...prev,
-      value: replacer(inputValue.label),
-    }));
-  }, [inputValue.label]);
 
   React.useEffect(() => {
     if (data) {
@@ -134,7 +124,13 @@ export default function UpdateProduct({ id }: Props) {
                         label={"Name"}
                         placeholder="Enter Name"
                         value={extraSpace(inputValue.label)}
-                        onChange={onChangeInputs}
+                        onChange={(e) => {
+                          onChangeInputs(e);
+                          setInputValue((prev) => ({
+                            ...prev,
+                            value: replacer(e.target.value),
+                          }));
+                        }}
                       />
                     </li>
                     <li>
