@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "styles/order.module.scss";
 import Input from "components/element/input";
-import Textarea from "components/element/textarea";
 import AddMoreButton from "components/element/addmore";
 import DashboardHeader from "layout/header";
 import ChipInput from "components/chip-input";
@@ -14,8 +13,12 @@ import DynamicImageGrid from "components/element/image-picker-grid";
 import Switch from "components/switch";
 import pMap from "p-map";
 import { uploadBedImage } from "network-requests/api";
+import RichTextEditor from "components/rich-text-editor";
 
 function CreateProduct() {
+  const [value, onChange] = React.useState("");
+
+  console.log(value);
   const router = useRouter();
   const { data, isFetched } = useFetchBedById(router.query.id as string);
   const [bedInfoInputs, setBedInfoInputs] = React.useState({
@@ -68,6 +71,15 @@ function CreateProduct() {
       [event.target.name]: event.target.value,
     });
   };
+  const handleDescription = React.useCallback(
+    (key: string, value: string) => {
+      setBedInfoInputs({
+        ...bedInfoInputs,
+        [key]: value,
+      });
+    },
+    [bedInfoInputs]
+  );
 
   const handleBedUpdate = React.useCallback(async () => {
     const getImageUrl = async (image: any) => {
@@ -144,14 +156,23 @@ function CreateProduct() {
                           onChange={handleInputChange}
                         />
                       </li>
-                      <li>
-                        <Textarea
+                      <li className="grid">
+                        {/* <Textarea
                           name="description"
                           placeholder="Enter product description"
                           label="Product Description"
                           onChange={handleInputChange}
                           value={bedInfoInputs.description}
-                        />
+                        /> */}
+                        <div>
+                          <label className={styles["label"]}>Description</label>
+                          <RichTextEditor
+                            value={bedInfoInputs.description}
+                            onChange={(value) =>
+                              handleDescription("description", value)
+                            }
+                          />
+                        </div>
                       </li>
 
                       <li className="grid">

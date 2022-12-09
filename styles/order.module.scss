@@ -645,7 +645,7 @@
   padding: 1rem;
   gap: 15px;
   width: 82%;
-    flex-wrap: wrap;
+  flex-wrap: wrap;
   ul.productuploadtab {
     width: 16rem;
     margin: 0;
@@ -832,4 +832,32 @@
   .sidebar {
     display: none !important;
   }
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.draft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-variant: small-caps;
+    color: #333;
+  }
+}
+
+.label {
+  font-size: 0.85rem;
+  padding: 0.4rem;
+  font-weight: 500;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: column;
 }
