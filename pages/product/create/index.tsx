@@ -15,6 +15,7 @@ import DynamicImageGrid from "components/element/image-picker-grid";
 import lazyAlert from "constants/lazy-alert";
 import Router from "next/router";
 import { useCheckSlugAvailability } from "network-requests/queries";
+import RichTextEditor from "components/rich-text-editor";
 
 type E = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
@@ -96,6 +97,17 @@ function CreateProduct() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bedInfoInputs]);
 
+  const handleDescription = React.useCallback(
+    (key: string, value: string) => {
+      setBedInfoInputs({
+        ...bedInfoInputs,
+        [key]: value,
+      });
+    },
+    [bedInfoInputs]
+  );
+
+  console.log(bedInfoInputs);
   return (
     <React.Fragment>
       <Toast />
@@ -160,12 +172,42 @@ function CreateProduct() {
                         )}
                       </li>
                       <li>
-                        <Textarea
+                        {/* <Textarea
                           name="description"
                           placeholder="Enter product description"
                           label="Product Description"
                           onChange={handleInputChange}
-                        />
+                        /> */}
+                        <li className={styles["grid"]}>
+                          {/* <Textarea
+                          name="description"
+                          placeholder="Enter product description"
+                          label="Product Description"
+                          onChange={handleInputChange}
+                          value={bedInfoInputs.description}
+                        /> */}
+                          <div className={styles["list-container"]}>
+                            <label className={styles["label"]}>
+                              Description
+                            </label>
+                            <RichTextEditor
+                              style={{
+                                minHeight: `300px`,
+                              }}
+                              value={bedInfoInputs.description}
+                              onChange={(value) =>
+                                handleDescription("description", value)
+                              }
+                              controls={[
+                                ["bold", "italic", "underline"],
+                                ["alignLeft", "alignCenter", "alignRight"],
+                                ["unorderedList", "orderedList"],
+                                ["h1", "h2", "h3", "h4"],
+                                ["sup", "sub"],
+                              ]}
+                            />
+                          </div>
+                        </li>
                       </li>
                       <li className="grid">
                         <ChipInput
