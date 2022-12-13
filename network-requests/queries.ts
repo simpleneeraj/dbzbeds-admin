@@ -9,6 +9,8 @@ import {
   getAllOrders,
   getBedById,
   getBedVariantById,
+  getBuildYourBeds,
+  getBuildYourBedsVariantsById,
   getHeadboardById,
   getHeadboardVariantById,
   getIconAllByType,
@@ -180,5 +182,17 @@ export const useCheckSlugAvailability = (slug: string) =>
     {
       refetchOnMount: false,
       enabled: !!slug,
+    }
+  );
+
+export const useGetBuildYourBeds = () =>
+  useQuery("build-your-beds", (): Promise<Bed[]> => getBuildYourBeds());
+
+export const useGetBuildYourBedsVariantsById = (id: string) =>
+  useQuery(
+    ["build-your-beds-variants", id],
+    (): Promise<BedWithImage> => getBuildYourBedsVariantsById(id),
+    {
+      enabled: !!id,
     }
   );

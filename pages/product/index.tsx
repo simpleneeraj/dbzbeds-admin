@@ -27,8 +27,6 @@ function ProductPage() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    status,
-    error,
     refetch,
   } = useFetchAllBedsWithImageAdmin();
 

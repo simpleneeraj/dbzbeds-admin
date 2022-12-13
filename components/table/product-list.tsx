@@ -15,6 +15,7 @@ interface TableListProps {
   onDelete?: () => void;
   onView?: () => void;
   onEdit?: (value: any) => any;
+  showDelete?: boolean;
 }
 const ProductList = ({
   name,
@@ -24,6 +25,7 @@ const ProductList = ({
   onEdit,
   onDelete,
   categories,
+  showDelete = true,
 }: TableListProps) => {
   return (
     <tr>
@@ -86,9 +88,11 @@ const ProductList = ({
             <li onClick={onEdit} title="Edit">
               <EditIcon height={16} width={16} />
             </li>
-            <li onClick={onDelete} title="Delete">
-              <DeleteIcon height={16} width={16} />
-            </li>
+            {showDelete && (
+              <li onClick={onDelete} title="Delete">
+                <DeleteIcon height={16} width={16} />
+              </li>
+            )}
           </ul>
         </div>
       </td>
