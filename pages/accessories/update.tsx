@@ -78,7 +78,7 @@ export default function UpdateProduct({ id }: Props) {
         <div className={styles.topheaderdashboard}>
           <div className={styles.leftside}>
             <div className={styles.topsearch}>
-              <input type="text" placeholder="Type Hare...." />
+              <input type="text" placeholder="Type Here...." />
               <button>
                 <Image
                   src="/icons/search-line.svg"

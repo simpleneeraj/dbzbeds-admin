@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import DeleteIcon from "icons/delete";
 import EditIcon from "icons/edit";
+import ViewIcon from "icons/view";
 import css from "styles/order.module.scss";
 
 interface TableListProps {
@@ -19,6 +20,7 @@ interface TableListProps {
   onEdit?: (value: any) => any;
 }
 const VariantList = ({
+  onView,
   onDelete,
   onEdit,
   date,
@@ -26,7 +28,6 @@ const VariantList = ({
   price,
   size,
 }: TableListProps) => {
-  console.log(price);
   return (
     <tr>
       <td>
@@ -66,10 +67,11 @@ const VariantList = ({
       <td>
         <div className={css.actionbtn}>
           <ul className={css.actionbtnul}>
-            {" "}
-            {/* <li onClick={onView} title="View">
-              <ViewIcon height={16} width={16} />
-            </li> */}
+            {onView && (
+              <li onClick={onView} title="View">
+                <ViewIcon height={16} width={16} />
+              </li>
+            )}
             <li onClick={onEdit} title="Edit">
               <EditIcon height={16} width={16} />
             </li>

@@ -8,7 +8,7 @@ const DashboardHeader = () => {
     <div className={Styles.topheaderdashboard}>
       <div className={Styles.leftside}>
         <div className={Styles.topsearch}>
-          <input type="text" placeholder="Type Hare...." />
+          <input type="text" placeholder="Type Here...." />
           <button>
             {/* <Image
               src="/icons/search-line.svg"

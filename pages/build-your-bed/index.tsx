@@ -7,6 +7,7 @@ import TableHeader from "components/table/header";
 import ProductList from "components/table/product-list";
 import { useGetBuildYourBeds } from "network-requests/queries";
 import dynamic from "next/dynamic";
+import FilterHeader from "components/table/filter";
 
 const Skeleton = dynamic(() => import("components/skeleton"), { ssr: false });
 
@@ -14,6 +15,10 @@ function ProductPage() {
   const { push } = useRouter();
 
   const { data, isLoading, isError } = useGetBuildYourBeds();
+
+  const onCreateNew = React.useCallback(() => {
+    push("/build-your-bed/create");
+  }, []);
 
   return (
     <>
@@ -23,6 +28,10 @@ function ProductPage() {
         <main className={styles.main}>
           <div className={styles.containerbox}>
             <div className={` ${styles.tablebox} ${styles.mt2}`}>
+              <FilterHeader
+                createText="Create Your Own Bed"
+                onCreate={onCreateNew}
+              />
               <div className={`${styles.table} ${styles.allproducttable} `}>
                 <table>
                   {isLoading ? (
@@ -41,7 +50,7 @@ function ProductPage() {
                         <TableHeader listArray={headerArray} />
                       </thead>
                       <tbody>
-                        {data?.map((product, index: number) => (
+                        {data?.map((product, _index: number) => (
                           <ProductList
                             key={product._id}
                             name={product?.name}
@@ -49,10 +58,10 @@ function ProductPage() {
                             date={product?.createdAt}
                             categories={product?.categories}
                             onEdit={() =>
-                              push(`/product/update?id=${product._id}`)
+                              push(`/build-your-bed/update?id=${product._id}`)
                             }
                             onView={() =>
-                              push(`/build-your-bed/variants/${product._id}`)
+                              push(`/build-your-bed/colors/${product._id}`)
                             }
                             showDelete={false}
                           />

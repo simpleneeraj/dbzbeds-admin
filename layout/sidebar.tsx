@@ -6,6 +6,7 @@ import ShoppingBag from "icons/ShoppingBag";
 import AppsIcon from "icons/AppsIcon";
 import DatabaseIcon from "icons/DatabaseIcon";
 import { useRouter } from "next/router";
+import BedIcon from "icons/BedIcon";
 
 interface CommerceSidebarProps {
   active?: boolean;
@@ -57,7 +58,7 @@ const navigationArray = [
   {
     title: `Build Your Bed`,
     href: `/build-your-bed`,
-    icon: (props: SVGICONPROPS) => <AppsIcon {...props} />,
+    icon: (props: SVGICONPROPS) => <BedIcon {...props} />,
   },
   {
     title: `Accessories`,
