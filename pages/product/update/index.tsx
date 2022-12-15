@@ -15,7 +15,7 @@ import pMap from "p-map";
 import { uploadBedImage } from "network-requests/api";
 import RichTextEditor from "components/rich-text-editor";
 
-function CreateProduct() {
+function UpdateProduct() {
   const [value, onChange] = React.useState("");
 
   console.log(value);
@@ -230,4 +230,4 @@ function CreateProduct() {
   );
 }
 
-export default CreateProduct;
+export default UpdateProduct;

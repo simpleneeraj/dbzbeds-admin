@@ -60,7 +60,7 @@ const Create = () => {
     <div className={styles.rightsidebar}>
       <DashboardHeader />
       <ToastContainer />
-      <div className={styles.mainheading}>Update Color</div>
+      <div className={styles.mainheading}>Update Size</div>
       <main className={styles.main}>
         <div className={styles.containerbox}>
           <div
@@ -77,7 +77,7 @@ const Create = () => {
               value={general}
             />
           </div>
-          <div className="grid">
+          <div className={styles.mainheading}>
             <Button onClick={handleProductUpload}>Submit Data</Button>
           </div>
         </div>

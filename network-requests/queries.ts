@@ -9,8 +9,6 @@ import {
   getAllOrders,
   getBedById,
   getBedVariantById,
-  getBuildYourBeds,
-  getBuildYourBedsVariantsById,
   getHeadboardById,
   getHeadboardVariantById,
   getIconAllByType,
@@ -19,6 +17,7 @@ import {
   getIconsByType,
   getOrderById,
 } from "./api";
+import { getBuildYourBeds, getBuildYourBedsVariantsById } from "./api/build-your-bed";
 import {
   Accessories,
   Bed,
@@ -26,7 +25,6 @@ import {
   BedWithImage,
   BedWithSize,
   Order,
-  VariantsTypes,
 } from "./types";
 
 export const useFetchAllBeds = () =>

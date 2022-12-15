@@ -147,85 +147,94 @@
 }
 
 .main {
-  .containerbox {
-    padding-right: 30px;
-    padding-left: 30px;
-    margin-top: 1rem;
+}
+.containerbox {
+  padding-right: 30px;
+  padding-left: 30px;
+  margin-top: 1rem;
+  display: flex;
+  // height: 100vh;
+  flex-direction: column;
+  .devide {
+    width: 100%;
     display: flex;
-    // height: 100vh;
-    .devide {
-      width: 100%;
+    flex-direction: column;
+
+    .free_ship {
+      background-color: white;
+      padding: 23px 24px 8px 24px;
+      margin-top: 15px;
       display: flex;
-      flex-direction: column;
 
-      .free_ship {
-        background-color: white;
-        padding: 23px 24px 8px 24px;
-        margin-top: 15px;
-        display: flex;
-
-        tr {
-          p {
-            display: flex;
-            justify-content: space-between;
-            padding: 0 3rem 0 1rem;
-          }
-          flex: 1;
-        }
-      }
-      .Order_subtotal {
-        background: #f2f1f1;
-        line-height: 2.5;
-        font-size: 13px;
-        .subtotal_paid {
-          float: right;
-          text-align: right;
-          padding: 20px;
-          width: 50%;
-          border-bottom: 2px solid #9f9f9f;
-        }
-        .total_paid {
-          width: 100%;
-          float: right;
-          text-align: right;
-          padding: 20px;
-          border-bottom: 1px solid #dfdfdf;
-        }
-        .refund_button {
+      tr {
+        p {
           display: flex;
-          width: 100%;
-
-          p {
-            display: flex;
-            justify-content: space-between;
-            flex: 1;
-            padding: 30px;
-            button {
-              height: 2rem;
-              padding: 0 15px;
-              border: 1px solid #0a4b78;
-              border-radius: 4px;
-            }
-          }
+          justify-content: space-between;
+          padding: 0 3rem 0 1rem;
         }
+        flex: 1;
       }
     }
-    .mainheading {
-      background: #fff;
-      padding: 23px 24px 12px 24px;
-      box-shadow: 2px 2px 1px #f1f5f9;
-      border: 1px solid #e5e5e5;
-      h1 {
-        font-size: 21px;
-        font-weight: 400;
-        font-family: sans-serif;
+    .Order_subtotal {
+      background: #f2f1f1;
+      line-height: 2.5;
+      font-size: 13px;
+      .subtotal_paid {
+        float: right;
+        text-align: right;
+        padding: 20px;
+        width: 50%;
+        border-bottom: 2px solid #9f9f9f;
       }
-      p {
-        font-size: 16px;
-        line-height: 1.6em;
+      .total_paid {
+        width: 100%;
+        float: right;
+        text-align: right;
+        padding: 20px;
+        border-bottom: 1px solid #dfdfdf;
+      }
+      .refund_button {
+        display: flex;
+        width: 100%;
+
+        p {
+          display: flex;
+          justify-content: space-between;
+          flex: 1;
+          padding: 30px;
+          button {
+            height: 2rem;
+            padding: 0 15px;
+            border: 1px solid #0a4b78;
+            border-radius: 4px;
+          }
+        }
       }
     }
   }
+  .mainheading {
+    background: #fff;
+    padding: 23px 24px 12px 24px;
+    box-shadow: 2px 2px 1px #f1f5f9;
+    border: 1px solid #e5e5e5;
+    h1 {
+      font-size: 21px;
+      font-weight: 400;
+      font-family: sans-serif;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.6em;
+    }
+  }
+}
+
+.innner-container {
+  width: 100%;
+  margin-top: 10px;
+  padding: 0.5rem;
+  border-radius: 10px;
+  background: rgb(255, 255, 255);
 }
 
 .mt2 {
@@ -644,7 +653,7 @@
   display: flex;
   padding: 1rem;
   gap: 15px;
-  width: 82%;
+  // width: 82%;
   flex-wrap: wrap;
   ul.productuploadtab {
     width: 16rem;

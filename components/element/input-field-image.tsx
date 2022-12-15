@@ -1,15 +1,17 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import styles from "styles/admin.module.scss";
-import AddMoreButton from "./addmore";
+import React from "react";
 import Input from "./input";
 import Select from "./select";
+import AddMoreButton from "./addmore";
+import handleImageURL from "utils/image-url";
+import styles from "styles/admin.module.scss";
 
 interface InputFields {
   name: string;
   price: string;
+  image?: string | File;
 }
 
-interface DynamicInputProps {
+interface InputFieldWithImageProps {
   title: string;
   options: any[];
   label?: string;
@@ -17,22 +19,23 @@ interface DynamicInputProps {
   initialValue?: InputFields[];
 }
 
-function DynamicInputFields({
+function InputFieldWithImage({
   title,
   options,
   getValue,
   initialValue,
   label,
-}: DynamicInputProps) {
-  const [inputFields, setInputFields] = useState<InputFields[]>([]);
+}: InputFieldWithImageProps) {
+  const [inputFields, setInputFields] = React.useState<InputFields[]>([]);
 
-  const handleFormChange = (
-    index: number,
-    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    console.log({ event });
+  const handleFormChange = (index: number, event: any) => {
     let data = [...inputFields] as any;
-    data[index][event.target.name] = event.target.value;
+    if (event.target.name === "image") {
+      const file = event.target.files ? event.target.files[0] : null;
+      data[index][event.target.name] = file;
+    } else {
+      data[index][event.target.name] = event.target.value;
+    }
     setInputFields(data);
     getValue(data);
   };
@@ -50,25 +53,24 @@ function DynamicInputFields({
     getValue(data);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (initialValue && initialValue?.length > 0) {
       setInputFields(initialValue);
     }
   }, [initialValue]);
 
-  options?.map((item) => {
-    if (item?._id) {
-      item.value = item._id;
-    }
-  });
+  // options?.map((item) => {
+  //   if (item?._id) {
+  //     item.value = item._id;
+  //   }
+  // });
 
   return (
     <React.Fragment>
       {/* Dynamic Fields */}
-      {title && <h1 className={styles.heading}>{title}</h1>}
-      <div className={styles.grid}>
+      {title && <h2 className={styles.heading}>{title}</h2>}
+      <div className={styles.grid} style={{ gridTemplateColumns: "1fr 2fr" }}>
         {inputFields.map((data: any, index: number) => {
-          console.log({ check: data });
           return (
             <React.Fragment key={index}>
               <Select
@@ -78,8 +80,10 @@ function DynamicInputFields({
                 onChange={(e) => handleFormChange(index, e)}
                 value={data?.name}
               />
-
-              <div className="d-flex" style={{ alignItems: "center" }}>
+              <div
+                className="d-flex"
+                style={{ flex: 2, alignItems: "center", gap: "0.4rem" }}
+              >
                 <Input
                   name="price"
                   type="number"
@@ -87,9 +91,17 @@ function DynamicInputFields({
                   placeholder="Enter product price"
                   value={data?.price}
                   onChange={(e) => handleFormChange(index, e)}
-                  deletable
-                  onDelete={() => removeFields(index)}
                   style={{ width: "100%" }}
+                />
+                <Input
+                  name="image"
+                  type="file"
+                  deletable
+                  label={`${title} Image`}
+                  // style={{ width: "100%" }}
+                  onChange={(e) => handleFormChange(index, e)}
+                  onDelete={() => removeFields(index)}
+                  imageUrl={handleImageURL(data?.image)}
                 />
               </div>
             </React.Fragment>
@@ -101,4 +113,9 @@ function DynamicInputFields({
   );
 }
 
-export default DynamicInputFields;
+export default InputFieldWithImage;
+
+// let data = [...inputFields] as any;
+// data[index][event.target.name] = event.target.value;
+// setInputFields(data);
+// getValue(data);

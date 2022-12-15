@@ -34,29 +34,30 @@ function ColorsPage({ id }: VariantsPageProps) {
     [refetch]
   );
 
-  const onEdit = (id: string) => {
-    router.push(`/build-your-bed/colors/update?id=${id}`);
+  const onEdit = (_id: string) => {
+    router.push(`/build-your-bed/sizes/${id}/update`);
   };
   const onView = (_id: string) => {
-    router.push(`/build-your-bed/colors/${id}/variants/${_id}`);
+    router.push(`/build-your-bed/sizes/${id}/variants/${_id}`);
   };
   const onCreateNew = (id: string) => {
-    router.push(`/build-your-bed/colors/create?id=${id}`);
+    router.push(`/build-your-bed/sizes/${id}/create`);
   };
 
+  // i min
   return (
     <>
       <div className={Styles.rightsidebar}>
         <DashboardHeader />
         <div className={Styles.mainheading}>
           {/* {data?.name}  */}
-          All Variants Lists
+          All Variants Lists ( LEVEL 1 )
         </div>
         <main className={Styles.main}>
           <div className={Styles.containerbox}>
             <div className={` ${Styles.tablebox} ${Styles.mt2}`}>
               <FilterHeader
-                createText="Create New Color"
+                createText="Create New Size"
                 onCreate={() => onCreateNew(router.query?.id as string)}
               />
               <div className={`${Styles.table} ${Styles.allproducttable} `}>

@@ -10,9 +10,10 @@ interface ContextType {
     reset: any;
 }
 
-interface StateTypes extends ContextType {}
+interface StateTypes extends ContextType { }
 
 interface ActionTypes {
     type: string;
     payload: any;
+    [K: string]: any
 }

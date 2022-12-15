@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Input from "../../element/input";
 import imageToUrl from "utils/image2url";
 import { useRouter } from "next/router";
-import Select from "../../element/select";
 import { VarientsProps } from "typings/variants";
 import { useFetchIconsByType } from "network-requests/queries";
+import Select from "components/element/select";
+import Input from "components/element/input";
 
 interface StateTypes {
   size: string;
@@ -17,7 +17,8 @@ const General = ({ getValue, value, heading }: VarientsProps) => {
   const router = useRouter();
   //Api call for getting the list of icons
   const [state, setState] = useState<StateTypes>(value);
-  const { data = [] } = useFetchIconsByType("SIZE", router.query.id as any);
+
+  const { data = [] } = useFetchIconsByType("COLOR", router.query.id as any);
 
   const changeHandler = (e: any) => {
     const { name, value, files } = e.target;
@@ -39,6 +40,10 @@ const General = ({ getValue, value, heading }: VarientsProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
+  // color
+  // price
+  // image
+
   return (
     <div className="tabcontantinner">
       {heading && <h2>{heading}</h2>}
@@ -46,19 +51,16 @@ const General = ({ getValue, value, heading }: VarientsProps) => {
         <ul>
           <li className="grid-2">
             <Select
-              name="size"
-              options={[
-                { label: "Select Bed Size", value: "" },
-                ...(data as any),
-              ]}
-              label={"Select Size"}
+              name="color"
+              options={[{ label: "Select Bed Color", value: "" }, ...data]}
+              label={"Select Color"}
               onChange={changeHandler}
               value={state.size}
             />
             <Input
               type="file"
               name="image"
-              label={"Featured Image"}
+              label={"Color Image"}
               accept="image/*"
               onChange={changeHandler}
               imageUrl={imageToUrl(state.image as any)}

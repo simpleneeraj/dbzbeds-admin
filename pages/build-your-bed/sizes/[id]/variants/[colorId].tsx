@@ -33,11 +33,11 @@ function VariantsPage({ id }: VariantsPageProps) {
     [refetch]
   );
 
-  const onEdit = (id: string) => {
-    router.push(`/build-your-bed/variants/update?id=${id}`);
+  const onEdit = (colorId: string) => {
+    router.push(`/build-your-bed/sizes/${id}/variants/update?id=${colorId}`);
   };
-  const onCreateNew = (id: string) => {
-    router.push(`/build-your-bed/variants/create?id=${id}`);
+  const onCreateNew = (colorId: string) => {
+    router.push(`/build-your-bed/sizes/${id}/variants/create?id=${colorId}`);
   };
 
   return (
@@ -46,13 +46,13 @@ function VariantsPage({ id }: VariantsPageProps) {
         <DashboardHeader />
         <div className={Styles.mainheading}>
           {/* {data?.name}  */}
-          All Color Variants
+          All Colors Lists ( LEVEL 2 )
         </div>
         <main className={Styles.main}>
           <div className={Styles.containerbox}>
             <div className={` ${Styles.tablebox} ${Styles.mt2}`}>
               <FilterHeader
-                createText="Create New Variants"
+                createText="Create New Colors"
                 onCreate={() => onCreateNew(router.query?.id as string)}
               />
               <div className={`${Styles.table} ${Styles.allproducttable} `}>
@@ -112,6 +112,7 @@ const headerArray = [
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
 
+  console.log(context.query);
   if (!isValidObjectId(id)) {
     return {
       redirect: {
@@ -125,8 +126,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/beds/${id}`
     );
-
-    console.log({ response });
 
     if (response.status !== 200) {
       return {
