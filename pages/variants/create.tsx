@@ -50,6 +50,8 @@ const Create = () => {
   //   setActiveTab(value);
   // };
 
+  console.log({ state });
+
   const { refetch } =
     router.pathname === "/headboard/variants/update"
       ? // eslint-disable-next-line react-hooks/rules-of-hooks

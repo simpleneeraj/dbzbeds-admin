@@ -16,11 +16,15 @@ import {
   updateHeadboardById,
   createHeadboardVariantById,
   updateHeadboardVariantById,
-  createBuildYourBedVariantById,
 } from "./api";
+import {
+  createBuildYourBedVariantById,
+  createColorVariantByVariantId,
+} from "./api/build-your-bed";
 import {
   BedRequestPayload,
   ColorIcon,
+  ColorVariantsTypes,
   CreateBedVariantResponse,
   UpdateColorIcon,
   UploadBedImage,
@@ -132,4 +136,10 @@ export const useCreateBuildYourBedVariantById = (id: string) =>
   useMutation(
     (props: VariantsTypes): Promise<CreateBedVariantResponse> =>
       createBuildYourBedVariantById(id, props)
+  );
+
+export const useCreateColorVariantByVariantId = (id: string) =>
+  useMutation(
+    (props: ColorVariantsTypes): Promise<CreateBedVariantResponse> =>
+      createColorVariantByVariantId(id, props)
   );

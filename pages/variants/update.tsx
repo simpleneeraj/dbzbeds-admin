@@ -46,8 +46,9 @@ export default CreateVariant;
 const Create = () => {
   const { state, dispatch } = React.useContext(UpdateVariantContext);
   const { color, feet, headboard, mattress, general, storage } = state;
-  // const [activeTab, setActiveTab] = React.useState("Basic");
+
   console.log({ state });
+  // const [activeTab, setActiveTab] = React.useState("Basic");
   const router = useRouter();
   const id = router.query?.id as string;
   const { mutate } = useUpdateBedVariant(id);
