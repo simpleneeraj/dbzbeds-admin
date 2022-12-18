@@ -1,7 +1,6 @@
 import React from "react";
 import CancleIcon from "icons/CancleIcon";
 import styles from "./chip.module.scss";
-import css from "styled-jsx/css";
 
 interface ChipInputProps extends React.ComponentPropsWithRef<"input"> {
   value?: string[];
@@ -14,7 +13,8 @@ const ChipInput = React.forwardRef(
     { onChange, value, label, ...rest }: ChipInputProps,
     ref: React.Ref<HTMLInputElement>
   ) => {
-    const [chips, setChips] = React.useState<string[]>([]);
+    const [chips, setChips] = React.useState<string[]>(value || []);
+    console.log({ value }, { chips });
 
     const onAddIndusrtryChip = (chip: any) => {
       const newChips = [...chips];
@@ -32,7 +32,7 @@ const ChipInput = React.forwardRef(
       setChips(newChips);
     };
 
-    React.useEffect(() => {
+    React.useMemo(() => {
       if (value) {
         setChips(value);
       }

@@ -16,9 +16,8 @@ import { uploadBedImage } from "network-requests/api";
 import RichTextEditor from "components/rich-text-editor";
 
 function UpdateProduct() {
-  const [value, onChange] = React.useState("");
+  // const [value, onChange] = React.useState("");
 
-  console.log(value);
   const router = useRouter();
   const { data, isFetched } = useFetchBedById(router.query.id as string);
   const [bedInfoInputs, setBedInfoInputs] = React.useState({
@@ -30,7 +29,6 @@ function UpdateProduct() {
     images: data?.images as string[],
   });
 
-  console.log({ data });
   // INITILIZE OLD DATA IN STATE
   React.useMemo(() => {
     if (isFetched) {
@@ -43,7 +41,7 @@ function UpdateProduct() {
         images: data?.images as string[],
       });
     }
-  }, [isFetched]);
+  }, [data, isFetched]);
 
   //API POST
   const { mutate, isLoading } = useUpdateBed(router.query?.id as string);
@@ -62,7 +60,7 @@ function UpdateProduct() {
     [bedInfoInputs]
   );
 
-  console.log("DRAFT", bedInfoInputs?.isDraft);
+  // console.log("DRAFT", bedInfoInputs?.isDraft);
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -123,67 +121,65 @@ function UpdateProduct() {
               className={` ${styles.tablebox} ${styles.mt2} ${styles.productuploadtabbox}`}
             >
               <div className={styles.tabbox}>
-                <div className="tabcontantinner">
-                  <div className={styles["heading"]}>
-                    <h2>Basic Info</h2>
-                    <div className={styles["draft"]}>
-                      <p>Draft</p>
-                      <Switch
-                        active={bedInfoInputs?.isDraft}
-                        onClick={() => handleIsDraft(!bedInfoInputs?.isDraft)}
-                      />
+                {isLoading ? (
+                  <div>Loading...</div>
+                ) : (
+                  <div className="tabcontantinner">
+                    <div className={styles["heading"]}>
+                      <h2>Basic Info</h2>
+                      <div className={styles["draft"]}>
+                        <p>Draft</p>
+                        <Switch
+                          active={bedInfoInputs?.isDraft}
+                          onClick={() => handleIsDraft(!bedInfoInputs?.isDraft)}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className={styles.box}>
-                    <ul>
-                      <li>
-                        <Input
-                          name="name"
-                          type="text"
-                          label={"Product Name"}
-                          placeholder="Enter product name"
-                          onChange={handleInputChange}
-                          value={bedInfoInputs.name}
-                        />
-                      </li>
-                      <li>
-                        <Input
-                          name="slug"
-                          type="text"
-                          label={"Slug (uniq for every product)"}
-                          placeholder="Auto Generated"
-                          value={bedInfoInputs.slug}
-                          onChange={handleInputChange}
-                        />
-                      </li>
-                      <li className="grid">
-                        {/* <Textarea
-                          name="description"
-                          placeholder="Enter product description"
-                          label="Product Description"
-                          onChange={handleInputChange}
-                          value={bedInfoInputs.description}
-                        /> */}
-                        <div>
-                          <label className={styles["label"]}>Description</label>
-                          <RichTextEditor
-                            value={bedInfoInputs.description}
-                            onChange={(value) =>
-                              handleDescription("description", value)
-                            }
+                    <div className={styles.box}>
+                      <ul>
+                        <li>
+                          <Input
+                            name="name"
+                            type="text"
+                            label={"Product Name"}
+                            placeholder="Enter product name"
+                            onChange={handleInputChange}
+                            value={bedInfoInputs.name}
                           />
-                        </div>
-                      </li>
+                        </li>
+                        <li>
+                          <Input
+                            name="slug"
+                            type="text"
+                            label={"Slug (uniq for every product)"}
+                            placeholder="Auto Generated"
+                            value={bedInfoInputs.slug}
+                            onChange={handleInputChange}
+                          />
+                        </li>
+                        <li className="grid">
+                          <div>
+                            <label className={styles["label"]}>
+                              Description
+                            </label>
+                            <RichTextEditor
+                              value={bedInfoInputs.description}
+                              onChange={(value) =>
+                                handleDescription("description", value)
+                              }
+                            />
+                          </div>
+                        </li>
 
-                      <li className="grid">
-                        <ChipInput
-                          label={`Category`}
-                          onChange={handleAddChip}
-                          placeholder="Add Category..."
-                          value={bedInfoInputs.categories}
-                        />
-                      </li>
-                      {/* <li>
+                        <li className="grid">
+                          <ChipInput
+                            label={`Category`}
+                            onChange={handleAddChip}
+                            placeholder="Add Category..."
+                            value={bedInfoInputs.categories}
+                          />
+                        </li>
+                        {/* <li>
                         is draft
                         <input
                           type="checkbox"
@@ -191,12 +187,13 @@ function UpdateProduct() {
                           onChange={(e) => handleIsDraft(e.target.checked)}
                         />
                       </li> */}
-                    </ul>
-                    {/* <div className={styles.buttonsection}>
+                      </ul>
+                      {/* <div className={styles.buttonsection}>
                       <AddMoreButton title="Update" onClick={handleBedUpdate} />
                     </div> */}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
               <div className={styles.right}>
                 <h2>Cover Images</h2>
