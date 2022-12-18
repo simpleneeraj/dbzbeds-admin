@@ -8,17 +8,22 @@ import { useRouter } from "next/router";
 import { dehydrate, QueryClient } from "react-query";
 import { isValidObjectId } from "mongoose";
 import { GetServerSideProps } from "next";
-import { useGetBuildYourBedsVariantsById } from "network-requests/queries";
+import {
+  useGetBuildYourBedsVariantsById,
+  useGetColorsVariantsBySizeVariantId,
+} from "network-requests/queries";
 import VariantList from "components/table/variant-list";
 import { deleteBedVariantById } from "network-requests/api";
 // const [dropWDownload, dropWDownloadActive] = useState(false);
 
 interface VariantsPageProps {
   id: string;
+  colorId: string;
 }
 
-function VariantsPage({ id }: VariantsPageProps) {
-  const { data, refetch } = useGetBuildYourBedsVariantsById(id);
+function VariantsPage({ id, colorId }: VariantsPageProps) {
+  console.log({ colorId });
+  const { data, refetch } = useGetColorsVariantsBySizeVariantId(colorId) as any;
   const router = useRouter();
 
   const onDelete = React.useCallback(
@@ -33,11 +38,15 @@ function VariantsPage({ id }: VariantsPageProps) {
     [refetch]
   );
 
-  const onEdit = (colorId: string) => {
-    router.push(`/build-your-bed/sizes/${id}/variants/update?id=${colorId}`);
+  const onEdit = () => {
+    router.push(
+      `/build-your-bed/sizes/${id}/variants/update?colorId=${colorId}`
+    );
   };
-  const onCreateNew = (colorId: string) => {
-    router.push(`/build-your-bed/sizes/${id}/variants/create?id=${colorId}`);
+  const onCreateNew = () => {
+    router.push(
+      `/build-your-bed/sizes/${id}/variants/create?colorId=${colorId}`
+    );
   };
 
   return (
@@ -61,15 +70,15 @@ function VariantsPage({ id }: VariantsPageProps) {
                     <TableHeader listArray={headerArray} />
                   </thead>
                   <tbody>
-                    {data?.variants?.map((variant) => (
+                    {data?.colors?.map((variant: any) => (
                       <VariantList
                         key={variant?._id}
                         price={variant?.price}
                         size={variant?.size}
                         image={variant?.image}
                         date={variant?.createdAt}
-                        onDelete={() => onDelete(variant?._id as any)}
-                        onEdit={() => onEdit(variant._id as string)}
+                        onDelete={() => onDelete()}
+                        onEdit={() => onEdit()}
                         // onView={() =>
                         //   push(`/variants/update?id=${variant._id}`)
                         // }
@@ -110,7 +119,7 @@ const headerArray = [
 ];
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { id } = context.query;
+  const { id = null, colorId = null } = context.query;
 
   console.log(context.query);
   if (!isValidObjectId(id)) {
@@ -146,6 +155,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       dehydratedState: dehydrate(queryClient),
       id,
+      colorId,
     },
   };
 };

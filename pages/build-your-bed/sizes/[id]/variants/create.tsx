@@ -11,6 +11,10 @@ import Button from "components/element/button";
 import General from "components/build-your-bed/general";
 import { CreateYourBedProvider } from "context/bed-builder/create";
 import useCreateYourBed from "context/bed-builder/use-create-your-bed";
+import { useCreateColorVariantByVariantId } from "network-requests/mutations";
+import { uploadBedImage } from "network-requests/api";
+import pMap from "p-map";
+import { toast } from "react-toastify";
 
 function CreateVariant() {
   return (
@@ -23,8 +27,70 @@ function CreateVariant() {
 function _CreateVariant() {
   const router = useRouter();
   const id = router.query?.id as string;
-  const { onUpdate, yourBedState } = useCreateYourBed();
-  console.log(yourBedState);
+  const colorId = router.query?.colorId as string;
+
+  const { onUpdate, yourBedState: state } = useCreateYourBed();
+  const { mutate } = useCreateColorVariantByVariantId(colorId);
+
+  console.log({ state });
+
+  const handleProductUpload = async () => {
+    const baseImage = !state?.general?.image
+      ? null
+      : ((await uploadBedImage(state.general.image as unknown as Blob)) as any);
+
+    const getImageUrlAndName = async (color: any) => {
+      if (color.image) {
+        const imageUrl = await uploadBedImage(color.image as Blob);
+        return {
+          name: color?.name,
+          price: color?.price,
+          image: imageUrl,
+        };
+      }
+      return {
+        name: color?.name,
+        price: color?.price,
+        image: null,
+      };
+    };
+
+    const uploadHeadboardImages = await pMap(
+      state.headboard as any,
+      getImageUrlAndName
+    );
+
+    const uploadMattressImages = await pMap(
+      state.mattress as any,
+      getImageUrlAndName
+    );
+
+    const uploadStorageImages = await pMap(
+      state.storage as any,
+      getImageUrlAndName
+    );
+
+    const uploadFeetImages = await pMap(state.feet as any, getImageUrlAndName);
+
+    mutate(
+      {
+        color: state?.general?.color || "",
+        price: state?.general?.salePrice,
+        image: baseImage,
+        storage: uploadHeadboardImages as any,
+        feet: uploadFeetImages as any,
+        headboard: uploadStorageImages as any,
+        mattress: uploadMattressImages as any,
+      },
+      {
+        onSuccess: (data) => {
+          toast.success(data?.message || "Varient Created Successfully");
+          router.reload();
+        },
+      }
+    );
+  };
+
   return (
     <div className={styles.rightsidebar}>
       <DashboardHeader />
@@ -35,41 +101,41 @@ function _CreateVariant() {
           <General
             id={id}
             heading="General"
-            value={yourBedState?.general}
+            value={state?.general}
             getValue={(value) => onUpdate("general", value)}
           />
         </div>
         <div className={styles["innner-container"]}>
           <Feet
             id={id}
-            value={yourBedState.feet}
+            value={state.feet}
             getValue={(value) => onUpdate("feet", value)}
           />
         </div>
         <div className={styles["innner-container"]}>
           <HeadBoard
             id={id}
-            value={yourBedState.headboard}
+            value={state.headboard}
             getValue={(value) => onUpdate("headboard", value)}
           />
         </div>
         <div className={styles["innner-container"]}>
           <Mattress
             id={id}
-            value={yourBedState.mattress}
+            value={state.mattress}
             getValue={(value) => onUpdate("mattress", value)}
           />
         </div>
         <div className={styles["innner-container"]}>
           <Storages
             id={id}
-            value={yourBedState.storage}
+            value={state.storage}
             getValue={(value) => onUpdate("storage", value)}
           />
         </div>
 
         <div className={styles.mainheading}>
-          <Button>Submit Data</Button>
+          <Button onClick={handleProductUpload}>Submit Data</Button>
         </div>
       </div>
     </div>

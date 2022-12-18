@@ -59,11 +59,11 @@ function InputFieldWithImage({
     }
   }, [initialValue]);
 
-  // options?.map((item) => {
-  //   if (item?._id) {
-  //     item.value = item._id;
-  //   }
-  // });
+  options?.map((item) => {
+    if (item?._id) {
+      item.value = item._id;
+    }
+  });
 
   return (
     <React.Fragment>

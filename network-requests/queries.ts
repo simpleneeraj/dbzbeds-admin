@@ -17,7 +17,11 @@ import {
   getIconsByType,
   getOrderById,
 } from "./api";
-import { getBuildYourBeds, getBuildYourBedsVariantsById } from "./api/build-your-bed";
+import {
+  getBuildYourBeds,
+  getBuildYourBedsVariantsById,
+  getColorsVariantsBySizeVariantId,
+} from "./api/build-your-bed";
 import {
   Accessories,
   Bed,
@@ -190,6 +194,15 @@ export const useGetBuildYourBedsVariantsById = (id: string) =>
   useQuery(
     ["build-your-beds-variants", id],
     (): Promise<BedWithImage> => getBuildYourBedsVariantsById(id),
+    {
+      enabled: !!id,
+    }
+  );
+
+export const useGetColorsVariantsBySizeVariantId = (id: string) =>
+  useQuery(
+    ["colors-variants", id],
+    (): Promise<BedWithImage> => getColorsVariantsBySizeVariantId(id),
     {
       enabled: !!id,
     }
