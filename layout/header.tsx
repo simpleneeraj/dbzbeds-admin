@@ -10,12 +10,6 @@ const DashboardHeader = () => {
         <div className={Styles.topsearch}>
           <input type="text" placeholder="Type Here...." />
           <button>
-            {/* <Image
-              src="/icons/search-line.svg"
-              alt="search"
-              width={24}
-              height={24}
-            /> */}
             <SearchIcon />
           </button>
         </div>

@@ -2,8 +2,8 @@ import Image from "next/image";
 import css from "styles/order.module.scss";
 
 interface FilterHeaderProps {
+  createText?: string;
   onCreate?: () => void;
-  createText: string;
 }
 const FilterHeader = ({ onCreate, createText }: FilterHeaderProps) => {
   return (
@@ -11,13 +11,6 @@ const FilterHeader = ({ onCreate, createText }: FilterHeaderProps) => {
       <div className={css.findactionbtn}>
         <div className={css.selectcategory}>
           <select name="category" id="">
-            <option value="All category">All category</option>
-            <option value="All category">All category</option>
-            <option value="All category">All category</option>
-            <option value="All category">All category</option>
-            <option value="All category">All category</option>
-            <option value="All category">All category</option>
-            <option value="All category">All category</option>
             <option value="All category">All category</option>
             <option value="All category">All category</option>
             <option value="All category">All category</option>
@@ -44,11 +37,13 @@ const FilterHeader = ({ onCreate, createText }: FilterHeaderProps) => {
           </div>
         </div>
       </div>
-      <div className={css.actionbtnlist}>
-        <a onClick={onCreate} className={css.cpbtn}>
-          {createText}
-        </a>
-      </div>
+      {createText && (
+        <div className={css.actionbtnlist}>
+          <a onClick={onCreate} className={css.cpbtn}>
+            {createText}
+          </a>
+        </div>
+      )}
     </div>
   );
 };

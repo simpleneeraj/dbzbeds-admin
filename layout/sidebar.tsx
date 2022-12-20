@@ -7,6 +7,7 @@ import AppsIcon from "icons/AppsIcon";
 import DatabaseIcon from "icons/DatabaseIcon";
 import { useRouter } from "next/router";
 import BedIcon from "icons/BedIcon";
+import ShieldIcon from "icons/ShieldIcon";
 
 interface CommerceSidebarProps {
   active?: boolean;
@@ -25,9 +26,10 @@ const Sidebar = ({ active }: CommerceSidebarProps) => {
       </div>
       <div className={styles.sidenav}>
         <ul className={styles.nav}>
-          {navigationArray.map(({ href, icon: SVG, title }, index) => {
-            // console.log();
-            const isActive = paths.includes(toLower(title));
+          {navigationArray.map(({ href, icon: SVG, title, active }, index) => {
+            const isActive = router.asPath
+              .split("/")
+              .some((data) => active.includes(data));
             return (
               <li key={index} className={isActive ? styles.active : ""}>
                 <Link href={href}>
@@ -53,21 +55,31 @@ const navigationArray = [
   {
     title: `Product`,
     href: `/product`,
+    active: ["product"],
     icon: (props: SVGICONPROPS) => <AppsIcon {...props} />,
   },
   {
     title: `Build Your Bed`,
     href: `/build-your-bed`,
+    active: ["build-your-bed"],
     icon: (props: SVGICONPROPS) => <BedIcon {...props} />,
   },
   {
     title: `Accessories`,
     href: `/accessories`,
+    active: ["accessories"],
     icon: (props: SVGICONPROPS) => <DatabaseIcon {...props} />,
   },
   {
     title: `Order`,
     href: `/order`,
+    active: ["order"],
     icon: (props: SVGICONPROPS) => <ShoppingBag {...props} />,
+  },
+  {
+    title: `Reviews`,
+    href: `/reviews`,
+    active: ["reviews"],
+    icon: (props: SVGICONPROPS) => <ShieldIcon {...props} />,
   },
 ];
