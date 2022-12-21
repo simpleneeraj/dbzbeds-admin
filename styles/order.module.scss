@@ -896,10 +896,16 @@
           background-color: #8bc34a !important;
         }
       }
-      &:nth-last-child(1) {
+      &:nth-child(2) {
         &:hover {
           border-color: #ff5722;
           background-color: #ff5722 !important;
+        }
+      }
+      &:nth-last-child(1) {
+        &:hover {
+          border-color: #e63946;
+          background-color: #e63946 !important;
         }
       }
     }

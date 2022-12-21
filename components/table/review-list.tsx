@@ -4,15 +4,17 @@ import empty from "utils/empty";
 import CloseIcon from "icons/close";
 import CheckIcon from "icons/check";
 import css from "styles/order.module.scss";
+import DeleteIcon from "icons/delete";
 
 interface TableListProps {
   name?: string;
   date?: string;
   email?: string;
   image?: string;
-  status?: "approved" | "rejected" | "in-review";
+  status?: "approved" | "rejected" | "pending";
   onReject?: () => void;
   onApprove?: () => void;
+  onDelete?: () => void;
 }
 const ReviewList = ({
   name,
@@ -22,6 +24,7 @@ const ReviewList = ({
   date,
   onReject,
   onApprove,
+  onDelete,
 }: TableListProps) => {
   const StatusClass = React.useMemo(() => {
     switch (status) {
@@ -29,7 +32,7 @@ const ReviewList = ({
         return css.approved;
       case "rejected":
         return css.rejected;
-      case "in-review":
+      case "pending":
         return css["in-review"];
       default:
         return empty;
@@ -78,10 +81,13 @@ const ReviewList = ({
         <div className={css.actionbtn}>
           <ul className={`${css.actions} ${css.actionbtnul}`}>
             <li onClick={onApprove} title="Approve">
-              <CheckIcon height={18} width={18} />
+              <CheckIcon height={16} width={16} />
             </li>
             <li onClick={onReject} title="Reject">
-              <CloseIcon height={18} width={18} />
+              <CloseIcon height={16} width={16} />
+            </li>
+            <li onClick={onDelete} title="DElete">
+              <DeleteIcon height={16} width={16} />
             </li>
           </ul>
         </div>

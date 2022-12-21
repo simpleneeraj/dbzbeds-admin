@@ -95,7 +95,7 @@ const Reviews = () => {
                         onApprove={() => alert("Approved Clicked")}
                         onReject={() => alert("Reject Clicked")}
                         image={""}
-                        status="in-review"
+                        status="pending"
                         email={"example@gmail.com"}
                       />
                     </tbody>
