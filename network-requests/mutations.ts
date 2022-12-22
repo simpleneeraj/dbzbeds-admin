@@ -21,6 +21,7 @@ import {
   createBuildYourBedVariantById,
   createColorVariantByVariantId,
 } from "./api/build-your-bed";
+import { ApproveReview, DeleteReview, RejectReview } from "./api/reviews";
 import {
   BedRequestPayload,
   ColorIcon,
@@ -143,3 +144,12 @@ export const useCreateColorVariantByVariantId = (id: string) =>
     (props: ColorVariantsTypes): Promise<CreateBedVariantResponse> =>
       createColorVariantByVariantId(id, props)
   );
+
+export const useApproveReview = () =>
+  useMutation(({ id }: any) => ApproveReview(id));
+
+export const useRejectReview = () =>
+  useMutation(({ id }: any) => RejectReview(id));
+
+export const useDeleteReview = () =>
+  useMutation(({ id }: any) => DeleteReview(id));

@@ -22,6 +22,7 @@ import {
   getBuildYourBedsVariantsById,
   getColorsVariantsBySizeVariantId,
 } from "./api/build-your-bed";
+import { getAllAdminReviews } from "./api/reviews";
 import {
   Accessories,
   Bed,
@@ -29,6 +30,7 @@ import {
   BedWithImage,
   BedWithSize,
   Order,
+  Review,
 } from "./types";
 
 export const useFetchAllBeds = () =>
@@ -207,3 +209,8 @@ export const useGetColorsVariantsBySizeVariantId = (id: string) =>
       enabled: !!id,
     }
   );
+
+export const useGetAllReviews = () =>
+  useQuery("reviews", (): Promise<Review[]> => getAllAdminReviews(), {
+    refetchOnMount: false,
+  });
