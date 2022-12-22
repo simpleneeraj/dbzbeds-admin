@@ -12,7 +12,6 @@ import {
   useFetchAllBedsWithImageAdmin,
   useGetAllReviews,
 } from "network-requests/queries";
-import { dateFormatter } from "utils/dateFormatter";
 import {
   useApproveReview,
   useDeleteReview,
