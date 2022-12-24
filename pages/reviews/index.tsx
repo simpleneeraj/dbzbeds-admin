@@ -24,11 +24,25 @@ const Reviews = () => {
     threshold: 0.5,
   });
 
-  const { data, isLoading, isError, refetch } = useGetAllReviews();
+  const {
+    data,
+    isLoading,
+    isError,
+    refetch,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useGetAllReviews();
 
   const { mutate: approveReview } = useApproveReview();
   const { mutate: rejectReview } = useRejectReview();
   const { mutate: deleteReview } = useDeleteReview();
+
+  React.useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
   return (
     <div className={styles.rightsidebar}>
@@ -69,44 +83,45 @@ const Reviews = () => {
                       <TableHeader listArray={headerArray} />
                     </thead>
                     <tbody>
-                      {data?.reviews?.map((item: any) => {
-                        console.log({ item });
-                        return (
-                          <ReviewList
-                            key={item?._id}
-                            name={item?.name}
-                            date={item?.created_at}
-                            status={item?.isApproved ? "approved" : "pending"}
-                            onApprove={() => {
-                              approveReview(
-                                { id: item?._id },
-                                {
-                                  onSuccess: () => refetch(),
-                                }
-                              );
-                            }}
-                            onReject={() =>
-                              rejectReview(
-                                { id: item?._id },
-                                {
-                                  onSuccess: () => refetch(),
-                                }
-                              )
-                            }
-                            image={""}
-                            email={item?.email}
-                            onDelete={() =>
-                              deleteReview(
-                                { id: item?._id },
-                                {
-                                  onSuccess: () => refetch(),
-                                }
-                              )
-                            }
-                          />
-                        );
-                      })}
-
+                      {data?.pages?.map((page: any) =>
+                        page?.reviews?.map((item: any) => {
+                          console.log({ item });
+                          return (
+                            <ReviewList
+                              key={item?._id}
+                              name={item?.name}
+                              date={item?.created_at}
+                              status={item?.isApproved ? "approved" : "pending"}
+                              onApprove={() => {
+                                approveReview(
+                                  { id: item?._id },
+                                  {
+                                    onSuccess: () => refetch(),
+                                  }
+                                );
+                              }}
+                              onReject={() =>
+                                rejectReview(
+                                  { id: item?._id },
+                                  {
+                                    onSuccess: () => refetch(),
+                                  }
+                                )
+                              }
+                              image={""}
+                              email={item?.email}
+                              onDelete={() =>
+                                deleteReview(
+                                  { id: item?._id },
+                                  {
+                                    onSuccess: () => refetch(),
+                                  }
+                                )
+                              }
+                            />
+                          );
+                        })
+                      )}
                       <ReviewList
                         name={"Simple"}
                         date={"1 January 2023"}
@@ -121,7 +136,7 @@ const Reviews = () => {
                 )}
               </table>
             </div>
-            {/* <div className={styles.mainheading}>
+            <div className={styles.mainheading}>
               <Button
                 ref={ref}
                 onClick={() => fetchNextPage()}
@@ -132,8 +147,8 @@ const Reviews = () => {
                   : hasNextPage
                   ? "Load Newer"
                   : "Nothing more to load"}
-              </Button> */}
-            {/* </div> */}
+              </Button>
+            </div>
           </div>
         </div>
       </main>

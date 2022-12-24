@@ -1,8 +1,8 @@
 import axios from "../axios";
 
-export const getAllAdminReviews = async () =>
+export const getAllAdminReviews = async (page: number) =>
   axios
-    .get("/reviews/admin")
+    .get(`/reviews/admin?page=${page}`)
     .then((res) => res.data)
     .catch((err) => {
       throw err;

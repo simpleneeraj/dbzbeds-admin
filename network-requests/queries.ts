@@ -211,6 +211,14 @@ export const useGetColorsVariantsBySizeVariantId = (id: string) =>
   );
 
 export const useGetAllReviews = () =>
-  useQuery("reviews", (): Promise<Review[]> => getAllAdminReviews(), {
-    refetchOnMount: false,
-  });
+  useInfiniteQuery(
+    "reviews",
+    ({ pageParam = 1 }): Promise<Review> => getAllAdminReviews(pageParam),
+    {
+      refetchOnMount: false,
+      getNextPageParam: (lastPage: any) => {
+        if (lastPage.nextPage <= lastPage.totalPages) return lastPage.nextPage;
+        return undefined;
+      },
+    }
+  );
