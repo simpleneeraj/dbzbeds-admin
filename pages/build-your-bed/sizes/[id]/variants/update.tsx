@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import DashboardHeader from "layout/header";
 import styles from "styles/order.module.scss";
@@ -11,6 +11,7 @@ import Toast from "components/toast";
 import General from "components/build-your-bed/general";
 import { UpdateYourBedProvider } from "context/bed-builder/update";
 import useUpdateYourBed from "context/bed-builder/use-update-your-bed";
+import { useGetBuildYourBedsVariantColorsById } from "network-requests/queries";
 
 function UpdateVariant() {
   return (
@@ -22,9 +23,26 @@ function UpdateVariant() {
 
 function _UpdateVariant() {
   const router = useRouter();
-  const id = router.query?.id as string;
+  const id = router.query?.colorId as string;
   const { onUpdate, yourBedState } = useUpdateYourBed();
-  console.log(yourBedState);
+  const { data } = useGetBuildYourBedsVariantColorsById(id);
+
+  useEffect(() => {
+    if (data) {
+      onUpdate("general", {
+        basePrice: data?.price,
+        salePrice: data?.price,
+        color: data?.color,
+        image: data?.image,
+      });
+      onUpdate("feet", data?.feet);
+      onUpdate("headboard", data?.headboard);
+      onUpdate("mattress", data?.mattress);
+      onUpdate("storage", data?.storage);
+    }
+  }, [data, onUpdate]);
+
+  console.log({ data, id });
   return (
     <div className={styles.rightsidebar}>
       <DashboardHeader />

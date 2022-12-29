@@ -9,11 +9,12 @@ import { dehydrate, QueryClient } from "react-query";
 import { isValidObjectId } from "mongoose";
 import { GetServerSideProps } from "next";
 import {
-  useGetBuildYourBedsVariantsById,
+  useGetBuildYourBedsById,
   useGetColorsVariantsBySizeVariantId,
 } from "network-requests/queries";
 import VariantList from "components/table/variant-list";
 import { deleteBedVariantById } from "network-requests/api";
+import { deleteBuildYourBedVariantColorById } from "network-requests/api/build-your-bed";
 // const [dropWDownload, dropWDownloadActive] = useState(false);
 
 interface VariantsPageProps {
@@ -29,8 +30,7 @@ function VariantsPage({ id, colorId }: VariantsPageProps) {
   const onDelete = React.useCallback(
     async (id: string) => {
       if (window.confirm("Are you sure to delete this variant")) {
-        const res = await deleteBedVariantById(id);
-        console.log(res);
+        await deleteBuildYourBedVariantColorById(id);
         refetch();
         alert("Delete Succesfully");
       }
@@ -38,10 +38,8 @@ function VariantsPage({ id, colorId }: VariantsPageProps) {
     [refetch]
   );
 
-  const onEdit = () => {
-    router.push(
-      `/build-your-bed/sizes/${id}/variants/update?colorId=${colorId}`
-    );
+  const onEdit = (id: string) => {
+    router.push(`/build-your-bed/sizes/${id}/variants/update?colorId=${id}`);
   };
   const onCreateNew = () => {
     router.push(
@@ -62,7 +60,7 @@ function VariantsPage({ id, colorId }: VariantsPageProps) {
             <div className={` ${Styles.tablebox} ${Styles.mt2}`}>
               <FilterHeader
                 createText="Create New Colors"
-                onCreate={() => onCreateNew(router.query?.id as string)}
+                onCreate={onCreateNew}
               />
               <div className={`${Styles.table} ${Styles.allproducttable} `}>
                 <table>
@@ -77,8 +75,8 @@ function VariantsPage({ id, colorId }: VariantsPageProps) {
                         size={variant?.size}
                         image={variant?.image}
                         date={variant?.createdAt}
-                        onDelete={() => onDelete()}
-                        onEdit={() => onEdit()}
+                        onDelete={() => onDelete(variant?._id as string)}
+                        onEdit={() => onEdit(variant?._id as string)}
                         // onView={() =>
                         //   push(`/variants/update?id=${variant._id}`)
                         // }

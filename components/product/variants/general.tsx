@@ -27,10 +27,10 @@ const General = ({ getValue, value, heading }: VarientsProps) => {
       setState((current: StateTypes) => ({ ...current, [name]: value }));
     }
   };
-  // React.useEffect(() => {
-  //   setState(value);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [value]);
+  React.useEffect(() => {
+    setState(value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
   React.useEffect(() => {
     if (getValue) {

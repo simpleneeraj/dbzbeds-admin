@@ -28,10 +28,10 @@ const General = ({ getValue, value, heading }: VarientsProps) => {
       setState((current: StateTypes) => ({ ...current, [name]: value }));
     }
   };
-  // React.useEffect(() => {
-  //   setState(value);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [value]);
+  React.useEffect(() => {
+    setState(value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
   React.useEffect(() => {
     if (getValue) {
@@ -55,7 +55,7 @@ const General = ({ getValue, value, heading }: VarientsProps) => {
               options={[{ label: "Select Bed Color", value: "" }, ...data]}
               label={"Select Color"}
               onChange={changeHandler}
-              value={state.size}
+              value={state.color}
             />
             <Input
               type="file"

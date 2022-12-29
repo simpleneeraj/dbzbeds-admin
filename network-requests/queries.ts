@@ -19,7 +19,9 @@ import {
 } from "./api";
 import {
   getBuildYourBeds,
+  getBuildYourBedsById,
   getBuildYourBedsVariantsById,
+  getBuildYourBedVariantColorsById,
   getColorsVariantsBySizeVariantId,
 } from "./api/build-your-bed";
 import { getAllAdminReviews } from "./api/reviews";
@@ -192,10 +194,10 @@ export const useCheckSlugAvailability = (slug: string) =>
 export const useGetBuildYourBeds = () =>
   useQuery("build-your-beds", (): Promise<Bed[]> => getBuildYourBeds());
 
-export const useGetBuildYourBedsVariantsById = (id: string) =>
+export const useGetBuildYourBedsById = (id: string) =>
   useQuery(
-    ["build-your-beds-variants", id],
-    (): Promise<BedWithImage> => getBuildYourBedsVariantsById(id),
+    ["build-your-beds", id],
+    (): Promise<BedWithImage> => getBuildYourBedsById(id),
     {
       enabled: !!id,
     }
@@ -220,5 +222,23 @@ export const useGetAllReviews = () =>
         if (lastPage.nextPage <= lastPage.totalPages) return lastPage.nextPage;
         return undefined;
       },
+    }
+  );
+
+export const useGetBuildYourBedsVariantsById = (id: string) =>
+  useQuery(
+    ["build-your-beds-variants", id],
+    (): Promise<BedWithImage> => getBuildYourBedsVariantsById(id),
+    {
+      enabled: !!id,
+    }
+  );
+
+export const useGetBuildYourBedsVariantColorsById = (id: string) =>
+  useQuery(
+    ["build-your-beds-variant-colors", id],
+    (): Promise<BedWithImage> => getBuildYourBedVariantColorsById(id),
+    {
+      enabled: !!id,
     }
   );

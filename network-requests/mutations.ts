@@ -20,6 +20,8 @@ import {
 import {
   createBuildYourBedVariantById,
   createColorVariantByVariantId,
+  updateBuildYourBedVariantById,
+  updateBuildYourBedVariantColorById,
 } from "./api/build-your-bed";
 import { ApproveReview, DeleteReview, RejectReview } from "./api/reviews";
 import {
@@ -143,6 +145,18 @@ export const useCreateColorVariantByVariantId = (id: string) =>
   useMutation(
     (props: ColorVariantsTypes): Promise<CreateBedVariantResponse> =>
       createColorVariantByVariantId(id, props)
+  );
+
+export const useUpdateBuildYourBedVariantById = (id: string) =>
+  useMutation(
+    (props: VariantsTypes): Promise<CreateBedVariantResponse> =>
+      updateBuildYourBedVariantById(id, props)
+  );
+
+export const useUpdateBuildYourBedVariantColorById = (id: string) =>
+  useMutation(
+    (props: ColorVariantsTypes): Promise<CreateBedVariantResponse> =>
+      updateBuildYourBedVariantColorById(id, props)
   );
 
 export const useApproveReview = () =>

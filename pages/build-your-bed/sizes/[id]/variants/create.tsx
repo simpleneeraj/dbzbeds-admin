@@ -77,9 +77,9 @@ function _CreateVariant() {
         color: state?.general?.color || "",
         price: state?.general?.salePrice,
         image: baseImage,
-        storage: uploadHeadboardImages as any,
+        storage: uploadStorageImages as any,
         feet: uploadFeetImages as any,
-        headboard: uploadStorageImages as any,
+        headboard: uploadHeadboardImages as any,
         mattress: uploadMattressImages as any,
       },
       {
