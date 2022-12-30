@@ -1,5 +1,4 @@
 import React from "react";
-import { useRouter } from "next/router";
 import DashboardHeader from "layout/header";
 import styles from "styles/order.module.scss";
 import Button from "components/element/button";
@@ -8,10 +7,7 @@ import FilterHeader from "components/table/filter";
 import TableHeader from "components/table/header";
 import ReviewList from "components/table/review-list";
 import { useInView } from "react-intersection-observer";
-import {
-  useFetchAllBedsWithImageAdmin,
-  useGetAllReviews,
-} from "network-requests/queries";
+import { useGetAllReviews } from "network-requests/queries";
 import {
   useApproveReview,
   useDeleteReview,
@@ -19,7 +15,6 @@ import {
 } from "network-requests/mutations";
 
 const Reviews = () => {
-  const { push } = useRouter();
   const { ref, inView } = useInView({
     threshold: 0.5,
   });
@@ -122,7 +117,7 @@ const Reviews = () => {
                           );
                         })
                       )}
-                      <ReviewList
+                      {/* <ReviewList
                         name={"Simple"}
                         date={"1 January 2023"}
                         onApprove={() => alert("Approved Clicked")}
@@ -130,7 +125,7 @@ const Reviews = () => {
                         image={""}
                         status="pending"
                         email={"example@gmail.com"}
-                      />
+                      /> */}
                     </tbody>
                   </React.Fragment>
                 )}
