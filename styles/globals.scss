@@ -419,9 +419,13 @@ img {
   grid-template-columns: repeat(4, 1fr);
 }
 
+.printButton {
+  display: flex;
+  gap: 0.2rem;
+}
 
-@media print{
-	.printButton{
+@media print {
+  .printButton {
     display: none !important;
   }
 }
