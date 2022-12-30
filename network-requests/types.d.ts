@@ -65,6 +65,18 @@ type Bed = {
   images?: string[];
 };
 
+interface Review {
+  _id: string;
+  name: string;
+  email: string;
+  rating: number;
+  review: string;
+  createdAt: string;
+  updatedAt: string;
+  images: string[];
+  __v: number;
+}
+
 interface BedRequestPayload {
   name: string;
   description: string;

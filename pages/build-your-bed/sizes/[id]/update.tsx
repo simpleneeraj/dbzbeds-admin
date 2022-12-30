@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "styles/order.module.scss";
 import DashboardHeader from "layout/header";
 import {
@@ -12,7 +12,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { uploadBedImage } from "network-requests/api";
 import { toast, ToastContainer } from "react-toastify";
 import General from "components/product/variants/general";
-import { useCreateBuildYourBedVariantById } from "network-requests/mutations";
+import {
+  useCreateBuildYourBedVariantById,
+  useUpdateBuildYourBedVariantById,
+} from "network-requests/mutations";
+import {
+  useGetBuildYourBedsById,
+  useGetBuildYourBedsVariantsById,
+} from "network-requests/queries";
 
 function UpdateColor() {
   return (
@@ -31,7 +38,23 @@ const Create = () => {
   const { general } = state;
   const id = router.query?.id as string;
 
-  const { mutate } = useCreateBuildYourBedVariantById(id);
+  const { mutate } = useUpdateBuildYourBedVariantById(id);
+  const { data } = useGetBuildYourBedsVariantsById(id);
+
+  useEffect(() => {
+    if (data) {
+      dispatch(
+        VariantsActions.GENERAL({
+          basePrice: data?.price?.basePrice,
+          salePrice: data?.price?.salePrice,
+          size: data?.size,
+          image: data?.image,
+        })
+      );
+    }
+  }, [data, dispatch]);
+
+  console.log({ general });
 
   const handleProductUpload = async () => {
     const baseImage = !state.general.image
@@ -40,6 +63,7 @@ const Create = () => {
 
     mutate(
       {
+        ...data,
         price: {
           basePrice: state.general.basePrice,
           salePrice: state.general.basePrice,
@@ -50,7 +74,7 @@ const Create = () => {
       {
         onSuccess: (data) => {
           toast.success(data?.message || "Varient Created Successfully");
-          router.reload();
+          router.back();
         },
       }
     );

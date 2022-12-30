@@ -8,7 +8,7 @@ import { useUpdateBed } from "network-requests/mutations";
 import { toast } from "react-toastify";
 import Toast from "components/toast";
 import { useRouter } from "next/router";
-import { useGetBuildYourBedsVariantsById } from "network-requests/queries";
+import { useGetBuildYourBedsById } from "network-requests/queries";
 import DynamicImageGrid from "components/element/image-picker-grid";
 import Switch from "components/switch";
 import pMap from "p-map";
@@ -19,7 +19,7 @@ function UpdateBed() {
   const [value, onChange] = React.useState("");
 
   const router = useRouter();
-  const { data, isFetched } = useGetBuildYourBedsVariantsById(
+  const { data, isFetched } = useGetBuildYourBedsById(
     router.query.id as string
   );
   const [bedInfoInputs, setBedInfoInputs] = React.useState({

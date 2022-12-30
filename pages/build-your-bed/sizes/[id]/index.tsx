@@ -8,9 +8,10 @@ import { useRouter } from "next/router";
 import { dehydrate, QueryClient } from "react-query";
 import { isValidObjectId } from "mongoose";
 import { GetServerSideProps } from "next";
-import { useGetBuildYourBedsVariantsById } from "network-requests/queries";
+import { useGetBuildYourBedsById } from "network-requests/queries";
 import VariantList from "components/table/variant-list";
 import { deleteBedVariantById } from "network-requests/api";
+import { deleteBuildYourBedVariantById } from "network-requests/api/build-your-bed";
 // const [dropWDownload, dropWDownloadActive] = useState(false);
 
 interface VariantsPageProps {
@@ -18,15 +19,14 @@ interface VariantsPageProps {
 }
 
 function ColorsPage({ id }: VariantsPageProps) {
-  const { data, refetch } = useGetBuildYourBedsVariantsById(id);
+  const { data, refetch } = useGetBuildYourBedsById(id);
   const variants = data?.variants as any;
   const router = useRouter();
 
   const onDelete = React.useCallback(
     async (id: string) => {
       if (window.confirm("Are you sure to delete this variant")) {
-        const res = await deleteBedVariantById(id);
-        console.log(res);
+        await deleteBuildYourBedVariantById(id);
         refetch();
         alert("Delete Succesfully");
       }
@@ -35,7 +35,7 @@ function ColorsPage({ id }: VariantsPageProps) {
   );
 
   const onEdit = (_id: string) => {
-    router.push(`/build-your-bed/sizes/${id}/update`);
+    router.push(`/build-your-bed/sizes/${_id}/update`);
   };
   const onView = (_id: string) => {
     router.push(`/build-your-bed/sizes/${id}/variants/${_id}`);

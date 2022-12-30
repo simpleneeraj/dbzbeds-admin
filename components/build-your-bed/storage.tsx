@@ -18,6 +18,8 @@ const Storages = ({ getValue, value, id }: VarientsProps) => {
     getValue(state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
+
+  console.log({ storage: data });
   return (
     <InputFieldWithImage
       title={"Storage"}

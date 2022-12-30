@@ -8,7 +8,15 @@ import FilterHeader from "components/table/filter";
 import TableHeader from "components/table/header";
 import ReviewList from "components/table/review-list";
 import { useInView } from "react-intersection-observer";
-import { useFetchAllBedsWithImageAdmin } from "network-requests/queries";
+import {
+  useFetchAllBedsWithImageAdmin,
+  useGetAllReviews,
+} from "network-requests/queries";
+import {
+  useApproveReview,
+  useDeleteReview,
+  useRejectReview,
+} from "network-requests/mutations";
 
 const Reviews = () => {
   const { push } = useRouter();
@@ -20,11 +28,15 @@ const Reviews = () => {
     data,
     isLoading,
     isError,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
     refetch,
-  } = useFetchAllBedsWithImageAdmin();
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useGetAllReviews();
+
+  const { mutate: approveReview } = useApproveReview();
+  const { mutate: rejectReview } = useRejectReview();
+  const { mutate: deleteReview } = useDeleteReview();
 
   React.useEffect(() => {
     if (inView && hasNextPage) {
@@ -71,24 +83,45 @@ const Reviews = () => {
                       <TableHeader listArray={headerArray} />
                     </thead>
                     <tbody>
-                      <ReviewList
-                        name={"Simple"}
-                        date={"1 January 2023"}
-                        status="approved"
-                        onApprove={() => alert("Approved Clicked")}
-                        onReject={() => alert("Reject Clicked")}
-                        image={""}
-                        email={"example@gmail.com"}
-                      />
-                      <ReviewList
-                        name={"Simple"}
-                        date={"1 January 2023"}
-                        status="rejected"
-                        onApprove={() => alert("Approved Clicked")}
-                        onReject={() => alert("Reject Clicked")}
-                        image={""}
-                        email={"example@gmail.com"}
-                      />
+                      {data?.pages?.map((page: any) =>
+                        page?.reviews?.map((item: any) => {
+                          console.log({ item });
+                          return (
+                            <ReviewList
+                              key={item?._id}
+                              name={item?.name}
+                              date={item?.created_at}
+                              status={item?.isApproved ? "approved" : "pending"}
+                              onApprove={() => {
+                                approveReview(
+                                  { id: item?._id },
+                                  {
+                                    onSuccess: () => refetch(),
+                                  }
+                                );
+                              }}
+                              onReject={() =>
+                                rejectReview(
+                                  { id: item?._id },
+                                  {
+                                    onSuccess: () => refetch(),
+                                  }
+                                )
+                              }
+                              image={""}
+                              email={item?.email}
+                              onDelete={() =>
+                                deleteReview(
+                                  { id: item?._id },
+                                  {
+                                    onSuccess: () => refetch(),
+                                  }
+                                )
+                              }
+                            />
+                          );
+                        })
+                      )}
                       <ReviewList
                         name={"Simple"}
                         date={"1 January 2023"}

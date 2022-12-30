@@ -78,7 +78,7 @@ function InputFieldWithImage({
                 label={`${label} Name`}
                 options={options}
                 onChange={(e) => handleFormChange(index, e)}
-                value={data?.name}
+                value={data?.name?._id}
               />
               <div
                 className="d-flex"

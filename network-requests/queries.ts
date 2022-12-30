@@ -19,9 +19,12 @@ import {
 } from "./api";
 import {
   getBuildYourBeds,
+  getBuildYourBedsById,
   getBuildYourBedsVariantsById,
+  getBuildYourBedVariantColorsById,
   getColorsVariantsBySizeVariantId,
 } from "./api/build-your-bed";
+import { getAllAdminReviews } from "./api/reviews";
 import {
   Accessories,
   Bed,
@@ -29,6 +32,7 @@ import {
   BedWithImage,
   BedWithSize,
   Order,
+  Review,
 } from "./types";
 
 export const useFetchAllBeds = () =>
@@ -190,10 +194,10 @@ export const useCheckSlugAvailability = (slug: string) =>
 export const useGetBuildYourBeds = () =>
   useQuery("build-your-beds", (): Promise<Bed[]> => getBuildYourBeds());
 
-export const useGetBuildYourBedsVariantsById = (id: string) =>
+export const useGetBuildYourBedsById = (id: string) =>
   useQuery(
-    ["build-your-beds-variants", id],
-    (): Promise<BedWithImage> => getBuildYourBedsVariantsById(id),
+    ["build-your-beds", id],
+    (): Promise<BedWithImage> => getBuildYourBedsById(id),
     {
       enabled: !!id,
     }
@@ -203,6 +207,37 @@ export const useGetColorsVariantsBySizeVariantId = (id: string) =>
   useQuery(
     ["colors-variants", id],
     (): Promise<BedWithImage> => getColorsVariantsBySizeVariantId(id),
+    {
+      enabled: !!id,
+    }
+  );
+
+export const useGetAllReviews = () =>
+  useInfiniteQuery(
+    "reviews",
+    ({ pageParam = 1 }): Promise<Review> => getAllAdminReviews(pageParam),
+    {
+      refetchOnMount: false,
+      getNextPageParam: (lastPage: any) => {
+        if (lastPage.nextPage <= lastPage.totalPages) return lastPage.nextPage;
+        return undefined;
+      },
+    }
+  );
+
+export const useGetBuildYourBedsVariantsById = (id: string) =>
+  useQuery(
+    ["build-your-beds-variants", id],
+    (): Promise<BedWithImage> => getBuildYourBedsVariantsById(id),
+    {
+      enabled: !!id,
+    }
+  );
+
+export const useGetBuildYourBedsVariantColorsById = (id: string) =>
+  useQuery(
+    ["build-your-beds-variant-colors", id],
+    (): Promise<BedWithImage> => getBuildYourBedVariantColorsById(id),
     {
       enabled: !!id,
     }
