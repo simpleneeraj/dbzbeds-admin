@@ -23,11 +23,13 @@ import {
   updateBuildYourBedVariantById,
   updateBuildYourBedVariantColorById,
 } from "./api/build-your-bed";
+import { createCoupon, deleteCoupon, updateCoupon } from "./api/coupons";
 import { ApproveReview, DeleteReview, RejectReview } from "./api/reviews";
 import {
   BedRequestPayload,
   ColorIcon,
   ColorVariantsTypes,
+  CouponPayload,
   CreateBedVariantResponse,
   UpdateColorIcon,
   UploadBedImage,
@@ -167,3 +169,14 @@ export const useRejectReview = () =>
 
 export const useDeleteReview = () =>
   useMutation(({ id }: any) => DeleteReview(id));
+
+export const useCreateCoupon = () =>
+  useMutation((payload: any): Promise<CouponPayload> => createCoupon(payload));
+
+export const useUpdateCoupon = (id: string) =>
+  useMutation(
+    (payload: any): Promise<CouponPayload> => updateCoupon(id, payload)
+  );
+
+export const useDeleteCoupon = (id: string) =>
+  useMutation((): Promise<CouponPayload> => deleteCoupon(id));

@@ -24,6 +24,7 @@ import {
   getBuildYourBedVariantColorsById,
   getColorsVariantsBySizeVariantId,
 } from "./api/build-your-bed";
+import { getAllCoupons, getCouponById } from "./api/coupons";
 import { getAllAdminReviews } from "./api/reviews";
 import {
   Accessories,
@@ -31,6 +32,7 @@ import {
   BedResponse,
   BedWithImage,
   BedWithSize,
+  Coupon,
   Order,
   Review,
 } from "./types";
@@ -242,3 +244,12 @@ export const useGetBuildYourBedsVariantColorsById = (id: string) =>
       enabled: !!id,
     }
   );
+
+export const useGetAllCoupons = () =>
+  useQuery(["coupons"], (): Promise<Coupon[]> => getAllCoupons());
+
+export const useGetCouponById = (id: string) =>
+  useQuery(["coupon", id], () => getCouponById(id), {
+    refetchOnMount: false,
+    enabled: !!id,
+  });

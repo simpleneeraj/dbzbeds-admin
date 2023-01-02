@@ -82,4 +82,10 @@ const navigationArray = [
     active: ["reviews"],
     icon: (props: SVGICONPROPS) => <ShieldIcon {...props} />,
   },
+  {
+    title: `Coupons`,
+    href: `/coupons`,
+    active: ["coupons"],
+    icon: (props: SVGICONPROPS) => <ShieldIcon {...props} />,
+  },
 ];

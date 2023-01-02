@@ -212,3 +212,12 @@ interface Order {
   createdAt?: string | undefined;
   updatedAt?: string | undefined;
 }
+
+interface CouponPayload {
+  label: string;
+  percent: number;
+  max: number;
+  description: string;
+}
+
+interface Coupon extends CouponPayload {}
