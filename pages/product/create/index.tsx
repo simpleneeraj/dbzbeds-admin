@@ -7,7 +7,6 @@ import Input from "components/element/input";
 import ChipInput from "components/chip-input";
 import styles from "styles/order.module.scss";
 import DashboardHeader from "layout/header";
-import Textarea from "components/element/textarea";
 import { uploadBedImage } from "network-requests/api";
 import AddMoreButton from "components/element/addmore";
 import { useCreateNewBed } from "network-requests/mutations";
