@@ -8,6 +8,7 @@ import DatabaseIcon from "icons/DatabaseIcon";
 import { useRouter } from "next/router";
 import BedIcon from "icons/BedIcon";
 import ShieldIcon from "icons/ShieldIcon";
+import CouponIcon from "icons/CouponIcon";
 
 interface CommerceSidebarProps {
   active?: boolean;
@@ -86,6 +87,6 @@ const navigationArray = [
     title: `Coupons`,
     href: `/coupons`,
     active: ["coupons"],
-    icon: (props: SVGICONPROPS) => <ShieldIcon {...props} />,
+    icon: (props: SVGICONPROPS) => <CouponIcon {...props} />,
   },
 ];
