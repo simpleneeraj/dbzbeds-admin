@@ -1,11 +1,8 @@
 import React from "react";
 import styles from "styles/newproduct/category.module.scss";
 import Input from "components/element/input";
-import Textarea from "components/element/textarea";
 import AddMoreButton from "components/element/addmore";
-import { productSideTab } from "constants/sidetab";
 import DashboardHeader from "layout/header";
-import ChipInput from "components/chip-input";
 import { useCreateNewBed } from "network-requests/mutations";
 import { toast } from "react-toastify";
 import Toast from "components/toast";

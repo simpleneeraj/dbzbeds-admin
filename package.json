@@ -9,6 +9,7 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@mantine/core": "^6.0.2",
         "@mantine/rte": "^5.9.2",
         "@reduxjs/toolkit": "^1.8.6",
         "axios": "^1.1.2",
