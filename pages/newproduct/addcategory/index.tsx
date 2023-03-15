@@ -10,8 +10,7 @@ import { useCreateNewBed } from "network-requests/mutations";
 import { toast } from "react-toastify";
 import Toast from "components/toast";
 import { useRouter } from "next/router";
-import ApplyButton from "components/newproduct/button/apply";
-import RichTextEditor from "components/rich-text";
+import RichTextEditor from "components/rich-text-editor";
 
 function AddCategory() {
   const [activeTab, setActiveTab] = React.useState("Basic");
@@ -96,6 +95,7 @@ const Basic = () => {
     // if (bed.description) await lazyAlert("Product Description Required");
     if (bed.categories.length <= 0)
       await lazyAlert("Product Category Required");
+    // @ts-ignore
     mutate(bed, {
       onSuccess: (data) => {
         toast.success(data?.message || "Product Created Successfully");
