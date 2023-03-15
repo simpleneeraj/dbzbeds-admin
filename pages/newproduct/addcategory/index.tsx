@@ -7,7 +7,7 @@ import { useCreateNewBed } from "network-requests/mutations";
 import { toast } from "react-toastify";
 import Toast from "components/toast";
 import { useRouter } from "next/router";
-import RichTextEditor from "components/rich-text-editor";
+// import RichTextEditor from "components/rich-text-editor";
 
 function AddCategory() {
   const [activeTab, setActiveTab] = React.useState("Basic");
@@ -166,7 +166,7 @@ const Basic = () => {
               onChange={handleInputChange}
               className={styles.tabcontantinnerinput}
             /> */}
-            <RichTextEditor />
+            {/* <RichTextEditor /> */}
           </li>
           <li>
             {" "}

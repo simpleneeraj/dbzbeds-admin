@@ -14,7 +14,8 @@ import DynamicImageGrid from "components/element/image-picker-grid";
 import lazyAlert from "constants/lazy-alert";
 import Router from "next/router";
 import { useCheckSlugAvailability } from "network-requests/queries";
-import RichTextEditor from "components/rich-text-editor";
+// import RichTextEditor from "components/rich-text-editor";
+import Textarea from "components/element/textarea";
 
 type E = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
@@ -189,7 +190,7 @@ function CreateProduct() {
                             <label className={styles["label"]}>
                               Description
                             </label>
-                            <RichTextEditor
+                            {/* <RichTextEditor
                               style={{
                                 minHeight: `300px`,
                               }}
@@ -204,6 +205,15 @@ function CreateProduct() {
                                 ["h1", "h2", "h3", "h4"],
                                 ["sup", "sub"],
                               ]}
+                            /> */}
+                            <Textarea
+                              name="description"
+                              label=" Description"
+                              className={styles.tabcontantinnerinput}
+                              value={bedInfoInputs.description}
+                              onChange={({ target }) =>
+                                handleDescription("description", target.value)
+                              }
                             />
                           </div>
                         </li>
