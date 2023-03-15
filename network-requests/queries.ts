@@ -17,6 +17,7 @@ import {
   getIconsByType,
   getOrderById,
 } from "./api";
+import { getAllUsers, getMyself } from "./api/user";
 import {
   getBuildYourBeds,
   getBuildYourBedsById,
@@ -34,6 +35,8 @@ import {
   BedWithSize,
   Coupon,
   Order,
+  IUser,
+  IUserResponse,
   Review,
 } from "./types";
 
@@ -176,12 +179,29 @@ export const useFetchAllOrders = (id?: string | undefined) =>
   useQuery(["orders", id], (): Promise<Order[]> => getAllOrders(id), {
     refetchOnMount: false,
   });
+export const useGetMyself = () =>
+  useQuery("myself", (): Promise<IUser> => getMyself());
 
 export const useFetchOrderById = (id: string) =>
   useQuery(["order", id], (): Promise<Order> => getOrderById(id), {
     refetchOnMount: false,
     enabled: !!id,
   });
+export const useGetAllUsers = ({
+  page,
+  limit,
+}: {
+  page: number;
+  limit: number;
+}) =>
+  useQuery(
+    ["users", page, limit],
+    (): Promise<IUserResponse> => getAllUsers({ page, limit }),
+    {
+      enabled: !!page,
+      refetchOnMount: false,
+    }
+  );
 
 export const useCheckSlugAvailability = (slug: string) =>
   useQuery(

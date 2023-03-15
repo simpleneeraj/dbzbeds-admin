@@ -1,3 +1,4 @@
+import { useCreateUser } from "network-requests/mutations";
 import React from "react";
 
 // import Link from "next/link";
@@ -6,6 +7,8 @@ import React from "react";
 import Styles from "styles/Addnew.module.scss";
 
 function AddNew() {
+  const { mutate } = useCreateUser();
+
   return (
     <div className={Styles.containerbox}>
       <div className={Styles.AddNewUser}>

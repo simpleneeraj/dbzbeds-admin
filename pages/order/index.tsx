@@ -8,7 +8,7 @@ import { orderStatus } from "constants/OrderActions";
 import { useBulkOrderUpdate } from "network-requests/mutations";
 import { useQueryClient } from "react-query";
 import { useRouter } from "next/router";
-// import Search from "layout/search";
+import Search from "layout/search";
 
 function AllOrderPage() {
   const router = useRouter();
@@ -74,6 +74,7 @@ function AllOrderPage() {
         : d.payment?.paymentMethod === filterPayment;
     });
   }, [filterPayment, orders]);
+
   React.useEffect(() => {
     if (data) {
       //set data to order except isDeleted
@@ -85,13 +86,13 @@ function AllOrderPage() {
     <>
       <div className={styles.rightsidebar}>
         <DashboardHeader
-        // customHeader={
-        //   <Search
-        //     inputProps={{
-        //       placeholder: "Custom Search for Order Page",
-        //     }}
-        //   />
-        // }
+          customHeader={
+            <Search
+              inputProps={{
+                placeholder: "Custom Search for Order Page",
+              }}
+            />
+          }
         />
 
         <main className={styles.main}>

@@ -17,6 +17,7 @@ import {
   createHeadboardVariantById,
   updateHeadboardVariantById,
 } from "./api";
+import { createUser, logout } from "./api/user";
 import {
   createBuildYourBedVariantById,
   createColorVariantByVariantId,
@@ -33,6 +34,7 @@ import {
   ColorVariantsTypes,
   CouponPayload,
   CreateBedVariantResponse,
+  IUserRequest,
   UpdateColorIcon,
   UploadBedImage,
   VariantsTypes,
@@ -83,6 +85,12 @@ export const useCreateAccessoriesIcon = () =>
       )
   );
 
+//USERS MUtations
+export const useCreateUser = () =>
+  useMutation(({ name, role, email, password }: IUserRequest) =>
+    createUser({ name, role, email, password })
+  );
+
 //UPDATE MUTATIONS
 export const useUpdateBedVariant = (id: string) =>
   useMutation(
@@ -117,6 +125,9 @@ export const useUpdateAccessoriesIcon = () =>
         payload?.image
       )
   );
+
+export const useUpdateOrder = (_id: string) =>
+  useMutation((payload: any): Promise<any> => OrderUpdateById(_id, payload));
 
 //DELETE MUTATION
 export const useDeleteBedById = () =>
@@ -185,3 +196,6 @@ export const useUpdateCoupon = (id: string) =>
 
 export const useDeleteCoupon = (id: string) =>
   useMutation((): Promise<CouponPayload> => deleteCoupon(id));
+export const useLogout = () => {
+  return useMutation(() => logout());
+};
