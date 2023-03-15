@@ -172,8 +172,8 @@ export const useFetchAllIcons = () =>
     refetchOnMount: true,
   });
 
-export const useFetchAllOrders = () =>
-  useQuery("orders", (): Promise<Order[]> => getAllOrders(), {
+export const useFetchAllOrders = (id?: string | undefined) =>
+  useQuery(["orders", id], (): Promise<Order[]> => getAllOrders(id), {
     refetchOnMount: false,
   });
 

@@ -24,6 +24,8 @@ import {
   updateBuildYourBedVariantColorById,
 } from "./api/build-your-bed";
 import { createCoupon, deleteCoupon, updateCoupon } from "./api/coupons";
+import { bulkOrderUpdate, OrderUpdateById } from "./api/orders";
+
 import { ApproveReview, DeleteReview, RejectReview } from "./api/reviews";
 import {
   BedRequestPayload,
@@ -148,6 +150,9 @@ export const useCreateColorVariantByVariantId = (id: string) =>
     (props: ColorVariantsTypes): Promise<CreateBedVariantResponse> =>
       createColorVariantByVariantId(id, props)
   );
+
+export const useBulkOrderUpdate = () =>
+  useMutation(({ ids, status }: any) => bulkOrderUpdate(ids, status));
 
 export const useUpdateBuildYourBedVariantById = (id: string) =>
   useMutation(

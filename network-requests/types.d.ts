@@ -169,6 +169,7 @@ export interface OrderItems {
   image: string;
 }
 interface Order {
+  isDeleted: boolean;
   orderId: Number;
   _id: string;
   user: {

@@ -346,9 +346,9 @@ export const deleteIconById = (id: string): Promise<CreateBedVariantResponse> =>
 
 //get all orders
 
-export const getAllOrders = (): Promise<Order[]> =>
+export const getAllOrders = (id?: string | undefined): Promise<Order[]> =>
   axios
-    .get<Order[]>(`/order`)
+    .get<Order[]>(`/order${id ? `?id=${id}` : ""}`)
     .then((response: any) => response?.data?.orders)
     .catch((error) => {
       throw error;
@@ -393,4 +393,3 @@ export const checkSlugAvailability = async (slug: string): Promise<any> =>
     .catch((error) => {
       throw error;
     });
-

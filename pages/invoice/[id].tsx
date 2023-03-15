@@ -38,7 +38,9 @@ function Invoice() {
                     {data?.user?.firstName} {data?.user?.lastName}
                   </li>
                   <li>{data?.shippingAddress?.companyName}</li>
-                  <li>{data?.shippingAddress?.address}</li>
+                  <li style={{ whiteSpace: "break-spaces" }}>
+                    {data?.shippingAddress?.address}
+                  </li>
                   <li>{data?.shippingAddress?.townCity}</li>
                   <li>{data?.shippingAddress?.postalCode}</li>
                   <li>{data?.shippingAddress?.country}</li>
@@ -51,7 +53,9 @@ function Invoice() {
                     {data?.user?.firstName} {data?.user?.lastName}
                   </li>
                   <li>{data?.shippingAddress?.companyName}</li>
-                  <li>{data?.shippingAddress?.address}</li>
+                  <li style={{ whiteSpace: "break-spaces" }}>
+                    {data?.shippingAddress?.address}
+                  </li>
                   <li>{data?.shippingAddress?.townCity}</li>
                   <li>{data?.shippingAddress?.postalCode}</li>
                   <li>{data?.shippingAddress?.country}</li>
@@ -62,44 +66,168 @@ function Invoice() {
               <h3>Invoice</h3>
               <div className={Styles.row}>
                 <div className={Styles.invoice_upper}>
-                  <ul className={Styles.left_ul}>
-                    <p>
-                      <li>Order Number</li>
-                    </p>
-                    <p>
-                      <li>Order Date</li>
-                    </p>
-                    <p>
-                      <li>Payment Method </li>
-                    </p>
-                    <p>
-                      <li>Email</li>
-                    </p>
-                    <p>
-                      <li>Telephone</li>
-                    </p>
-                  </ul>
-                  <ul className={Styles.right_ul}>
-                    <li>{`#${data?.orderId}`}</li>
-                    <li>
-                      {data?.createdAt
-                        ? new Intl.DateTimeFormat("en-GB", {
-                            dateStyle: "long",
-                            timeStyle: "short",
-                          }).format(new Date(data?.createdAt))
-                        : "-"}
-                    </li>
+                  <table className={Styles.tableCol}>
+                    <thead>
+                      <tr>
+                        <th>Order Number</th>
+                        <td>{`#${data?.orderId}`}</td>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                      <tr>
+                        <th>Ordr date</th>
 
-                    <li>{data?.payment?.paymentMethod}</li>
-
-                    <li>{data?.user.email}</li>
-
-                    <li>{data?.user.phone}</li>
-                  </ul>
+                        <td>
+                          {" "}
+                          {data?.createdAt
+                            ? new Intl.DateTimeFormat("en-GB", {
+                                dateStyle: "long",
+                                timeStyle: "short",
+                              }).format(new Date(data?.createdAt))
+                            : "-"}
+                        </td>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                      <tr>
+                        <th>Payment Method</th>
+                        <td>{data?.payment?.paymentMethod}</td>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                      <tr>
+                        <th>Email</th>
+                        <td>{data?.user.email}</td>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                      <tr>
+                        <th>Telephone</th>
+                        <td>{data?.user.phone}</td>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                  </table>
                 </div>
               </div>
             </div>
-            <div className={Styles.invoice_product_details}>
+            <br />
+            <br />
+            <div className={Styles.invoice_upper}>
+              <table className={Styles.tableCol}>
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th></th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                  </tr>
+                  {data?.orderItems?.map((item) => (
+                    <Fragment key={item._id}>
+                      <tr>
+                        <th>Product Name & Size</th>
+                        <td>
+                          {item.name}{" "}
+                          <span>
+                            <b>{item?.accessories?.size?.name}</b>
+                          </span>
+                        </td>
+                        <td>£{item?.accessories?.size?.price}</td>
+                        <td>{item.quantity}</td>
+                        <td>£{item?.accessories?.size?.price}</td>
+                      </tr>
+
+                      <tr>
+                        <th>Choose Colour</th>
+
+                        <td>{item.image}</td>
+                        <td>£ 0</td>
+                        <td>{item.quantity}</td>
+                        <td>£ 0</td>
+                        <th></th>
+                      </tr>
+                      <tr>
+                        <th>Storage</th>
+                        <td>
+                          {item.accessories.storage
+                            ? item.accessories.storage?.name
+                            : ""}
+                        </td>
+                        <td>£{item.accessories.storage?.price}</td>
+                        <td>{item.quantity}</td>
+                        <td>£{item.accessories.storage?.price}</td>
+                      </tr>
+                      <tr>
+                        <th>Feet</th>
+                        <td>
+                          {item.accessories.feet
+                            ? item.accessories.feet?.name
+                            : ""}
+                        </td>
+                        <td>£{item.accessories.feet?.price}</td>
+                        <td>{item.quantity}</td>
+                        <td>£{item.accessories.feet?.price}</td>
+                      </tr>
+                      <tr>
+                        <th>Headboard</th>
+                        <td>
+                          {item.accessories.headboard
+                            ? item.accessories.headboard?.name
+                            : ""}
+                        </td>
+                        <td>£{item.accessories.headboard?.price}</td>
+                        <td>{item.quantity}</td>
+                        <td>£{item.accessories.headboard?.price}</td>
+                      </tr>
+                      <tr>
+                        <th>Mattress</th>
+                        <td>
+                          {item.accessories.mattress
+                            ? item.accessories.mattress?.name
+                            : ""}
+                        </td>
+                        <td>£{item.accessories.mattress?.price}</td>
+                        <td>{item.quantity}</td>
+                        <td>£{item.accessories.mattress?.price}</td>
+                      </tr>
+
+                      <tr>
+                        <th>Subtotal</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>£{item.price * item.quantity}</th>
+                      </tr>
+                      <tr>
+                        <th>Shipping</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th style={{ textAlign: "center", padding: "0" }}>
+                          Free Shipping
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>Total</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>£{item.price * item.quantity}</th>
+                      </tr>
+                    </Fragment>
+                  ))}
+                </thead>
+              </table>
+            </div>
+
+            {/* <div className={Styles.invoice_product_details}>
               <div className={Styles.row}>
                 <div className={Styles.invoice_table}>
                   <table>
@@ -241,7 +369,7 @@ function Invoice() {
                   </table>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
