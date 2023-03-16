@@ -2,9 +2,7 @@
 import CouponList from "components/table/coupon-liist";
 import FilterHeader from "components/table/filter";
 import TableHeader from "components/table/header";
-import ProductList from "components/table/product-list";
 import DashboardHeader from "layout/header";
-import { deleteBedById } from "network-requests/api";
 import { deleteCoupon } from "network-requests/api/coupons";
 import { useGetAllCoupons } from "network-requests/queries";
 import dynamic from "next/dynamic";

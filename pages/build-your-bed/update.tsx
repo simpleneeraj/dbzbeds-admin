@@ -13,7 +13,8 @@ import DynamicImageGrid from "components/element/image-picker-grid";
 import Switch from "components/switch";
 import pMap from "p-map";
 import { uploadBedImage } from "network-requests/api";
-import RichTextEditor from "components/rich-text-editor";
+// import RichTextEditor from "components/rich-text-editor";
+import Textarea from "components/element/textarea";
 
 function UpdateBed() {
   const [value, onChange] = React.useState("");
@@ -165,10 +166,19 @@ function UpdateBed() {
                         /> */}
                         <div>
                           <label className={styles["label"]}>Description</label>
-                          <RichTextEditor
+                          {/* <RichTextEditor
                             value={bedInfoInputs.description}
                             onChange={(value) =>
                               handleDescription("description", value)
+                            }
+                          /> */}
+                          <Textarea
+                            name="description"
+                            label=" Description"
+                            className={styles.tabcontantinnerinput}
+                            value={bedInfoInputs.description}
+                            onChange={({ target }) =>
+                              handleDescription("description", target.value)
                             }
                           />
                         </div>

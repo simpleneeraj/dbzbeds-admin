@@ -17,6 +17,7 @@ import {
   createHeadboardVariantById,
   updateHeadboardVariantById,
 } from "./api";
+import { createUser, logout } from "./api/user";
 import {
   createBuildYourBedVariantById,
   createColorVariantByVariantId,
@@ -24,6 +25,8 @@ import {
   updateBuildYourBedVariantColorById,
 } from "./api/build-your-bed";
 import { createCoupon, deleteCoupon, updateCoupon } from "./api/coupons";
+import { bulkOrderUpdate, OrderUpdateById } from "./api/orders";
+
 import { ApproveReview, DeleteReview, RejectReview } from "./api/reviews";
 import {
   BedRequestPayload,
@@ -31,6 +34,7 @@ import {
   ColorVariantsTypes,
   CouponPayload,
   CreateBedVariantResponse,
+  IUserRequest,
   UpdateColorIcon,
   UploadBedImage,
   VariantsTypes,
@@ -81,6 +85,12 @@ export const useCreateAccessoriesIcon = () =>
       )
   );
 
+//USERS MUtations
+export const useCreateUser = () =>
+  useMutation(({ name, role, email, password }: IUserRequest) =>
+    createUser({ name, role, email, password })
+  );
+
 //UPDATE MUTATIONS
 export const useUpdateBedVariant = (id: string) =>
   useMutation(
@@ -116,6 +126,9 @@ export const useUpdateAccessoriesIcon = () =>
       )
   );
 
+export const useUpdateOrder = (_id: string) =>
+  useMutation((payload: any): Promise<any> => OrderUpdateById(_id, payload));
+
 //DELETE MUTATION
 export const useDeleteBedById = () =>
   useMutation(
@@ -149,6 +162,9 @@ export const useCreateColorVariantByVariantId = (id: string) =>
       createColorVariantByVariantId(id, props)
   );
 
+export const useBulkOrderUpdate = () =>
+  useMutation(({ ids, status }: any) => bulkOrderUpdate(ids, status));
+
 export const useUpdateBuildYourBedVariantById = (id: string) =>
   useMutation(
     (props: VariantsTypes): Promise<CreateBedVariantResponse> =>
@@ -180,3 +196,6 @@ export const useUpdateCoupon = (id: string) =>
 
 export const useDeleteCoupon = (id: string) =>
   useMutation((): Promise<CouponPayload> => deleteCoupon(id));
+export const useLogout = () => {
+  return useMutation(() => logout());
+};

@@ -84,6 +84,23 @@ const navigationArray = [
     icon: (props: SVGICONPROPS) => <ShieldIcon {...props} />,
   },
   {
+    title: `User`,
+    href: `/users`,
+    active: ["Users"],
+    icon: (props: SVGICONPROPS) => <ShoppingBag {...props} />,
+  },
+  {
+    title: `Add User`,
+    href: `/newproduct/create`,
+    active: ["User"],
+    icon: (props: SVGICONPROPS) => <ShoppingBag {...props} />,
+  },
+  // {
+  //   title: `Add User`,
+  //   href: `/newproduct/create`,
+  //   icon: (props: SVGICONPROPS) => <ShoppingBag {...props} />,
+  // },
+  {
     title: `Coupons`,
     href: `/coupons`,
     active: ["coupons"],

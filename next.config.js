@@ -9,7 +9,12 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ["www.bedsdivans.co.uk", "cdn.shopify.com", "localhost"],
+    domains: [
+      "www.bedsdivans.co.uk",
+      "cdn.shopify.com",
+      "localhost",
+      "avatars.dicebear.com",
+    ],
   },
 };
 

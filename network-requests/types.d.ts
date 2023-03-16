@@ -39,6 +39,12 @@ interface VariantsTypes {
   updatedAt?: string;
   isDraft?: boolean;
 }
+interface IUserRequest {
+  name: string;
+  email: string;
+  role: string;
+  password?: string;
+}
 
 interface ColorVariantsTypes {
   color: string;
@@ -158,6 +164,20 @@ interface Accessories {
   image: string;
   size: string;
 }
+interface IUser {
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+}
+interface IUserResponse {
+  users: IUser[];
+  totalPages: number;
+  totalUsers: number;
+}
 
 export interface OrderItems {
   _id: string;
@@ -169,6 +189,11 @@ export interface OrderItems {
   image: string;
 }
 interface Order {
+  billingAddress: any;
+  lastModifiedBy: any;
+  adminImage: any;
+  notes: any;
+  isDeleted: boolean;
   orderId: Number;
   _id: string;
   user: {

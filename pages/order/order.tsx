@@ -13,7 +13,7 @@ function Order() {
         <div className={Styles.topheaderdashboard}>
           <div className={Styles.leftside}>
             <div className={Styles.topsearch}>
-              <input type="text" placeholder="Type Here...." />
+              <input type="text" placeholder="Type Hare...." />
               <button>
                 <Image
                   src="/icons/search-line.svg"

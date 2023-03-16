@@ -4,6 +4,16 @@
   display: flex;
   justify-content: space-between;
 }
+.tableCol {
+  border-collapse: collapse;
+  width: 100%;
+  td,
+  th {
+    border-bottom: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+}
 .invoive_beds_divan {
   padding: 10px 80px;
   width: 100%;
