@@ -1,9 +1,11 @@
 import axios from "../axios";
 import {
   Accessories,
+  AccessoriesTypes,
   Bed,
   BedRequestPayload,
   BedResponse,
+  BedWithImage,
   BedWithSize,
   CreateBedVariantResponse,
   GetAllBedsParams,
@@ -56,7 +58,9 @@ export const getAllHeadboardsWithImageAdmin = ({
   pageParam = 1,
 }: GetAllBedsParams): Promise<BedResponse> =>
   axios
-    .get<BedResponse>(`/headboard/get-headboard-with-image?page=${pageParam}`)
+    .get<BedResponse>(
+      `/headboard/get-headboard-with-image?page=${pageParam}&returnWhenNoVariants=true`
+    )
     .then((response) => response.data)
     .catch((error) => {
       throw error;
@@ -371,7 +375,6 @@ export const updateOrderStatus = (id: string, status: string): Promise<any> =>
     .catch((error) => {
       throw error;
     });
-
 export const SendorderDetails = (
   email: string,
   message: string
@@ -381,14 +384,6 @@ export const SendorderDetails = (
       email,
       message,
     })
-    .then((response) => response.data)
-    .catch((error) => {
-      throw error;
-    });
-
-export const checkSlugAvailability = async (slug: string): Promise<any> =>
-  await axios
-    .get(`/beds/check-slug/${slug}`)
     .then((response) => response.data)
     .catch((error) => {
       throw error;

@@ -479,8 +479,8 @@ function SingleOrderPreview() {
             </div>
           </div>
         </main>
+        <Invoice data={data} />
       </div>
-      {/* <Invoice data={data} /> */}
     </>
   );
 }
@@ -521,7 +521,7 @@ const SideContent = ({ notesList, adminImage, user }: any) => {
       .then(() => {
         setNotes((draft: any) => {
           if (draft.value) {
-            draft?.notesList?.push({
+            draft.notesList.push({
               content: draft.value,
               createdAt: new Date().toISOString(),
               createdBy: user?.name,
@@ -594,9 +594,7 @@ const SideContent = ({ notesList, adminImage, user }: any) => {
             label="Order Image"
             type={"file"}
             onChange={({ target }) => {
-              if (target?.files) {
-                updateImage(target?.files[0]);
-              }
+              updateImage(target?.files[0]);
             }}
           />
           {url && (
@@ -619,7 +617,7 @@ const SideContent = ({ notesList, adminImage, user }: any) => {
         </div>
       </div>
       <div className={styles["notes-container"]}>
-        {notes?.notesList?.length > 0 && (
+        {notes.notesList.length > 0 && (
           <div className={styles["notes-list"]}>
             <div className={styles["items"]}>
               {notes.notesList.map((item: any, index: number) => {

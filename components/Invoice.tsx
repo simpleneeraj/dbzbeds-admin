@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 // import PrintIcon from "icons/PrintIcon";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import React, { Fragment, useMemo } from "react";
 import Styles from "../styles/invoice.module.scss";
 
