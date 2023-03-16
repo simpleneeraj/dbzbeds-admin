@@ -42,7 +42,6 @@ function SingleOrderPreview() {
   const { id } = router.query;
 
   const { data, isLoading, refetch } = useFetchOrderById(id as string);
-  console.log({ pageData: data });
   const { mutate } = useUpdateOrderStatus(id as string);
   const { mutateAsync } = useUpdateOrder(router.query?.id as string);
 
@@ -485,7 +484,7 @@ function SingleOrderPreview() {
           </div>
         </main>
       </div>
-      {/* <Invoice data={data} /> */}
+      <Invoice data={data} />
     </>
   );
 }
@@ -526,7 +525,7 @@ const SideContent = ({ notesList, adminImage, user }: any) => {
       .then(() => {
         setNotes((draft: any) => {
           if (draft.value) {
-            draft?.notesList?.push({
+            draft.notesList.push({
               content: draft.value,
               createdAt: new Date().toISOString(),
               createdBy: user?.name,
@@ -610,9 +609,7 @@ const SideContent = ({ notesList, adminImage, user }: any) => {
             label="Order Image"
             type={"file"}
             onChange={({ target }) => {
-              if (target?.files) {
-                updateImage(target?.files[0]);
-              }
+              updateImage(target?.files[0]);
             }}
           />
           {url && (
@@ -635,7 +632,7 @@ const SideContent = ({ notesList, adminImage, user }: any) => {
         </div>
       </div>
       <div className={styles["notes-container"]}>
-        {notes?.notesList?.length > 0 && (
+        {notes.notesList.length > 0 && (
           <div className={styles["notes-list"]}>
             <div className={styles["items"]}>
               {notes.notesList.map((item: any, index: number) => {
