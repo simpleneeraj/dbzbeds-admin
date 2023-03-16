@@ -180,6 +180,7 @@ interface IUserResponse {
 }
 
 export interface OrderItems {
+  categories: any;
   _id: string;
   name: string;
   size: string;

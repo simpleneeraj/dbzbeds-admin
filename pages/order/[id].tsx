@@ -483,8 +483,8 @@ function SingleOrderPreview() {
             </div>
           </div>
         </main>
+        <Invoice data={data} />
       </div>
-      <Invoice data={data} />
     </>
   );
 }
