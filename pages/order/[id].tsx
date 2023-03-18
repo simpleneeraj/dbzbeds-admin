@@ -22,6 +22,7 @@ import handleImageURL from "constants/image-convert";
 import { uploadBedImage } from "network-requests/api";
 import paymentOptions from "constants/payment-status";
 import moment from "moment";
+import Invoice from "components/Invoice";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -479,8 +480,8 @@ function SingleOrderPreview() {
             </div>
           </div>
         </main>
-        <Invoice data={data} />
       </div>
+      <Invoice data={data} />
     </>
   );
 }
@@ -594,7 +595,9 @@ const SideContent = ({ notesList, adminImage, user }: any) => {
             label="Order Image"
             type={"file"}
             onChange={({ target }) => {
-              updateImage(target?.files[0]);
+              if (target.files) {
+                updateImage(target?.files[0]);
+              }
             }}
           />
           {url && (

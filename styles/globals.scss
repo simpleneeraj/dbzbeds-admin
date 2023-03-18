@@ -429,3 +429,21 @@ img {
     display: none !important;
   }
 }
+
+#invoice {
+  display: none;
+}
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #invoice * {
+    visibility: visible;
+  }
+  #invoice {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+  }
+}
