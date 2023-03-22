@@ -15,7 +15,11 @@ const notToShow = ["headboard", "feet", "matress", "storage", "mattresses"];
 
 function Invoice({ data }: Props) {
   return (
-    <div className="container" id="invoice">
+    <div
+      className="container"
+      id="invoice"
+      style={{ width: "100%", minHeight: "100vh" }}
+    >
       <div className="row">
         <div className={Styles.invoice_top}>
           <p>

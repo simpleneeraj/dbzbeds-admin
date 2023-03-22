@@ -1,17 +1,21 @@
-import { useCreateCoupon } from "network-requests/mutations";
 import React from "react";
-import { toast, ToastContainer } from "react-toastify";
+import Input from "components/element/input";
 import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
+import { useCreateCoupon } from "network-requests/mutations";
+import Button from "components/element/button";
 
 function CreateCoupon() {
   const { mutate } = useCreateCoupon();
 
-  const [coupon, setCoupon] = React.useState({
+  const init = {
+    max: "",
+    min: "",
     label: "",
     percent: "",
-    max: "",
     description: "",
-  });
+  };
+  const [coupon, setCoupon] = React.useState(init);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -39,12 +43,7 @@ function CreateCoupon() {
     mutate(coupon, {
       onSuccess: () => {
         toast.success("Coupon created successfully");
-        setCoupon({
-          label: "",
-          percent: "",
-          max: "",
-          description: "",
-        });
+        setCoupon(init);
       },
       onError: (data: any) => {
         console.log({ data });
@@ -56,47 +55,47 @@ function CreateCoupon() {
   return (
     <div>
       <ToastContainer />
-      <h1>CreateCoupon</h1>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 10,
-          padding: 20,
-        }}
-      >
-        <label htmlFor="label">Label</label>
-        <input
+      <h1>Create Coupon</h1>
+      <div>
+        <Input
+          label="Label"
           type="text"
           name="label"
           value={coupon.label}
           onChange={handleChange}
         />
-        <label htmlFor="percent">Percent</label>
-        <input
+        <Input
           type="text"
+          label="Percent"
           name="percent"
           value={coupon.percent}
           onChange={handleChange}
         />
-        <label htmlFor="Max Discount Price">Max</label>
-        <input
+
+        <Input
+          label="Min"
+          type="text"
+          name="min"
+          value={coupon.min}
+          onChange={handleChange}
+        />
+        <Input
+          label="Max"
           type="text"
           name="max"
           value={coupon.max}
           onChange={handleChange}
         />
-        <label htmlFor="description">Description</label>
-        <input
+        <Input
+          label="Description"
           type="text"
           name="description"
           value={coupon.description}
           onChange={handleChange}
         />
       </div>
-
       <div>
-        <button
+        <Button
           style={{
             background: "green",
             padding: 10,
@@ -107,7 +106,7 @@ function CreateCoupon() {
           onClick={handleCreateCoupon}
         >
           Create
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -63,6 +63,7 @@ function CouponsPage() {
                             name={product?.label}
                             percentage={product?.percent}
                             max={product?.max}
+                            min={product?.min}
                             description={product?.description}
                             date={product?.createdAt}
                             onEdit={() =>
@@ -92,6 +93,9 @@ const headerArray = [
   },
   {
     name: "percent",
+  },
+  {
+    name: "min",
   },
   {
     name: "max",

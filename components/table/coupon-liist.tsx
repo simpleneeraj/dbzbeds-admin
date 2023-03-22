@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import EditIcon from "icons/edit";
-import ViewIcon from "icons/view";
 import DeleteIcon from "icons/delete";
 import css from "styles/order.module.scss";
 
@@ -9,8 +8,8 @@ interface TableListProps {
   percentage: string;
   date: string;
   description: string;
+  min: string;
   max: string;
-
   // Methods
   onDelete?: () => void;
   onView?: () => void;
@@ -21,6 +20,7 @@ const CouponList = ({
   name,
   percentage,
   max,
+  min,
   description,
   onView,
   date,
@@ -44,6 +44,11 @@ const CouponList = ({
       <td>
         <div className={css.productrname}>
           <p>{percentage || 0}%</p>
+        </div>
+      </td>
+      <td>
+        <div className={css.price}>
+          <p>£{min}</p>
         </div>
       </td>
       <td>
