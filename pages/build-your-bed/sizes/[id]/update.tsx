@@ -13,13 +13,11 @@ import { uploadBedImage } from "network-requests/api";
 import { toast, ToastContainer } from "react-toastify";
 import General from "components/product/variants/general";
 import {
-  useCreateBuildYourBedVariantById,
+  useUpdateBed,
   useUpdateBuildYourBedVariantById,
 } from "network-requests/mutations";
-import {
-  useGetBuildYourBedsById,
-  useGetBuildYourBedsVariantsById,
-} from "network-requests/queries";
+import { updateBuildYourBedVariantById } from "network-requests/api/build-your-bed";
+import { useGetBuildYourBedsVariantsById } from "network-requests/queries";
 
 function UpdateColor() {
   return (

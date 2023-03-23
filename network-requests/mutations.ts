@@ -17,6 +17,12 @@ import {
   createHeadboardVariantById,
   updateHeadboardVariantById,
 } from "./api";
+import {
+  createBuildYourBedVariantById,
+  createColorVariantByVariantId,
+  updateBuildYourBedVariantById,
+  updateBuildYourBedVariantColorById,
+} from "./api/build-your-bed";
 import { createCoupon, deleteCoupon, updateCoupon } from "./api/coupons";
 import { bulkOrderUpdate, OrderUpdateById } from "./api/orders";
 import { ApproveReview, DeleteReview, RejectReview } from "./api/reviews";
@@ -166,3 +172,27 @@ export const useDeleteCoupon = (id: string) =>
 export const useLogout = () => {
   return useMutation(() => logout());
 };
+
+export const useUpdateBuildYourBedVariantById = (id: string) =>
+  useMutation(
+    (props: VariantsTypes): Promise<CreateBedVariantResponse> =>
+      updateBuildYourBedVariantById(id, props)
+  );
+
+export const useUpdateBuildYourBedVariantColorById = (id: string) =>
+  useMutation(
+    (props: VariantsTypes): Promise<CreateBedVariantResponse> =>
+      updateBuildYourBedVariantColorById(id, props)
+  );
+
+export const useCreateColorVariantByVariantId = (id: string) =>
+  useMutation(
+    (props: VariantsTypes): Promise<CreateBedVariantResponse> =>
+      createColorVariantByVariantId(id, props)
+  );
+
+export const useCreateBuildYourBedVariantById = (id: string) =>
+  useMutation(
+    (props: VariantsTypes): Promise<CreateBedVariantResponse> =>
+      createBuildYourBedVariantById(id, props)
+  );
