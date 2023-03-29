@@ -113,46 +113,6 @@ function AllOrderPage() {
                   All Orders{" "}
                   <span className={styles.number}>{data?.length}</span>
                 </div>
-
-                <ul className={styles.oldDatabase}>
-                  <li>
-                    <a
-                      href="https://staging-bedsdivansco-staging.kinsta.cloud/admin"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <span className={styles.icons}>
-                        <Image
-                          src="/database-2-line.svg"
-                          width="30"
-                          height={20}
-                          alt="icons"
-                          priority
-                        />{" "}
-                      </span>{" "}
-                      Old Database 1
-                    </a>
-                  </li>
-                  <li>
-                    <div> </div>{" "}
-                    <a
-                      href="http://env-bedsdivansco-newbackup.kinsta.cloud/admin"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <span className={styles.icons}>
-                        <Image
-                          src="/database-2-fill.svg"
-                          width="30"
-                          height={20}
-                          alt="icons"
-                          priority
-                        />{" "}
-                      </span>{" "}
-                      Old Database 2
-                    </a>
-                  </li>
-                </ul>
               </div>
 
               <div className={styles.subsubsubactionbtnlist}>

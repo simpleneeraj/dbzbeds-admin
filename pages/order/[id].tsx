@@ -207,7 +207,7 @@ function SingleOrderPreview() {
                 <div className={styles.mainheading}>
                   <h1>Orders No #{data?.orderId?.toString()}</h1>
                   <p>
-                    Payment via {data?.payment?.paymentMethod}. Customer IP:
+                    Payment Via {data?.payment?.paymentMethod}. Customer IP:
                     <span> 92.40.196.240</span>
                   </p>
                   <p>
@@ -233,7 +233,7 @@ function SingleOrderPreview() {
                         <div className={styles.payment_link}>
                           {" "}
                           <label>
-                            Status <a href="">Customer payment page →</a>
+                            Status <a href="">Customer Payment Page →</a>
                           </label>
                         </div>
 

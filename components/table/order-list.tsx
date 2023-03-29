@@ -34,12 +34,12 @@ const OrderList = ({ order, onChecked, checked }: OrderListProps) => {
       case "DELIVERED":
         return {
           color: "#ffffff",
-          background: "#2dc653",
+          background: "#0000FF",
         };
       case "PROCESSING":
         return {
           color: "#ffffff",
-          background: "#60d394",
+          background: "#FFC300",
         };
       case "PENDING":
         return {
@@ -54,12 +54,12 @@ const OrderList = ({ order, onChecked, checked }: OrderListProps) => {
       case "ON_HOLD":
         return {
           color: "#ffffff",
-          background: "#335c67",
+          background: "#581845",
         };
       case "FAILED":
         return {
           color: "#ffffff",
-          background: "#ef233c",
+          background: "#FF0000",
         };
       case "CANCELLED":
         return {
@@ -69,7 +69,7 @@ const OrderList = ({ order, onChecked, checked }: OrderListProps) => {
       case "REFUNDED":
         return {
           color: "#ffffff",
-          background: "#2ec4b6",
+          background: "#DE006F",
         };
       case "DRAFT":
         return {

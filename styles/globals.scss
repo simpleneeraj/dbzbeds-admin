@@ -14,6 +14,10 @@ body {
 ul {
   list-style: none;
 }
+h2,
+p {
+  text-transform: capitalize;
+}
 
 a {
   color: inherit !important;
