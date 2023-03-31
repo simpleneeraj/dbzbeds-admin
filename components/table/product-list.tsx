@@ -3,6 +3,7 @@ import EditIcon from "icons/edit";
 import ViewIcon from "icons/view";
 import DeleteIcon from "icons/delete";
 import css from "styles/order.module.scss";
+import SyncIcon from "icons/sync";
 
 interface TableListProps {
   name: string;
@@ -16,6 +17,7 @@ interface TableListProps {
   onView?: () => void;
   onEdit?: (value: any) => any;
   showDelete?: boolean;
+  onSync?: () => void;
 }
 const ProductList = ({
   name,
@@ -24,6 +26,7 @@ const ProductList = ({
   onView,
   onEdit,
   onDelete,
+  onSync,
   categories,
   showDelete = true,
 }: TableListProps) => {
@@ -87,6 +90,9 @@ const ProductList = ({
             </li>
             <li onClick={onEdit} title="Edit">
               <EditIcon height={16} width={16} />
+            </li>
+            <li onClick={onSync} title="Sync with Google Merchant">
+              <SyncIcon height={16} width={16} />
             </li>
             {showDelete && (
               <li onClick={onDelete} title="Delete">
