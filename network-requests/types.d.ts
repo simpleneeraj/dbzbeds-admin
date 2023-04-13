@@ -247,3 +247,17 @@ interface CouponPayload {
 }
 
 interface Coupon extends CouponPayload {}
+
+interface CreateBlogTypes {
+  message: string;
+  name: string;
+  slug: string;
+  content: string;
+  images: string;
+  categories: string;
+  metaTitle: string;
+  metaDescription: string;
+  keyWord: string;
+}
+
+interface Blogs extends CreateBlogTypes {}

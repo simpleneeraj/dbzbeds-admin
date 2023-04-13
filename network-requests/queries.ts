@@ -39,6 +39,7 @@ import {
   IUserResponse,
   Review,
 } from "./types";
+import { getAllBlogs, getBlogsById } from "./api/blogs";
 
 export const useFetchAllBeds = () =>
   useInfiniteQuery(
@@ -273,3 +274,12 @@ export const useGetCouponById = (id: string) =>
     refetchOnMount: false,
     enabled: !!id,
   });
+
+export const useGetBlogsById = (id: string) =>
+  useQuery(["blog-by-id", id], () => getBlogsById(id), {
+    refetchOnMount: false,
+    enabled: !!id,
+  });
+
+export const useGetAllBlogs = () =>
+  useQuery(["blogs"], (): Promise<Coupon[]> => getAllBlogs());
