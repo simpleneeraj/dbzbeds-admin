@@ -7,10 +7,12 @@ import Button from "components/element/button";
 import TableHeader from "components/table/header";
 import FilterHeader from "components/table/filter";
 import ProductList from "components/table/product-list";
-import { deleteBedById } from "network-requests/api";
+import { deleteBedById, syncWithGoogle } from "network-requests/api";
 import { useInView } from "react-intersection-observer";
 import { useFetchAllBedsWithImageAdmin } from "network-requests/queries";
 import dynamic from "next/dynamic";
+import { toast } from "react-toastify";
+import Toast from "components/toast";
 
 const Skeleton = dynamic(() => import("components/skeleton"), { ssr: false });
 
@@ -46,8 +48,22 @@ function ProductPage() {
     [refetch]
   );
 
+  const onSyncWithGoogleMerchant = React.useCallback(async (id: string) => {
+    if (
+      window.confirm(
+        "Are you sure to sync with google merchant with this Product"
+      )
+    ) {
+      const data = await syncWithGoogle(id);
+      if (data) {
+        await toast.success("Added to Google merchant successfully");
+      }
+    }
+  }, []);
+
   return (
     <>
+      <Toast />
       <div className={styles.rightsidebar}>
         <DashboardHeader />
         <div className={styles.mainheading}>Products list</div>
@@ -90,6 +106,9 @@ function ProductPage() {
                                 }
                                 onDelete={() => onDeleteProduct(product._id)}
                                 onView={() => push(`/variants/${product._id}`)}
+                                onSync={() =>
+                                  onSyncWithGoogleMerchant(product._id)
+                                }
                               />
                             ))}
                           </React.Fragment>

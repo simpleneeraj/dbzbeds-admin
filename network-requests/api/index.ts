@@ -388,3 +388,13 @@ export const SendorderDetails = (
     .catch((error) => {
       throw error;
     });
+
+// Google Merchant
+
+export const syncWithGoogle = (id: string): Promise<any> =>
+  axios
+    .get(`/google-merchant/${id}`)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
