@@ -260,4 +260,15 @@ interface CreateBlogTypes {
   keyWord: string;
 }
 
+interface BlogRequestPayload {
+  name: string;
+  slug: string;
+  content: string;
+  images: string[];
+  categories: string[];
+  metaTitle: string;
+  metaDescription: string;
+  keyWord: string[];
+}
+
 interface Blogs extends CreateBlogTypes {}

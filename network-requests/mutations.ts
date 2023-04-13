@@ -16,6 +16,7 @@ import {
   updateHeadboardById,
   createHeadboardVariantById,
   updateHeadboardVariantById,
+  createBlogs,
 } from "./api";
 import {
   createBuildYourBedVariantById,
@@ -36,6 +37,7 @@ import {
   UpdateColorIcon,
   UploadBedImage,
   VariantsTypes,
+  BlogRequestPayload,
 } from "./types";
 
 //AUTH MUTATIONS
@@ -196,3 +198,11 @@ export const useCreateBuildYourBedVariantById = (id: string) =>
     (props: VariantsTypes): Promise<CreateBedVariantResponse> =>
       createBuildYourBedVariantById(id, props)
   );
+
+// CREATE BLOGS MUTATIONS...
+export const useCreateNewBlog = () => {
+  return useMutation(
+    (payload: BlogRequestPayload): Promise<CreateBedVariantResponse> =>
+      createBlogs(payload)
+  );
+};

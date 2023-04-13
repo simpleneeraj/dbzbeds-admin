@@ -12,6 +12,7 @@ import {
   Order,
   UploadBedImage,
   VariantsTypes,
+  BlogRequestPayload,
 } from "../types";
 
 //AUTH API
@@ -398,3 +399,35 @@ export const syncWithGoogle = (id: string): Promise<any> =>
     .catch((error) => {
       throw error;
     });
+
+//POST REQUESTS FOR CREATE BLOGS...
+export const createBlogs = (
+  payload: BlogRequestPayload
+): Promise<CreateBedVariantResponse> =>
+  axios
+    .post<CreateBedVariantResponse>(`/blogs`, payload)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+
+// blog image upload..
+export const uploadBlogImage = async (image: Blob): Promise<UploadBedImage> => {
+  const formdata = new FormData();
+  formdata.append("image", image);
+  return await axios
+    .post<UploadBedImage>(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/blogs/upload-image`,
+      formdata,
+      {
+        withCredentials: false,
+      }
+    )
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
