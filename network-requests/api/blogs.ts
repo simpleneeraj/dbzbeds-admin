@@ -10,7 +10,7 @@ export const getAllBlogs = () =>
     });
 export const getBlogsById = (id: string) =>
   axios
-    .get(`/blogs/${id}`)
+    .get(`/blogs/${id}/id`)
     .then((res) => res.data)
     .catch((err) => {
       throw err;

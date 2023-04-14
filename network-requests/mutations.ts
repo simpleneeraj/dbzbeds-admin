@@ -38,7 +38,9 @@ import {
   UploadBedImage,
   VariantsTypes,
   BlogRequestPayload,
+  CreateBlogTypes,
 } from "./types";
+import { updateBlogs } from "./api/blogs";
 
 //AUTH MUTATIONS
 export const useLogin = () => {
@@ -204,5 +206,12 @@ export const useCreateNewBlog = () => {
   return useMutation(
     (payload: BlogRequestPayload): Promise<CreateBedVariantResponse> =>
       createBlogs(payload)
+  );
+};
+
+export const useUpdateBlog = (id: string) => {
+  return useMutation(
+    (payload: CreateBlogTypes): Promise<CreateBlogTypes> =>
+      updateBlogs(id, payload)
   );
 };

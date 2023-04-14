@@ -14,7 +14,6 @@ const ChipInput = React.forwardRef(
     ref: React.Ref<HTMLInputElement>
   ) => {
     const [chips, setChips] = React.useState<string[]>(value || []);
-    console.log({ value }, { chips });
 
     const onAddIndusrtryChip = (chip: any) => {
       const newChips = [...chips];
