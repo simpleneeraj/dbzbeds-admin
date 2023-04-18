@@ -33,7 +33,7 @@ function Invoice({ data }: Props) {
       <div className="container">
         <div className="row">
           <div className={Styles.invoive_beds_divan}>
-            <h3>Beds Divans</h3>
+            <h3>DBZBEDS</h3>
             <div className={Styles.invoice_address}>
               <div className={Styles.billing_address}>
                 <h5>Billing Address</h5>
