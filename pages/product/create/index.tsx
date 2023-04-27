@@ -7,15 +7,18 @@ import Input from "components/element/input";
 import ChipInput from "components/chip-input";
 import styles from "styles/order.module.scss";
 import DashboardHeader from "layout/header";
+import Textarea from "components/element/textarea";
 import { uploadBedImage } from "network-requests/api";
 import AddMoreButton from "components/element/addmore";
 import { useCreateNewBed } from "network-requests/mutations";
 import DynamicImageGrid from "components/element/image-picker-grid";
 import lazyAlert from "constants/lazy-alert";
-import Router from "next/router";
-import { useCheckSlugAvailability } from "network-requests/queries";
-// import RichTextEditor from "components/rich-text-editor";
-import Textarea from "components/element/textarea";
+import { Router, useRouter } from "next/router";
+import dynamic from "next/dynamic";
+const IRichTextEditor = dynamic(() => import("@mantine/rte"), {
+  ssr: false,
+  loading: () => null,
+});
 
 type E = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
@@ -26,11 +29,11 @@ function CreateProduct() {
     description: "" as string,
     categories: [] as string[],
     images: [] as any,
+    metaTitle: "",
+    metaDescription: "",
   });
 
-  const { data: slugAvailability, isFetched }: any = useCheckSlugAvailability(
-    bedInfoInputs.slug
-  );
+  const router = useRouter();
   //API POST
   const { mutate, isLoading } = useCreateNewBed();
 
@@ -63,10 +66,6 @@ function CreateProduct() {
 
   // SUBMIT DATA TO DB
   const handleBedCreate = React.useCallback(async () => {
-    if (!slugAvailability?.success) {
-      return toast.error("Slug is already taken, please try another one");
-    }
-
     const getImageUrl = async (image: any) => {
       if (image) {
         const imageUrl = await uploadBedImage(image as Blob);
@@ -74,7 +73,6 @@ function CreateProduct() {
       }
       return "";
     };
-
     const imagesUrl = await pMap(bedInfoInputs.images, getImageUrl);
     if (bedInfoInputs.categories.length <= 0)
       await lazyAlert("Product Category Required");
@@ -86,28 +84,17 @@ function CreateProduct() {
       {
         onSuccess: (data) => {
           toast.success(data?.message || "Product Created Successfully");
-          Router.reload();
+          router.back();
         },
         onError: () => {
           toast.error("Something went wrong");
         },
       }
     );
+  }, [bedInfoInputs, mutate, router]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bedInfoInputs]);
+  console.log({ bedInfoInputs });
 
-  const handleDescription = React.useCallback(
-    (key: string, value: string) => {
-      setBedInfoInputs({
-        ...bedInfoInputs,
-        [key]: value,
-      });
-    },
-    [bedInfoInputs]
-  );
-
-  console.log(bedInfoInputs);
   return (
     <React.Fragment>
       <Toast />
@@ -115,7 +102,6 @@ function CreateProduct() {
         <DashboardHeader />
         {/* <div className={styles["overlay"]}></div> */}
         <main className={styles.main}>
-          <div className={styles.mainheading}>Create Product</div>
           <div
             className={styles.containerbox}
             style={
@@ -128,13 +114,41 @@ function CreateProduct() {
                 : {}
             }
           >
+            <div className={styles.mainheading}>Create Product</div>
             <div
               className={`${styles.tablebox} ${styles.mt2} ${styles.productuploadtabbox}`}
             >
               <div className={styles.tabbox}>
                 <div className="tabcontantinner">
+                  <h2>SEO</h2>
+                  <div className="box">
+                    <ul>
+                      <li>
+                        <Input
+                          name="metaTitle"
+                          type="text"
+                          label={"Meta Title"}
+                          placeholder="Enter Meta Title"
+                          onChange={handleInputChange}
+                          value={bedInfoInputs.metaTitle}
+                        />
+                      </li>
+                      <li>
+                        <Textarea
+                          name="metaDescription"
+                          label={"Meta Description"}
+                          placeholder="Enter Meta Description"
+                          value={bedInfoInputs.metaDescription}
+                          onChange={handleInputChange}
+                        />
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <br />
+                <div className="tabcontantinner">
                   <h2>Basic Info</h2>
-                  <div className={styles.inputbox}>
+                  <div className="box">
                     <ul>
                       <li>
                         <Input
@@ -149,27 +163,11 @@ function CreateProduct() {
                         <Input
                           name="slug"
                           type="text"
-                          style={{
-                            border:
-                              !slugAvailability?.success && isFetched
-                                ? "2px solid red"
-                                : "2px solid green",
-                          }}
                           label={"Slug (uniq for every product)"}
                           placeholder="Auto Generated"
                           value={bedInfoInputs.slug}
                           onChange={handleInputChange}
                         />
-                        {!slugAvailability?.success && isFetched && (
-                          <p
-                            style={{
-                              color: "red",
-                            }}
-                          >
-                            {slugAvailability?.message ||
-                              "Slug already exists. Please try another one"}
-                          </p>
-                        )}
                       </li>
                       <li>
                         {/* <Textarea
@@ -178,45 +176,24 @@ function CreateProduct() {
                           label="Product Description"
                           onChange={handleInputChange}
                         /> */}
-                        <li className={styles["grid"]}>
-                          {/* <Textarea
-                          name="description"
-                          placeholder="Enter product description"
-                          label="Product Description"
-                          onChange={handleInputChange}
+                        <IRichTextEditor
+                          id="rte"
+                          sticky={false}
                           value={bedInfoInputs.description}
-                        /> */}
-                          <div className={styles["list-container"]}>
-                            <label className={styles["label"]}>
-                              Description
-                            </label>
-                            {/* <RichTextEditor
-                              style={{
-                                minHeight: `300px`,
-                              }}
-                              value={bedInfoInputs.description}
-                              onChange={(value) =>
-                                handleDescription("description", value)
-                              }
-                              controls={[
-                                ["bold", "italic", "underline"],
-                                ["alignLeft", "alignCenter", "alignRight"],
-                                ["unorderedList", "orderedList"],
-                                ["h1", "h2", "h3", "h4"],
-                                ["sup", "sub"],
-                              ]}
-                            /> */}
-                            <Textarea
-                              name="description"
-                              label=" Description"
-                              className={styles.tabcontantinnerinput}
-                              value={bedInfoInputs.description}
-                              onChange={({ target }) =>
-                                handleDescription("description", target.value)
-                              }
-                            />
-                          </div>
-                        </li>
+                          onChange={(value, delta, sources) =>
+                            setBedInfoInputs({
+                              ...bedInfoInputs,
+                              description: value,
+                            })
+                          }
+                          placeholder="Type Here"
+                          controls={[
+                            ["bold", "italic", "underline"],
+                            ["link", "image", "video", "blockquote", "code"],
+                            ["unorderedList", "h1", "h2", "h3"],
+                            ["alignLeft", "alignCenter", "alignRight"],
+                          ]}
+                        />
                       </li>
                       <li className="grid">
                         <ChipInput

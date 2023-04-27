@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "styles/order.module.scss";
 import Input from "components/element/input";
+import Textarea from "components/element/textarea";
 import AddMoreButton from "components/element/addmore";
 import DashboardHeader from "layout/header";
 import ChipInput from "components/chip-input";
@@ -13,12 +14,13 @@ import DynamicImageGrid from "components/element/image-picker-grid";
 import Switch from "components/switch";
 import pMap from "p-map";
 import { uploadBedImage } from "network-requests/api";
-// import RichTextEditor from "components/rich-text-editor";
-import Textarea from "components/element/textarea";
+import dynamic from "next/dynamic";
+const IRichTextEditor = dynamic(() => import("@mantine/rte"), {
+  ssr: false,
+  loading: () => null,
+});
 
-function UpdateProduct() {
-  // const [value, onChange] = React.useState("");
-
+function CreateProduct() {
   const router = useRouter();
   const { data, isFetched } = useFetchBedById(router.query.id as string);
   const [bedInfoInputs, setBedInfoInputs] = React.useState({
@@ -28,6 +30,8 @@ function UpdateProduct() {
     categories: data?.categories as string[],
     isDraft: data?.isDraft as boolean,
     images: data?.images as string[],
+    // metaTitle: data?.metaTitle as string,
+    // metaDescription: data?.metaDescription as string,
   });
 
   // INITILIZE OLD DATA IN STATE
@@ -40,9 +44,11 @@ function UpdateProduct() {
         categories: data?.categories as string[],
         isDraft: data?.isDraft as boolean,
         images: data?.images as string[],
+        // metaTitle: data?.metaTitle as string,
+        // metaDescription: data?.metaDescription as string,
       });
     }
-  }, [data, isFetched]);
+  }, [isFetched]);
 
   //API POST
   const { mutate, isLoading } = useUpdateBed(router.query?.id as string);
@@ -61,7 +67,7 @@ function UpdateProduct() {
     [bedInfoInputs]
   );
 
-  // console.log("DRAFT", bedInfoInputs?.isDraft);
+  console.log("DRAFT", bedInfoInputs?.isDraft);
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -70,15 +76,6 @@ function UpdateProduct() {
       [event.target.name]: event.target.value,
     });
   };
-  const handleDescription = React.useCallback(
-    (key: string, value: string) => {
-      setBedInfoInputs({
-        ...bedInfoInputs,
-        [key]: value,
-      });
-    },
-    [bedInfoInputs]
-  );
 
   const handleBedUpdate = React.useCallback(async () => {
     const getImageUrl = async (image: any) => {
@@ -93,10 +90,12 @@ function UpdateProduct() {
     mutate(
       {
         name: bedInfoInputs.name,
+        slug: bedInfoInputs.slug,
         description: bedInfoInputs.description,
         categories: bedInfoInputs.categories,
         isDraft: bedInfoInputs.isDraft,
-        slug: bedInfoInputs.slug,
+        // metaTitle: bedInfoInputs.metaTitle,
+        // metaDescription: bedInfoInputs.metaDescription,
         images: imagesUrl,
       },
       {
@@ -110,87 +109,129 @@ function UpdateProduct() {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bedInfoInputs]);
+
+  console.log({ bedInfoInputs });
   return (
     <React.Fragment>
       <Toast />
       <div className={styles.rightsidebar}>
         <DashboardHeader />
-        <div className={styles.mainheading}>Update Products</div>
         <main className={styles.main}>
-          <div className={styles.containerbox}>
+          <div
+            className={styles.containerbox}
+            style={
+              !isFetched || isLoading
+                ? {
+                    opacity: 0.5,
+                    pointerEvents: "none",
+                    userSelect: "none",
+                  }
+                : {}
+            }
+          >
+            <div className={styles.mainheading}>Update Product</div>
             <div
               className={` ${styles.tablebox} ${styles.mt2} ${styles.productuploadtabbox}`}
             >
               <div className={styles.tabbox}>
-                {isLoading ? (
-                  <div>Loading...</div>
-                ) : (
-                  <div className="tabcontantinner">
-                    <div className={styles["heading"]}>
-                      <h2>Basic Info</h2>
-                      <div className={styles["draft"]}>
-                        <p>Draft</p>
-                        <Switch
-                          active={bedInfoInputs?.isDraft}
-                          onClick={() => handleIsDraft(!bedInfoInputs?.isDraft)}
+                <div className="tabcontantinner">
+                  <h2>SEO</h2>
+                  <div className="box">
+                    <ul>
+                      <li>
+                        <Input
+                          name="metaTitle"
+                          type="text"
+                          label={"Meta Title"}
+                          placeholder="Enter Meta Title"
+                          onChange={handleInputChange}
+                          // value={bedInfoInputs.metaTitle}
                         />
-                      </div>
+                      </li>
+                      <li>
+                        <Textarea
+                          name="metaDescription"
+                          label={"Meta Description"}
+                          placeholder="Enter Meta Description"
+                          // value={bedInfoInputs.metaDescription}
+                          onChange={handleInputChange}
+                        />
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <br />
+                <div className="tabcontantinner">
+                  <div className={styles["heading"]}>
+                    <h2>Basic Info</h2>
+                    <div className={styles["draft"]}>
+                      <p>Draft</p>
+                      <Switch
+                        active={bedInfoInputs?.isDraft}
+                        onClick={() => handleIsDraft(!bedInfoInputs?.isDraft)}
+                      />
                     </div>
-                    <div className={styles.box}>
-                      <ul>
-                        <li>
-                          <Input
-                            name="name"
-                            type="text"
-                            label={"Product Name"}
-                            placeholder="Enter product name"
-                            onChange={handleInputChange}
-                            value={bedInfoInputs.name}
-                          />
-                        </li>
-                        <li>
-                          <Input
-                            name="slug"
-                            type="text"
-                            label={"Slug (uniq for every product)"}
-                            placeholder="Auto Generated"
-                            value={bedInfoInputs.slug}
-                            onChange={handleInputChange}
-                          />
-                        </li>
-                        <li className="grid">
-                          <div>
-                            <label className={styles["label"]}>
-                              Description
-                            </label>
-                            {/* <RichTextEditor
-                              value={bedInfoInputs.description}
-                              onChange={(value) =>
-                                handleDescription("description", value)
-                              }
-                            /> */}
+                  </div>
+                  <div className="box">
+                    <ul>
+                      <li>
+                        <Input
+                          name="name"
+                          type="text"
+                          label={"Product Name"}
+                          placeholder="Enter product name"
+                          onChange={handleInputChange}
+                          value={bedInfoInputs.name}
+                        />
+                      </li>
+                      <li>
+                        <Input
+                          name="slug"
+                          type="text"
+                          label={"Slug (uniq for every product)"}
+                          placeholder="Auto Generated"
+                          value={bedInfoInputs.slug}
+                          onChange={handleInputChange}
+                        />
+                      </li>
+                      <li>
+                        {/* <Textarea
+                          name="description"
+                          placeholder="Enter product description"
+                          label="Product Description"
+                          onChange={handleInputChange}
+                          value={bedInfoInputs.description}
+                        /> */}
+                        <label htmlFor="">Product Description</label>
+                        <IRichTextEditor
+                          id="rte"
+                          sticky={false}
+                          value={bedInfoInputs.description}
+                          onChange={(value, delta, sources) =>
+                            setBedInfoInputs({
+                              ...bedInfoInputs,
+                              description: value,
+                            })
+                          }
+                          placeholder="Type Here"
+                          controls={[
+                            ["bold", "italic", "underline"],
+                            ["link", "image", "video", "blockquote", "code"],
+                            ["unorderedList", "h1", "h2", "h3"],
+                            ["alignLeft", "alignCenter", "alignRight"],
+                          ]}
+                        />
+                      </li>
 
-                            <Textarea
-                              name="description"
-                              label=" Description"
-                              className={styles.tabcontantinnerinput}
-                              value={bedInfoInputs.description}
-                              onChange={({ target }) =>
-                                handleDescription("description", target.value)
-                              }
-                            />
-                          </div>
-                        </li>
-
-                        <li className="grid">
-                          <ChipInput
-                            label={`Category`}
-                            onChange={handleAddChip}
-                            placeholder="Add Category..."
-                            value={bedInfoInputs.categories}
-                          />
-                        </li>
-                        {/* <li>
+                      <li className="grid">
+                        <ChipInput
+                          label={`Category`}
+                          onChange={handleAddChip}
+                          placeholder="Add Category..."
+                          value={bedInfoInputs.categories}
+                        />
+                      </li>
+                      {/* <li>
                         is draft
                         <input
                           type="checkbox"
@@ -198,13 +239,12 @@ function UpdateProduct() {
                           onChange={(e) => handleIsDraft(e.target.checked)}
                         />
                       </li> */}
-                      </ul>
-                      {/* <div className={styles.buttonsection}>
+                    </ul>
+                    {/* <div className={styles.buttonsection}>
                       <AddMoreButton title="Update" onClick={handleBedUpdate} />
                     </div> */}
-                    </div>
                   </div>
-                )}
+                </div>
               </div>
               <div className={styles.right}>
                 <h2>Cover Images</h2>
@@ -238,4 +278,4 @@ function UpdateProduct() {
   );
 }
 
-export default UpdateProduct;
+export default CreateProduct;
