@@ -150,8 +150,9 @@ function Invoice({ data }: Props) {
                     <OrderItems key={item?._id} item={item} />
                   ))}
                 </thead>
-                <ItemSubtotal data={data} />
+               
               </table>
+              <ItemSubtotal data={data} />
             </div>
           </div>
         </div>
@@ -260,14 +261,8 @@ function OrderItems({ item }: any) {
         <th></th>
         <th>£{item.price}</th>
       </tr>
-      <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-        <br />
-        <br />
-        <br />
-      </tr>
+      <br />
+     
     </Fragment>
   );
 }
