@@ -55,10 +55,6 @@ const ItemSubtotal = ({ data }: any) => {
               <strong>£{data?.discount?.price || totalPrice}</strong>
             </td>
           </tr>
-        </tbody>
-      </table>
-      <table className={styles.total_paid}>
-        <tbody>
           <tr>
             <td>
               <strong>Paid:</strong>
@@ -76,6 +72,12 @@ const ItemSubtotal = ({ data }: any) => {
               </span>
             </span>
           </tr>
+        </tbody>
+      </table>
+      <table className={styles.total_paid}>
+        <tbody>
+         
+         
         </tbody>
       </table>
     </>
