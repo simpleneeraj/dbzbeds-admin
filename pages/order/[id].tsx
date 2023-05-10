@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "styles/order.module.scss";
 import DashboardHeader from "layout/header";
@@ -490,63 +490,53 @@ export default SingleOrderPreview;
 
 const SideContent = ({ notesList, adminImage, user }: any) => {
   const router = useRouter();
-  const { data, refetch } = useFetchOrderById(router.query?.id as string);
+  const { data, refetch, isFetched, isFetching } = useFetchOrderById(
+    router.query?.id as string
+  );
 
-  const { mutateAsync } = useUpdateOrder(router.query?.id as string);
+  const { mutate, mutateAsync } = useUpdateOrder(router.query?.id as string);
 
-  // const [textValue, setTextValue] = React.useState(defaultState);
-
-  const [notes, setNotes] = useImmer({
-    value: "",
-    notesList: notesList as any,
-  });
-
-  console.log({ notes });
+  const [value, setValue] = useState("");
+  const [notes, setNotes] = useImmer([]);
 
   React.useMemo(() => {
-    setNotes((draft: { notesList: any }) => {
-      draft.notesList = notesList;
-    });
-  }, [notesList, setNotes]);
+    if (isFetched) {
+      setNotes((draft) => {
+        return (draft = data?.notes);
+      });
+    }
+  }, [data?.notes, isFetched, setNotes]);
 
-  const onChangeNotes = React.useCallback(
-    (value: string) => {
-      setNotes((draft: { value: string }) => {
-        draft.value = value;
-      });
-    },
-    [setNotes]
-  );
+  React.useMemo(() => {
+    if (notes && data?.notes) {
+      mutate(
+        { notes },
+        {
+          onSuccess: (_data) => {
+            refetch();
+          },
+        }
+      );
+    }
+  }, [notes]);
+
   const onAddNotes = React.useCallback(async () => {
-    sleep(100)
-      .then(() => {
-        setNotes((draft: any) => {
-          if (draft.value) {
-            draft.notesList.push({
-              content: draft.value,
-              createdAt: new Date().toISOString(),
-              createdBy: user?.name,
-            });
-          }
-          draft.value = "";
+    setNotes((draft: any) => {
+      if (value) {
+        draft.push({
+          content: value,
+          createdAt: new Date().toISOString(),
+          createdBy: user?.name,
         });
-      })
-      .then(async () => {
-        await mutateAsync(
-          { notes: notes.notesList },
-          {
-            onSuccess: (_data) => {
-              alert("Note Added");
-            },
-          }
-        );
-      });
-  }, [mutateAsync, notes.notesList, setNotes, user?.name]);
+      }
+    });
+    setValue("");
+  }, [setNotes, user?.name, value]);
 
   const onDeleteNote = React.useCallback(
     (index: number) => {
-      setNotes((draft: { notesList: any[] }) => {
-        draft.notesList.splice(index, 1);
+      setNotes((draft) => {
+        draft.splice(index, 1);
       });
     },
     [setNotes]
@@ -594,10 +584,8 @@ const SideContent = ({ notesList, adminImage, user }: any) => {
           <Input
             label="Order Image"
             type={"file"}
-            onChange={({ target }) => {
-              if (target.files) {
-                updateImage(target?.files[0]);
-              }
+            onChange={({ target }: any) => {
+              updateImage(target?.files[0]);
             }}
           />
           {url && (
@@ -619,11 +607,16 @@ const SideContent = ({ notesList, adminImage, user }: any) => {
           )}
         </div>
       </div>
-      <div className={styles["notes-container"]}>
-        {notes.notesList.length > 0 && (
+      <div
+        className={styles["notes-container"]}
+        style={{
+          opacity: isFetching ? 0.5 : 1,
+        }}
+      >
+        {notes.length > 0 && (
           <div className={styles["notes-list"]}>
             <div className={styles["items"]}>
-              {notes.notesList.map((item: any, index: number) => {
+              {notes.map((item: any, index: number) => {
                 return (
                   <React.Fragment key={index}>
                     <p>
@@ -644,13 +637,16 @@ const SideContent = ({ notesList, adminImage, user }: any) => {
           <Textarea
             label={"Add Personal Note"}
             className={styles["text-container"]}
-            value={notes.value}
-            onChange={({ target }) => onChangeNotes(target.value)}
+            value={value}
+            onChange={({ target }) => setValue(target.value)}
           />
           <div className={styles["mainbuttondiv"]}>
             <Button onClick={onAddNotes} className={styles["addbutton"]}>
               Add Note
             </Button>
+            {/* <Button onClick={onUpadateNotes} className={styles["updatebutton"]}>
+              Update Note{" "}
+            </Button> */}
           </div>
         </div>
       </div>
