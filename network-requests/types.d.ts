@@ -190,6 +190,13 @@ export interface OrderItems {
   image: string;
 }
 interface Order {
+  history?: {
+    status: string;
+    billing: string;
+    refund: string;
+    createdAt: Date;
+  }[];
+  lastModifiedBy: any;
   billingAddress: any;
   lastModifiedBy: any;
   adminImage: any;
