@@ -490,7 +490,9 @@ function SingleOrderPreview() {
 
 export default SingleOrderPreview;
 
-const SideContent = ({ notesList, adminImage, user }: any) => {
+const SideContent = ({ adminImage, user }: any) => {
+  const { data: userData } = useGetMyself();
+  const safeRef = React.useRef(false);
   const router = useRouter();
   const { data, refetch, isFetched, isFetching } = useFetchOrderById(
     router.query?.id as string
@@ -509,17 +511,24 @@ const SideContent = ({ notesList, adminImage, user }: any) => {
     }
   }, [data?.notes, isFetched, setNotes]);
 
-  React.useMemo(() => {
-    if (notes && data?.notes) {
-      mutate(
-        { notes },
-        {
-          onSuccess: (_data) => {
-            refetch();
-          },
-        }
-      );
+  React.useEffect(() => {
+    safeRef.current = true;
+    if (safeRef.current) {
+      if (notes && data?.notes) {
+        mutate(
+          { notes, userId: userData?._id },
+          {
+            onSuccess: (_data) => {
+              refetch();
+            },
+          }
+        );
+      }
     }
+    return () => {
+      safeRef.current = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notes]);
 
   const onAddNotes = React.useCallback(async () => {
@@ -579,6 +588,7 @@ const SideContent = ({ notesList, adminImage, user }: any) => {
     );
   }, [mutateAsync, refetch]);
 
+  console.log({ userData });
   return (
     <React.Fragment>
       <div className={styles["imageupload"]}>
@@ -646,9 +656,6 @@ const SideContent = ({ notesList, adminImage, user }: any) => {
             <Button onClick={onAddNotes} className={styles["addbutton"]}>
               Add Note
             </Button>
-            {/* <Button onClick={onUpadateNotes} className={styles["updatebutton"]}>
-              Update Note{" "}
-            </Button> */}
           </div>
         </div>
       </div>

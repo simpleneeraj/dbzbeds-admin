@@ -14,6 +14,7 @@ import Router from "next/router";
 
 const DashboardHeader = ({ customHeader }: any) => {
   const { data } = useGetMyself();
+  console.log({ data });
   const { mutate } = useLogout();
 
   const [searchText, setSearchText] = React.useState();
