@@ -92,7 +92,7 @@ function SingleOrderPreview() {
         setEdit("");
       },
     });
-  }, [billingEdit, data, userEdit]);
+  }, [billingEdit, data, mutateAsync, refetch, userEdit]);
 
   const handleEmailSend = () => {
     sendEmailInvoce(

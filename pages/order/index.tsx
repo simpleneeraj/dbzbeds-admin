@@ -13,7 +13,7 @@ import { useBulkOrderUpdate } from "network-requests/mutations";
 function AllOrderPage() {
   const router = useRouter();
   const { data, refetch } = useFetchAllOrders(router?.query?.id as any);
-  const { mutate } = useBulkOrderUpdate();
+  const { mutateAsync } = useBulkOrderUpdate();
 
   // filter payment method
   const [filterPayment, setFilterPayment] = useState("");
@@ -54,25 +54,27 @@ function AllOrderPage() {
     }
   }, [data, selected]);
 
-  const handleBulkAction = useCallback(() => {
-    if (!action) return;
-    if (action === "PRINT_INVOICE") {
-      window.print();
-      return;
-    }
-
-    mutate(
-      { ids: selected, status: action },
-      {
-        onSuccess: () => {
-          refetch();
-          setSelected([]);
-          setAction("");
-        },
+  const handleBulkAction = useCallback(async () => {
+    if (window.confirm("Are you sure to use bulk actions")) {
+      if (!action) return;
+      if (action === "PRINT_INVOICE") {
+        window.print();
+        return;
       }
-    );
-  }, [selected, action, mutate, refetch]);
+      await mutateAsync(
+        { ids: selected, status: action },
+        {
+          onSuccess: () => {
+            refetch();
+            setSelected([]);
+            setAction("");
+          },
+        }
+      );
+    }
+  }, [selected, action, mutateAsync, refetch]);
 
+  console.log({ selected });
   const onFilterPayment = React.useCallback((value: string) => {
     setFilterPayment(value);
   }, []);

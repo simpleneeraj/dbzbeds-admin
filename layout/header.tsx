@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import Styles from "styles/order.module.scss";
+import styles from "styles/order.module.scss";
 import UserIcon from "icons/UserIcon";
 import SearchIcon from "icons/SearchIcon";
 // import MenueIcon from "components/newproduct/svgicons/menue";
@@ -14,7 +14,7 @@ import Router from "next/router";
 
 const DashboardHeader = ({ customHeader }: any) => {
   const { data } = useGetMyself();
-  console.log({ data });
+  // console.log({ data });
   const { mutate } = useLogout();
 
   const [searchText, setSearchText] = React.useState();
@@ -42,27 +42,27 @@ const DashboardHeader = ({ customHeader }: any) => {
 
   return (
     <>
-      <section className={Styles["mobilehaeder"]}>
-        <div className={Styles["mainheader"]}>
-          <div className={Styles["menu-bar"]}>
+      <section className={styles["mobilehaeder"]}>
+        <div className={styles["mainheader"]}>
+          <div className={styles["menu-bar"]}>
             <button
-              className={Styles["menubg"]}
+              className={styles["menubg"]}
               title="menu-icon"
               aria-label="menu-icon"
               onClick={onClickMenu}
             >
               {/* <MenueIcon /> */}
-              <p className={Styles["menutxt"]}>Menu</p>
+              <p className={styles["menutxt"]}>Menu</p>
             </button>
           </div>
-          <div className={Styles.mainlogo}>
+          <div className={styles.mainlogo}>
             <img src="/image/wplogo.webp" alt="logo" />
           </div>
-          <div className={Styles.rightside}>
-            <div className={Styles.dropdownaction}>
-              <div className={Styles.userimagewithtext}>
-                <div className={Styles.text}>{data?.name}</div>
-                <div className={Styles.image}>
+          <div className={styles.rightside}>
+            <div className={styles.dropdownaction}>
+              <div className={styles.userimagewithtext}>
+                <div className={styles.text}>{data?.name}</div>
+                <div className={styles.image}>
                   <UserIcon />
                 </div>
               </div>
@@ -70,9 +70,9 @@ const DashboardHeader = ({ customHeader }: any) => {
           </div>
         </div>
       </section>
-      <section className={Styles["mobilesearchbar"]}>
-        <div className={Styles.leftside}>
-          <div className={Styles.topsearch}>
+      <section className={styles["mobilesearchbar"]}>
+        <div className={styles.leftside}>
+          <div className={styles.topsearch}>
             <input type="text" placeholder="Search Products..." />
             <button>
               <SearchIcon />
@@ -80,21 +80,21 @@ const DashboardHeader = ({ customHeader }: any) => {
           </div>
         </div>
       </section>
-      <section className={Styles["mobileheader1"]}>
-        <div className={Styles.topheaderdashboard}>
-          <div className={Styles["menu-bar"]}>
+      <section className={styles["mobileheader1"]}>
+        <div className={styles.topheaderdashboard}>
+          <div className={styles["menu-bar"]}>
             <button
-              className={Styles["menubg"]}
+              className={styles["menubg"]}
               title="menu-icon"
               aria-label="menu-icon"
               onClick={onClickMenu}
             >
               {/* <MenueIcon /> */}
-              <p className={Styles["menutxt"]}>Menu</p>
+              <p className={styles["menutxt"]}>Menu</p>
             </button>
           </div>
-          <div className={Styles.leftside}>
-            <div className={Styles.topsearch}>
+          <div className={styles.leftside}>
+            <div className={styles.topsearch}>
               <input
                 type="text"
                 placeholder="Search Orders"
@@ -108,12 +108,12 @@ const DashboardHeader = ({ customHeader }: any) => {
               </button>
             </div>
           </div>
-          <div ref={userRef} className={Styles.rightside}>
-            <div className={Styles.dropdownaction}>
+          <div ref={userRef} className={styles.rightside}>
+            <div className={styles.dropdownaction}>
               {model && <UserModel onClick={handleLogout} />}
-              <div className={Styles.userimagewithtext}>
-                <div className={Styles.text}>{data?.name} </div>
-                <div className={Styles.image} onClick={() => setModel(!model)}>
+              <div className={styles.userimagewithtext}>
+                <div className={styles.text}>{data?.name} </div>
+                <div className={styles.image} onClick={() => setModel(!model)}>
                   <UserIcon />
                 </div>
               </div>
@@ -125,10 +125,10 @@ const DashboardHeader = ({ customHeader }: any) => {
         style={{
           transform: `translateX(${isNavigation ? "0%" : "-100%"})`,
         }}
-        className={Styles["navigation-model"]}
+        className={styles["navigation-model"]}
       >
-        <div ref={ref} className={Styles["navigation-content"]}>
-          <div className={Styles["close-button"]}>
+        <div ref={ref} className={styles["navigation-content"]}>
+          <div className={styles["close-button"]}>
             <button
               title="close-icon"
               aria-label="close-icon"
@@ -149,7 +149,7 @@ interface UserModel extends React.ComponentProps<typeof Button> {}
 
 const UserModel = (props: UserModel) => {
   return (
-    <div className={Styles["user-model"]}>
+    <div className={styles["user-model"]}>
       <Button {...props}>Log Out</Button>
     </div>
   );
