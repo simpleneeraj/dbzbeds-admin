@@ -31,8 +31,8 @@ function CreateProduct() {
     categories: data?.categories as string[],
     isDraft: data?.isDraft as boolean,
     images: data?.images as string[],
-    // metaTitle: data?.metaTitle as string,
-    // metaDescription: data?.metaDescription as string,
+    metaTitle: data?.metaTitle as string,
+    metaDescription: data?.metaDescription as string,
   });
 
   // INITILIZE OLD DATA IN STATE
@@ -45,8 +45,8 @@ function CreateProduct() {
         categories: data?.categories as string[],
         isDraft: data?.isDraft as boolean,
         images: data?.images as string[],
-        // metaTitle: data?.metaTitle as string,
-        // metaDescription: data?.metaDescription as string,
+        metaTitle: data?.metaTitle as string,
+        metaDescription: data?.metaDescription as string,
       });
     }
   }, [isFetched]);
@@ -95,8 +95,8 @@ function CreateProduct() {
         description: bedInfoInputs.description,
         categories: bedInfoInputs.categories,
         isDraft: bedInfoInputs.isDraft,
-        // metaTitle: bedInfoInputs.metaTitle,
-        // metaDescription: bedInfoInputs.metaDescription,
+        metaTitle: bedInfoInputs.metaTitle,
+        metaDescription: bedInfoInputs.metaDescription,
         images: imagesUrl,
       },
       {
@@ -146,7 +146,7 @@ function CreateProduct() {
                           label={"Meta Title"}
                           placeholder="Enter Meta Title"
                           onChange={handleInputChange}
-                          // value={bedInfoInputs.metaTitle}
+                          value={bedInfoInputs.metaTitle}
                         />
                       </li>
                       <li>
@@ -154,7 +154,7 @@ function CreateProduct() {
                           name="metaDescription"
                           label={"Meta Description"}
                           placeholder="Enter Meta Description"
-                          // value={bedInfoInputs.metaDescription}
+                          value={bedInfoInputs.metaDescription}
                           onChange={handleInputChange}
                         />
                       </li>

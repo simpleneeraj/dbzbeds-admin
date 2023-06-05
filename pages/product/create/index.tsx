@@ -29,8 +29,8 @@ function CreateProduct() {
     description: "" as string,
     categories: [] as string[],
     images: [] as any,
-    metaTitle: "",
-    metaDescription: "",
+    metaTitle: "" as string,
+    metaDescription: "" as string,
   });
 
   const router = useRouter();

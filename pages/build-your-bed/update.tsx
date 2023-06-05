@@ -26,6 +26,8 @@ function UpdateBed() {
   const [bedInfoInputs, setBedInfoInputs] = React.useState({
     name: data?.name as string,
     slug: data?.slug as string,
+    metaTitle:data?.metaTitle,
+    metaDescription:data?.metaDescription,
     description: data?.description as string,
     categories: data?.categories as string[],
     isDraft: data?.isDraft as boolean,
@@ -42,6 +44,8 @@ function UpdateBed() {
         categories: data?.categories as string[],
         isDraft: data?.isDraft as boolean,
         images: data?.images as string[],
+        metaTitle:data?.metaTitle as string,
+        metaDescription:data?.metaDescription as string,
       });
     }
   }, [isFetched]);
@@ -99,6 +103,8 @@ function UpdateBed() {
         isDraft: bedInfoInputs.isDraft,
         slug: bedInfoInputs.slug,
         images: imagesUrl,
+        metaTitle:bedInfoInputs.metaTitle,
+        metaDescription:bedInfoInputs.metaDescription,
       },
       {
         onSuccess: (data) => {

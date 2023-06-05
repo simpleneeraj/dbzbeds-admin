@@ -61,6 +61,8 @@ type Bed = {
   _id: string;
   name: string;
   description: string;
+  metaTitle:string;
+  metaDescription:string;
   variants: VariantsTypes[];
   categories: string[];
   createdAt: string;
@@ -86,10 +88,12 @@ interface Review {
 interface BedRequestPayload {
   name: string;
   description: string;
-  categories: string[];
-  isDraft: boolean;
   slug: string;
-  images?: string[];
+  categories: string[];
+  images: string[];
+  isDraft: boolean;
+  metaTitle: string;
+  metaDescription: string;
 }
 
 type BedResponse = {
@@ -114,6 +118,8 @@ type BedWithImage = {
   _id?: string;
   name?: string;
   description?: string;
+  metaTitle: string;
+  metaDescription: string;
   isDraft?: boolean;
 
   categories?: string[];
@@ -134,6 +140,8 @@ type BedWithSize = {
   description: string;
   categories: string[];
   variants: VariantsTypes[];
+  metaTitle: string;
+  metaDescription: string;
   createdAt: string;
   updatedAt: string;
   __v: number;
