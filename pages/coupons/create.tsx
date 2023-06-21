@@ -20,6 +20,10 @@ function CreateCoupon() {
     const { name, value } = e.target;
     setCoupon((current) => ({ ...current, [name]: value }));
   };
+  const handleCoupanChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCoupon((current) => ({ ...current, [name]: value.toUpperCase() }));
+  };
 
   const handleCreateCoupon = () => {
     if (coupon.label === "") {
@@ -77,7 +81,7 @@ function CreateCoupon() {
             type="text"
             name="label"
             value={coupon.label}
-            onChange={handleChange}
+            onChange={handleCoupanChange}
           />
           <label htmlFor="percent">Percent</label>
           <input
